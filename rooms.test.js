@@ -59,7 +59,12 @@ test('real room HTTP: seats, authentication, authoritative draw, stale actions a
     result = await request(path + '/action', { type: 'deploy-directly', to: 224, version: 8 }, black.token);
     assert.equal(result.state.ply, 2);
     assert.equal(result.state.pools.black.length, 15);
-    await request(path + '/action', { type: 'deploy-directly', to: 1, version: 9 }, red.token, 400);
+    result = await request(path + '/action', { type: 'deploy-directly', to: 1, version: 9 }, red.token);
+    assert.equal(result.state.board[1].side, 'red');
+    assert.equal(result.state.pools.red.length, 14);
+    assert.equal(result.state.ply, 3);
+    assert.equal(result.state.turn, 'black');
+    assert.equal(result.version, 10);
     await request('', { mode: '__proto__' }, null, 400);
     await request('', {}, null, 403, { Origin: 'https://untrusted.example' });
     const previousOrigin = process.env.FRONTEND_ORIGIN;

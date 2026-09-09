@@ -10,7 +10,7 @@ const boardWith = (type, x = 4, y = 4) => {
   return board;
 };
 
-test('direct deployment is atomic and only available when no piece can move', () => {
+test('direct deployment is atomic and available even when pieces can move', () => {
   for (const mode of ['xiangqi', 'gomoku']) {
     const s = newGame(mode);
     assert.ok(canDeployDirectly(s));
@@ -26,10 +26,18 @@ test('direct deployment is atomic and only available when no piece can move', ()
     assert.throws(() => deployDirectly(s, 0));
     assert.deepEqual(s, occupied);
     deployDirectly(s, s.board.length - 1, () => .99);
-    assert.ok(!canDeployDirectly(s));
-    const movable = structuredClone(s);
-    assert.throws(() => deployDirectly(s, 1));
-    assert.deepEqual(s, movable);
+    assert.ok(canMove(s.board, 0, 1, s.cols));
+    assert.ok(canDeployDirectly(s));
+    deployDirectly(s, 1, () => .99);
+    assert.deepEqual(s.board[1], piece('pawn'));
+    assert.equal(s.pools.red.length, 14);
+    assert.equal(s.ply, 3);
+    assert.equal(s.turn, 'black');
+    deployDirectly(s, 2, () => 0);
+    assert.deepEqual(s.board[2], piece('rook', 'black'));
+    assert.equal(s.pools.black.length, 14);
+    assert.equal(s.ply, 4);
+    assert.equal(s.turn, 'red');
   }
   const blocked = newGame();
   blocked.board[40] = piece('elephant');
@@ -40,6 +48,18 @@ test('direct deployment is atomic and only available when no piece can move', ()
   const pending = structuredClone(blocked);
   assert.throws(() => deployDirectly(blocked, 0));
   assert.deepEqual(blocked, pending);
+  for (const setup of [
+    (s) => { s.pools.red = []; },
+    (s) => { s.result = 'red'; },
+    (s) => { s.board.fill(piece()); },
+  ]) {
+    const s = newGame();
+    setup(s);
+    const before = structuredClone(s);
+    assert.ok(!canDeployDirectly(s));
+    assert.throws(() => deployDirectly(s, 0));
+    assert.deepEqual(s, before);
+  }
 });
 
 test('16-piece pools, draw weighting, irrevocable deployment, invalid actions are atomic', () => {

@@ -7,6 +7,7 @@ let state = newGame();
 let selected = null;
 let moving = false;
 let busy = false;
+let resultAnnounced = false;
 let restartMode = state.mode;
 let cells = [];
 let room = null;
@@ -45,6 +46,7 @@ function buildBoard() {
     board.append(button);
     return button;
   });
+  board.insertAdjacentHTML('beforeend', `<svg class="winning-connection" viewBox="0 0 ${cols*100} ${rows*100}" preserveAspectRatio="none" aria-hidden="true"><line id="winning-connection" /></svg>`);
   resetBoardZoom();
 }
 
@@ -58,7 +60,7 @@ async function play(index) {
       if (room) { await sendAction({ type: 'deploy', to: index }); return; }
       deploy(state, index);
       selected = null; moving = false;
-    } else if (!state.board[index] && canDeployDirectly(state)) {
+    } else if (selected === null && !state.board[index] && canDeployDirectly(state)) {
       if (room) { await sendAction({ type: 'deploy-directly', to: index }); return; }
       deployDirectly(state, index);
       selected = null; moving = false;
@@ -88,8 +90,9 @@ function inputLocked() {
 function render() {
   const ended = Boolean(state.result);
   const side = state.turn;
-  const direct = canDeployDirectly(state);
+  const direct = selected === null && canDeployDirectly(state);
   document.body.dataset.turn = side;
+  document.body.dataset.result = state.result || '';
   const last = state.history.at(-1);
   $('board-mode').disabled = busy || Boolean(room);
   $('room-open').disabled = busy || networkBusy;
@@ -104,6 +107,14 @@ function render() {
     cell.setAttribute('aria-pressed', String(selected === i));
     cell.disabled = ended || inputLocked();
   });
+  const connection = $('winning-connection');
+  connection.parentElement.style.display = state.winningLine.length ? '' : 'none';
+  if (state.winningLine.length) {
+    for (const [n, index] of [[1, state.winningLine[0]], [2, state.winningLine.at(-1)]]) {
+      connection.setAttribute(`x${n}`, index % state.cols * 100 + 50);
+      connection.setAttribute(`y${n}`, Math.floor(index / state.cols) * 100 + 50);
+    }
+  }
   for (const player of ['red', 'black']) {
     const pool = state.pools[player];
     const onBoard = state.board.filter((p) => p?.side === player).length;
@@ -120,19 +131,30 @@ function render() {
   $('turn-count').textContent = ended ? `共 ${state.ply} 手` : `第 ${String(state.ply + 1).padStart(2, '0')} 手`;
   $('action-side').textContent = ended ? 'MATCH COMPLETE' : `${side.toUpperCase()}'S TURN`;
   $('action-title').textContent = ended ? outcome : state.pending ? `${label(state.pending)}已入手，请落子` : selected !== null ? `移动「${label(state.board[selected])}」` : moving ? '选择一枚己方棋子' : direct ? '点击空位，直接上场' : '落子，或走子';
-  $('action-description').textContent = ended ? (state.result === 'draw' ? '当前玩家没有可用行动。再来一局吧。' : '五枚相连，胜负已定。好棋，下一局见。') : state.pending ? '点击任意空点部署，落子后轮到对方。' : selected !== null ? '实心圆点可移动，红圈位置可吃子。' : direct ? '当前只能上场，直接点击空位即可随机抽子并部署。也可先抽子查看。' : '抽取一枚棋子入场，或移动棋盘上的己方棋子。';
+  $('action-description').textContent = ended ? (state.result === 'draw' ? '当前玩家没有可用行动。再来一局吧。' : '五枚相连，胜负已定。好棋，下一局见。') : state.pending ? '点击任意空点部署，落子后轮到对方。' : selected !== null ? '实心圆点可移动，红圈位置可吃子。' : direct ? '点击空位随机抽子并部署，或选择己方棋子移动。也可先抽子查看。' : '抽取一枚棋子入场，或移动棋盘上的己方棋子。';
   $('draw-preview').innerHTML = state.pending ? `${pieceMarkup(state.pending, 'drawn')}<div><strong>${sideName(side)} · ${label(state.pending)}</strong><small>已锁定部署 · 请选择空位</small></div>` : ended ? `<span class="mystery-piece result-symbol">${state.result === 'draw' ? '和' : '胜'}</span><div><strong>${outcome}</strong><small>共 ${state.ply} 手 · 本局结束</small></div>` : '<span class="mystery-piece">?</span><div><strong>下一枚，会是什么？</strong><small>从剩余棋池中随机抽取</small></div>';
   $('draw-button').disabled = inputLocked() || ended || Boolean(state.pending) || !state.pools[side].length || !state.board.some((p) => !p);
   $('draw-button').firstElementChild.textContent = state.pending ? '待部署 · 点击棋盘空位' : !state.pools[side].length ? '棋池已空' : '抽子入场';
   $('move-button').disabled = inputLocked() || ended || Boolean(state.pending) || !hasMove(state);
   $('move-button').classList.toggle('is-active', moving);
-  hint(ended ? '点击「重新开局」开始下一场对弈。' : state.pending ? '本回合只能部署，落子后不能再移动。' : selected !== null ? '再次点击选中棋子可取消选择。' : moving ? '点击自己的棋子，查看可走的位置。' : direct ? '仅能上场：点空位直接落子，也可先抽子查看。' : '抽子后须完成部署，不能重抽。');
+  hint(ended ? '点击「重新开局」开始下一场对弈。' : state.pending ? '本回合只能部署，落子后不能再移动。' : selected !== null ? '再次点击选中棋子可取消选择。' : moving ? '点击自己的棋子，查看可走的位置。' : direct ? '点空位随机落子，点己方棋子选择移动。' : '抽子后须完成部署，不能重抽。');
   const historyMarkup = (events) => events.slice().reverse().map((event) => `<li><span class="move-number">${String(event.ply).padStart(2, '0')}</span><span class="record-piece ${event.side}">${label(event.piece)}</span><span>${event.action === 'deploy' ? '部署' : event.captured ? `吃${label(event.captured)}` : '移动'} <small>${event.action === 'move' ? coord(event.from) + ' → ' : ''}${coord(event.to)}</small></span><span class="record-side">${sideName(event.side)}</span></li>`).join('');
   const empty = '<li class="empty-history">棋盘尚静，等你落下第一子。</li>';
   $('history').innerHTML = historyMarkup(state.history.slice(-5)) || empty;
   $('full-history').innerHTML = historyMarkup(state.history) || empty;
   $('history-count').textContent = state.ply;
   renderRoom();
+  $('result-banner').hidden = !ended;
+  $('result-title').textContent = state.result === 'draw' ? '本局和棋' : `${sideName(side)}获胜！`;
+  $('result-description').textContent = room?.restartVotes.length ? `${sideName(room.restartVotes[0])}已申请重开，等待另一方同意。` : `共 ${state.ply} 手${state.result === 'draw' ? '，当前无可用行动。' : '，五子连线，胜负已定。'}${room ? '双方同意后开始下一局。' : '再来一局，重新开战。'}`;
+  $('result-restart').disabled = busy || networkBusy || Boolean(room && (!room.joined || !networkHealthy || room.restartVotes.includes(room.side)));
+  $('result-restart').textContent = !room ? '再来一局' : room.restartVotes.includes(room.side) ? '等待好友同意' : room.restartVotes.length ? '同意重开' : '申请再来一局';
+  if (!ended) resultAnnounced = false;
+  else if (!busy && !resultAnnounced) {
+    resultAnnounced = true;
+    $('result-banner').focus({ preventScroll: true });
+    $('result-banner').scrollIntoView({ block: 'nearest' });
+  }
   $('announcement').textContent = `${$('turn-label').textContent}。${$('action-title').textContent}。${last ? `上一手${sideName(last.side)}${label(last.piece)}到${coord(last.to)}。` : ''}`;
 }
 
@@ -158,6 +180,11 @@ function resetGame(mode) {
   buildBoard(); render();
 }
 $('new-game').addEventListener('click', () => requestRestart(state.mode));
+$('result-restart').addEventListener('click', () => {
+  if (busy || networkBusy || !state.result) return;
+  if (room) void sendAction({ type: 'restart' });
+  else { resetGame(state.mode); cells[0].focus({ preventScroll: true }); }
+});
 $('board-mode').addEventListener('change', () => {
   const mode = $('board-mode').value;
   $('board-mode').value = state.mode;

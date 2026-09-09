@@ -9,6 +9,21 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* Physical silhouettes live above the readable piece faces. */
+.winning-connection { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1; overflow:visible; }
+.winning-connection line { stroke:#e8ad24; stroke-width:14; stroke-linecap:round; filter:drop-shadow(0 0 5px #fff2a8); }
+.cell.winning { z-index:2; }
+.cell.winning .piece { outline:3px solid #bc7b08; outline-offset:2px; background:#fff0ac; box-shadow:0 0 0 6px #ffd65a88,0 0 22px #e5a820; animation:winning-glow 1.5s ease-in-out 3; }
+.cell.winning .piece-spirit { opacity:.15; }
+@keyframes winning-glow { 50% { box-shadow:0 0 0 9px #ffd65a66,0 0 30px #e5a820; } }
+.result-banner { display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:16px; margin-bottom:12px; border:2px solid #d7ad53; border-radius:6px; background:#8e3024; color:#fff4d4; box-shadow:0 5px 18px #45321a26; scroll-margin-top:12px; }
+body[data-result="black"] .result-banner,body[data-result="draw"] .result-banner { background:#273d35; }
+.result-banner>div { flex:1 1 180px; }
+.result-banner h2 { font:bold clamp(26px,5vw,34px)/1.2 var(--serif); margin:0 0 6px; }
+.result-banner p { font-size:12px; line-height:1.7; margin:0; }
+.result-banner .primary-button { width:auto; min-height:46px; background:#ffe4a0; border-color:#ffe4a0; color:#432c13; font-weight:bold; justify-content:center; }
+.result-banner .primary-button:hover:not(:disabled) { background:#fff0c6; }
+.result-banner .primary-button:disabled { background:#d3c4a2; border-color:#d3c4a2; color:#514935; }
+body[data-result]:not([data-result=""]) .action-panel { display:none; }
 .piece-spirit { position:absolute; width:90%; height:100%; bottom:48%; left:5%; opacity:.38; pointer-events:none; filter:drop-shadow(0 3px 2px #403b2922); transform:translateY(-2px); transition:opacity .18s,transform .18s; }
 .embodied { font-size:inherit; }
 .cell { container-type:inline-size; font-size:clamp(12px,58cqw,30px); }

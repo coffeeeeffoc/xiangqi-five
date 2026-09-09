@@ -80,7 +80,7 @@ export function hasMove(state) {
 
 export function canDeployDirectly(state) {
   return !state.result && !state.pending && state.pools[state.turn].length > 0 &&
-    state.board.some((p) => !p) && !hasMove(state);
+    state.board.some((p) => !p);
 }
 
 export function deployDirectly(state, to, random = Math.random) {
