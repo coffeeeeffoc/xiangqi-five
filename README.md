@@ -10,7 +10,7 @@
 npm start
 ```
 
-打开 http://127.0.0.1:4173 。运行规则测试：`npm test`。
+打开 http://127.0.0.1:4173 。运行规则测试：`pnpm test`。
 
 手机试玩：电脑和手机连接同一 Wi-Fi，在 PowerShell 用以下命令启动，然后在手机打开 `http://电脑局域网IP:4173`。如 Windows 弹出防火墙询问，仅允许需要的专用网络。
 
@@ -51,7 +51,7 @@ npm start
 
 ## GitHub Pages
 
-**GitHub Pages 能托管静态前端，不能运行房间 API 或充当实时消息中转。** 执行 `npm run build` 后将 `dist/` 作为静态发布内容；相对资源路径支持仓库子路径。静态包仅包含前端，同屏游玩无需后端。
+**GitHub Pages 能托管静态前端，不能运行房间 API 或充当实时消息中转。** 执行 `pnpm build` 后将 `dist/` 作为静态发布内容；相对资源路径支持仓库子路径。静态包仅包含前端，同屏游玩无需后端。
 
 好友联机还需一个支持 Node 的服务运行 `npm start`，以 HTTPS 提供房间接口。配置 `HOST=0.0.0.0`、平台分配的 `PORT`；前后端分离时，将 `FRONTEND_ORIGIN` 设为 Pages 的精确来源，例如 `https://用户名.github.io`（不含仓库路径）。玩家在“房间服务地址”填写后端 HTTPS 来源地址。同源提供网页和 API 时无需设置 CORS。
 
@@ -61,5 +61,15 @@ npm start
 
 ## 验证
 
-`npm test` 使用 Node 内置测试，覆盖两种棋盘、所有走法、抽子锁定、吃子判胜及真实 HTTP 房间的身份校验、版本冲突、双人重开。`npm run build` 生成静态前端。浏览器测试含两页面同步对局和手机视口模拟，尚未在真实手机或跨运营商网络验证。
+`pnpm test` 使用 Node 内置测试，覆盖两种棋盘、所有走法、抽子锁定、吃子判胜及真实 HTTP 房间的身份校验、版本冲突、双人重开。`pnpm build` 生成静态前端。浏览器测试含两页面同步对局和手机视口模拟，尚未在真实手机或跨运营商网络验证。
 
+
+## pnpm 与 small-games 集成
+
+使用 Node.js 24 与 pnpm 8.14.1。独立克隆后执行 `pnpm install --frozen-lockfile`、`pnpm dev`、`pnpm test`、`pnpm build`。静态产物位于 `dist/`，可部署到任意静态服务器。
+
+本仓库同时作为 [small-games](https://github.com/coffeeeeffoc/small-games) 的 `games/xiangqi-five` Git submodule。在父仓库运行 `pnpm --filter @coffeeeeffoc/xiangqi-five dev` 可独立开发；父仓库的 Web Shell 构建会包含静态产物。内部技术栈及游戏逻辑保持独立。
+
+`pnpm-lock.yaml` 用于本仓库的独立安装；父仓库根锁文件用于 workspace 安装。依赖变更后需分别更新两份锁文件。先提交并推送本仓库，再在父仓库提交 submodule 的版本指针。
+
+推送到 `main` 自动执行测试、构建并部署到 [GitHub Pages](https://coffeeeeffoc.github.io/xiangqi-five/)，也支持 Actions 手动触发。其他分支和 PR 自动测试、构建，不覆盖线上站点。仓库 Pages 的 Source 使用 **GitHub Actions**。
