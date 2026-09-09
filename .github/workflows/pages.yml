@@ -1,46 +1,46 @@
-name: Build and deploy Pages
+name: Build and deploy Pages # 工作流名称（显示在 Actions 列表）
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+on: # 工作流触发器
+  push: # 任意 push 都触发（包含标签 push）
+  pull_request: # PR 相关事件触发（opened/reopened/synchronize）
+  workflow_dispatch: # 手动触发（Actions 页面点击 Run workflow）
 
-permissions:
-  contents: read
+permissions: # 默认权限收紧
+  contents: read # 仅允许读取仓库内容
 
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: pages-${{ github.ref }} # 同一分支/Ref 共用并发分组
+  cancel-in-progress: false # 不取消进行中的构建任务
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+jobs: # 所有 Job 定义
+  build: # 先执行构建
+    runs-on: ubuntu-latest # 使用 Ubuntu runner
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v4 # 拉取仓库代码
+      - uses: pnpm/action-setup@v4 # 安装 pnpm
+      - uses: actions/setup-node@v4 # 安装 Node 并准备缓存
         with:
-          node-version: '24.12.0'
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test
-      - run: pnpm build
-      - uses: actions/upload-pages-artifact@v3
+          node-version: '24.12.0' # 固定 Node 版本
+          cache: pnpm # 缓存 pnpm store
+      - run: pnpm install --frozen-lockfile # 安装依赖（锁定文件严格一致）
+      - run: pnpm test # 运行 test 脚本
+      - run: pnpm build # 运行 build 脚本
+      - uses: actions/upload-pages-artifact@v3 # 上传 Pages 发布产物
         with:
-          path: dist
+          path: dist # 上传 dist 目录
 
-  deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
+  deploy: # 部署到 GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' # 仅 main 且非 PR 时执行
+    needs: build # 等待构建通过后再部署
+    runs-on: ubuntu-latest # 使用 Ubuntu runner
     permissions:
-      pages: write
-      id-token: write
+      pages: write # Pages 写权限
+      id-token: write # OIDC token 用于 Pages 授权
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: github-pages # 绑定到环境
+      url: ${{ steps.deployment.outputs.page_url }} # 部署完成后输出站点 URL
     steps:
-      - uses: actions/configure-pages@v5
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/configure-pages@v5 # 初始化 Pages 上下文
+      - name: Deploy # 日志里显示的步骤名
+        id: deployment # 提供 page_url 输出引用点
+        uses: actions/deploy-pages@v4 # 执行 artifact 部署
