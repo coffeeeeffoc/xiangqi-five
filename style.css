@@ -31,7 +31,6 @@ body[data-result]:not([data-result=""]) .action-panel { display:none; }
 .cell .piece { font-size:clamp(12px,58cqw,30px); }
 .cell:has(.piece):hover, .cell.selected { z-index:4; }
 .cell:hover .piece-spirit, .cell.selected .piece-spirit { opacity:.75; transform:translateY(-9px) scale(1.12); }
-.cell:not(:disabled) .piece-spirit { pointer-events:auto; cursor:pointer; }
 .cell.selected .piece-spirit { animation:spirit-float 1.8s ease-in-out infinite; }
 @keyframes spirit-float { 50% { transform:translateY(-13px) scale(1.12); } }
 .motion-ghost { position:absolute; display:grid; place-items:center; pointer-events:none; z-index:12; font-size:24px; }
