@@ -153,6 +153,12 @@ function render() {
   $('difficulty').value = difficulty;
   $('difficulty').hidden = opponent !== 'computer' || Boolean(room);
   $('difficulty').disabled = busy || thinking;
+  $('difficulty-hint').hidden = $('difficulty').hidden;
+  $('difficulty-hint').textContent = {
+    practice: '简易也会防连五、避送子，适合熟悉攻防。',
+    standard: '兼顾连线与吃子，计算对手的反击。',
+    hard: '更深入计算连续攻防与交换，复杂局面需思考数秒。',
+  }[difficulty];
   $('match-label').textContent = room ? '好友对弈' : opponent === 'computer' ? '单人挑战 · 你执红' : '双人同屏';
   $('save-status').textContent = room ? '好友房间 · 自动同步' : !storageAvailable ? '浏览器未允许保存，请勿关闭本页' : `${restored ? '已续上次棋局 · ' : ''}本机自动保存`;
   $('computer-retry').hidden = !computerError;

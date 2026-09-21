@@ -41,6 +41,42 @@ try {
     await page.close();
     console.log(`PASS ${width}px ${mode}: neighboring-cell touch, save/reload, no overflow`);
   }
+  for (const mode of ['xiangqi', 'gomoku']) for (const difficulty of ['practice', 'standard', 'hard']) {
+    const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce' });
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    await page.addInitScript(() => { Math.random = () => 0; });
+    await page.goto(url);
+    await page.selectOption('#board-mode', mode);
+    await page.selectOption('#difficulty', difficulty);
+    await page.reload();
+    assert.equal(await page.locator('#difficulty').inputValue(), difficulty);
+    assert.equal(await page.locator('#difficulty option').count(), 3);
+    const cols = mode === 'xiangqi' ? 9 : 15, rook = 4 * cols + 4;
+    await page.locator('.cell').nth(rook).tap();
+    assert.equal(await page.locator('#difficulty').isDisabled(), true);
+    await page.waitForFunction(() => document.querySelector('#history-count').textContent === '2', null, { timeout: 12000 });
+    await page.waitForFunction(() => document.querySelector('#board').getAttribute('aria-busy') === 'false');
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('xiangqi-five-local-v1')));
+    const to = saved.history[1].to;
+    assert.ok(to % cols !== rook % cols && Math.floor(to / cols) !== Math.floor(rook / cols), 'real worker must not deploy on the rook file/rank');
+    assert.equal(saved.difficulty, difficulty);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    assert.deepEqual(errors, []);
+    await page.close();
+    console.log(`PASS ${mode}/${difficulty}: setting persists, worker avoids rook, input unlocks, no overflow`);
+  }
+  const cancellation = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await cancellation.goto(url);
+  await cancellation.selectOption('#difficulty', 'hard');
+  await cancellation.locator('.cell').nth(40).click();
+  await cancellation.selectOption('#play-mode', 'local');
+  await cancellation.locator('#restart-confirm').click();
+  await cancellation.waitForTimeout(5000);
+  assert.equal(await cancellation.locator('#history-count').textContent(), '0', 'cancelled worker cannot write into a new local game');
+  assert.equal(await cancellation.locator('#difficulty').isVisible(), false);
+  await cancellation.close();
+  console.log('PASS switch mode while thinking: cancelled worker cannot play into the new game');
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));

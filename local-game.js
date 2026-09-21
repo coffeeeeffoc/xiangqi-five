@@ -11,7 +11,7 @@ export function decodeGame(text) {
   if (!text || text.length > 2000000) return null;
   try {
     const saved = JSON.parse(text);
-    if (saved.version !== 1 || !['computer', 'local'].includes(saved.opponent) || !['practice', 'standard'].includes(saved.difficulty) || !Array.isArray(saved.history)) return null;
+    if (saved.version !== 1 || !['computer', 'local'].includes(saved.opponent) || !['practice', 'standard', 'hard'].includes(saved.difficulty) || !Array.isArray(saved.history)) return null;
     const state = newGame(saved.mode);
     const drawPiece = (piece) => {
       if (piece?.side !== state.turn) throw new Error('Invalid side');

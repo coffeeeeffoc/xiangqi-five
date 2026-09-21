@@ -37,7 +37,8 @@
             <button class="primary-button" id="result-restart">再来一局</button>
           </section>
           <div class="room-strip" id="room-strip" hidden><span id="room-status" role="status"></span><button class="text-button" id="cancel-restart" hidden>取消重开申请</button></div>
-          <div class="play-settings"><select id="play-mode" aria-label="对局模式"><option value="computer">单人挑战 · 你执红</option><option value="local">双人同屏</option></select><select id="difficulty" aria-label="电脑难度"><option value="practice">入门陪练</option><option value="standard">策略挑战</option></select><span id="save-status" role="status">本机自动保存</span></div>
+          <div class="play-settings"><select id="play-mode" aria-label="对局模式"><option value="computer">单人挑战 · 你执红</option><option value="local">双人同屏</option></select><select id="difficulty" aria-label="电脑难度" aria-describedby="difficulty-hint"><option value="practice">简易 · 稳健应对</option><option value="standard">标准 · 攻防兼顾</option><option value="hard">困难 · 深入算棋</option></select><span id="save-status" role="status">本机自动保存</span></div>
+          <p id="difficulty-hint" class="coach-hint"></p>
           <div class="board-settings"><label for="board-mode">棋盘</label><select id="board-mode"><option value="xiangqi">象棋 · 9 × 10</option><option value="gomoku">五子棋 · 15 × 15</option></select></div>
           <p id="coach-hint" class="coach-hint" role="status"></p><button id="computer-retry" class="move-button" hidden>重试电脑回合</button>
           <div class="board-topline"><span><i class="status-dot"></i> <span id="turn-label">红方先行</span></span><span id="turn-count">第 01 手</span></div>
