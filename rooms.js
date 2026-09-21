@@ -27,6 +27,7 @@ export function createRoomService() {
         res.writeHead(204, { 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS', 'Access-Control-Allow-Headers': 'Authorization, Content-Type' }); res.end(); return true;
       }
       if (!['GET', 'POST'].includes(req.method)) throw fail(405, '不支持此请求方式');
+      if (path === '/api/rooms/health' && req.method === 'GET') { reply(res, 200, { service: 'xiangqi-five' }); return true; }
       let body = {};
       if (req.method === 'POST') {
         let size = 0, chunks = [];

@@ -17,6 +17,7 @@ test('real room HTTP: seats, authentication, authoritative draw, stale actions a
     return data;
   };
   try {
+    assert.deepEqual(await request('/health'), { service: 'xiangqi-five' });
     const red = await request('', { mode: 'gomoku' }, null, 201);
     assert.equal(red.state.board.length, 225);
     const path = `/${red.code}`;

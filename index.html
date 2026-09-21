@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f3efe5">
-  <meta name="description" content="象棋的走法，五子棋的胜负。象五子棋，双人同屏策略小游戏。">
+  <meta name="description" content="象棋的走法，五子棋的胜负。单人挑战、双人同屏，自动保存棋局。">
   <title>象五子棋 · 方寸之间，五子成势</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23b54432'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='44' fill='%23fff6e4'%3E象%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="./style.css">
@@ -24,7 +24,7 @@
       <div class="game-layout">
         <aside class="left-rail">
           <div class="section-heading"><span>对局</span><span class="micro">THE MATCH</span></div>
-          <div class="match-mode"><span class="status-dot"></span> 双人同屏 <span>自由部署</span></div>
+          <div class="match-mode"><span class="status-dot"></span><b id="match-label">单人挑战 · 你执红</b><span>自由部署</span></div>
           <section class="player-card black" id="black-player" aria-label="黑方棋子池"></section>
           <div class="versus"><span></span> 双方棋池 <span></span></div>
           <section class="player-card red" id="red-player" aria-label="红方棋子池"></section>
@@ -36,7 +36,11 @@
             <div><h2 id="result-title"></h2><p id="result-description"></p></div>
             <button class="primary-button" id="result-restart">再来一局</button>
           </section>
-          <div class="room-strip" id="room-strip" hidden><span id="room-status" role="status"></span><button class="text-button" id="cancel-restart" hidden>取消重开申请</button></div><div class="board-settings"><label for="board-mode">棋盘</label><select id="board-mode"><option value="xiangqi">象棋 · 9 × 10</option><option value="gomoku">五子棋 · 15 × 15</option></select></div><div class="board-topline"><span><i class="status-dot"></i> <span id="turn-label">红方先行</span></span><span id="turn-count">第 01 手</span></div>
+          <div class="room-strip" id="room-strip" hidden><span id="room-status" role="status"></span><button class="text-button" id="cancel-restart" hidden>取消重开申请</button></div>
+          <div class="play-settings"><select id="play-mode" aria-label="对局模式"><option value="computer">单人挑战 · 你执红</option><option value="local">双人同屏</option></select><select id="difficulty" aria-label="电脑难度"><option value="practice">入门陪练</option><option value="standard">策略挑战</option></select><span id="save-status" role="status">本机自动保存</span></div>
+          <div class="board-settings"><label for="board-mode">棋盘</label><select id="board-mode"><option value="xiangqi">象棋 · 9 × 10</option><option value="gomoku">五子棋 · 15 × 15</option></select></div>
+          <p id="coach-hint" class="coach-hint" role="status"></p><button id="computer-retry" class="move-button" hidden>重试电脑回合</button>
+          <div class="board-topline"><span><i class="status-dot"></i> <span id="turn-label">红方先行</span></span><span id="turn-count">第 01 手</span></div>
           <div class="zoom-controls" role="group" aria-label="棋盘缩放"><button id="zoom-out" aria-label="缩小棋盘" disabled>−</button><output id="zoom-value" aria-label="棋盘缩放比例">100%</output><button id="zoom-board" aria-label="放大棋盘">＋</button><button id="zoom-reset" disabled>恢复大小</button><span>双指缩放 / 移动</span></div>
           <div class="board-scroll" id="board-scroll"><div class="board-frame">
             <div class="board" id="board" aria-label="9列10行棋盘">
@@ -62,16 +66,16 @@
       </div>
       <p id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
     </main>
-    <footer><span>象棋 × 五子棋 <i> / </i> 一局新意</span><span>两人 · 一屏 · 无限棋局</span></footer>
+    <footer><span>象棋 × 五子棋 <i> / </i> 一局新意</span><span>一人挑战 · 双人对弈 · 自动续局</span></footer>
   </div>
   <dialog id="room-dialog" aria-labelledby="room-title">
     <div class="dialog-heading"><h2 id="room-title">邀一位好友，开一局新棋</h2><button class="close-button" id="room-close" aria-label="关闭好友房间">×</button></div>
-    <p>两人邀请房间，创建者执红、加入者执黑。创建或加入成功后替换当前同屏棋局。GitHub Pages 仅托管前端，房间需要连接运行中的服务。</p>
-    <label class="room-label" for="room-server">房间服务地址</label><input id="room-server" type="url" placeholder="https://你的房间服务域名" autocomplete="url">
+    <p>创建者执红、加入者执黑。打开好友的邀请链接即可加入；本机棋局会保留，离开房间后恢复。</p>
+    <details class="room-advanced"><summary>自建房间设置</summary><label class="room-label" for="room-server">房间服务地址</label><input id="room-server" type="url" placeholder="https://你的房间服务域名" autocomplete="url"></details>
     <label class="room-label" for="room-code">房间码</label><input id="room-code" maxlength="8" placeholder="输入好友的 8 位房间码" autocomplete="off" spellcheck="false">
     <div class="dialog-actions"><button class="primary-button" id="room-create">创建房间</button><button class="move-button" id="room-join">加入房间</button></div>
-    <div id="room-connected" hidden><label class="room-label" for="room-invite">邀请链接（不含玩家凭证）</label><input id="room-invite" readonly><button class="move-button" id="room-copy">复制邀请链接</button><p>双方同意后才能重开。关闭页面不会释放席位；同一标签页刷新可恢复连接。房间闲置一小时或创建满一天后过期，服务重启会清空房间。</p><button class="move-button" id="room-leave">返回同屏（放弃当前席位）</button></div>
-    <p id="room-message" role="status" aria-live="polite">先选择棋盘，再创建房间。仅同屏游玩无需服务器。</p>
+    <div id="room-connected" hidden><label class="room-label" for="room-invite">邀请链接（不含玩家凭证）</label><input id="room-invite" readonly><button class="move-button" id="room-copy">复制邀请链接</button><p>双方同意后才能重开。关闭页面不会释放席位；同一标签页刷新可恢复连接。房间闲置一小时或创建满一天后过期，服务重启会清空房间。</p><button class="move-button" id="room-leave">返回本机棋局（放弃当前席位）</button></div>
+    <p id="room-message" role="status" aria-live="polite">正在检查好友对弈是否可用…</p><button class="move-button" id="room-local">与身边好友双人同屏</button>
   </dialog>
   <dialog id="rules-dialog" aria-labelledby="rules-title">
     <div class="dialog-heading"><p class="eyebrow">HOW TO PLAY</p><button class="close-button" id="rules-close" aria-label="关闭玩法说明">×</button></div>
@@ -88,7 +92,7 @@
       <tr><th>兵 / 卒</th><td>前、后、左、右均可走一格，无河界或前进方向限制。</td></tr>
     </tbody></table>
     <p class="win-rule">任意种类的己方棋子，横、竖或斜连续至少五枚，立即获胜。</p>
-    <p class="fine-print">不判断将军、将死或将帅照面，帅将被吃也不直接判负。无合法行动时和棋；首版不自动判重复局面，可协商重新开局。对局仅保留在当前页面，刷新会重置。</p>
+    <p class="fine-print">不判断将军、将死或将帅照面，帅将被吃也不直接判负。无合法行动时和棋；不自动判重复局面，可重新开局。单人和同屏棋局自动保存在此浏览器，刷新后继续。金圈提示对方下一手可成五的落点；堵住落点或吃掉连线棋子都能防守。</p>
   </dialog>
   <button class="history-fab" id="history-open">对局记录 <span id="history-count">0</span></button>
   <dialog id="history-dialog" aria-labelledby="history-title"><div class="dialog-heading"><h2 id="history-title">对局记录</h2><button class="close-button" id="history-close" aria-label="关闭对局记录">×</button></div><ol id="full-history" class="full-history"></ol></dialog>

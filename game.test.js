@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame, canMove, findFive, draw, deploy, move, hasAction, canDeployDirectly, deployDirectly } from './game.js';
+import { chooseAction, applyComputerAction, winningActions } from './computer.js';
+import { encodeGame, decodeGame } from './local-game.js';
 
 const at = (x, y) => y * 9 + x;
 const piece = (type = 'rook', side = 'red') => ({ type, side });
@@ -242,4 +244,54 @@ test('complete alternating deployment preserves all 32 pieces and exhausts pools
   assert.equal(s.pools.red.length, 0);
   assert.equal(s.pools.black.length, 0);
   assert.throws(() => draw(s));
+});
+
+test('computer wins, blocks a single-ended five, and only makes legal moves on both boards', () => {
+  for (const mode of ['xiangqi', 'gomoku']) {
+    const s = newGame(mode);
+    for (let i = 0; i < 4; i++) s.board[i] = piece('pawn', 'black');
+    s.turn = 'black';
+    assert.equal(chooseAction(s).to, 4);
+    applyComputerAction(s, chooseAction(s), () => 0);
+    assert.equal(s.result, 'black');
+    const defense = newGame(mode);
+    for (let i = 0; i < 4; i++) defense.board[i] = piece('pawn');
+    defense.turn = 'black';
+    const before = structuredClone(defense);
+    const action = chooseAction(defense);
+    assert.deepEqual(defense, before, 'search must not mutate the real board');
+    assert.equal(action.to, 4);
+    applyComputerAction(defense, action, () => 0);
+    assert.equal(winningActions(defense).length, 0);
+    const emptyPool = newGame(mode);
+    emptyPool.turn = 'black'; emptyPool.pools.black = []; emptyPool.board[10] = piece('horse', 'black');
+    const moveAction = chooseAction(emptyPool);
+    assert.equal(moveAction.type, 'move');
+    assert.ok(canMove(emptyPool.board, moveAction.from, moveAction.to, emptyPool.cols));
+    applyComputerAction(emptyPool, moveAction);
+    assert.equal(emptyPool.ply, 1);
+    const game = newGame(mode);
+    for (let turn = 0; turn < 45 && !game.result; turn++) {
+      const previousPly = game.ply;
+      applyComputerAction(game, chooseAction(game, turn % 2 ? 'standard' : 'practice'), () => .5);
+      assert.equal(game.ply, previousPly + 1);
+      assert.ok(game.board.filter(Boolean).length + game.pools.red.length + game.pools.black.length <= 32);
+    }
+  }
+});
+
+test('local saves replay exact legal history and pending draws, rejecting impossible/tampered games', () => {
+  const s = newGame('gomoku');
+  deployDirectly(s, 30, () => 0);
+  deployDirectly(s, 45, () => 0);
+  move(s, 30, 45);
+  draw(s, () => .99);
+  const encoded = encodeGame(s, 'computer', 'standard');
+  assert.deepEqual(decodeGame(encoded), { state: s, opponent: 'computer', difficulty: 'standard' });
+  assert.equal(decodeGame('{broken'), null);
+  const corrupted = JSON.parse(encoded);
+  corrupted.history[2].to = 46;
+  assert.equal(decodeGame(JSON.stringify(corrupted)), null);
+  corrupted.history = []; corrupted.pending.side = 'black';
+  assert.equal(decodeGame(JSON.stringify(corrupted)), null);
 });
