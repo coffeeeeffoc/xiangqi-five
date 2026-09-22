@@ -23,7 +23,10 @@ export function setupBoardZoom(viewport, zoomIn, zoomOut, restore, output) {
     viewport.scrollLeft = scale === 1 ? 0 : anchor.x * scale - center.x;
     viewport.scrollTop = scale === 1 ? 0 : anchor.y * scale - center.y;
   }
-  const reset = () => { gesture = null; baseWidth = viewport.clientWidth; update(1); };
+  const reset = () => {
+    if (gesture || suppressClickUntil === Infinity) suppressClickUntil = Date.now() + 450;
+    gesture = null; baseWidth = viewport.clientWidth; update(1);
+  };
   zoomIn.addEventListener('click', () => update(scale + .5));
   zoomOut.addEventListener('click', () => update(scale - .5));
   restore.addEventListener('click', reset);
@@ -57,5 +60,6 @@ export function setupBoardZoom(viewport, zoomIn, zoomOut, restore, output) {
     if (Date.now() < suppressClickUntil) { event.preventDefault(); event.stopImmediatePropagation(); }
   }, true);
   new ResizeObserver(() => { if (Math.abs(viewport.clientWidth - baseWidth) > 1) reset(); }).observe(viewport);
+  document.addEventListener('game-displaychange', reset);
   return reset;
 }

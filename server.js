@@ -13,6 +13,7 @@ const files = {
   '/computer.js': ['computer.js', 'text/javascript; charset=utf-8'],
   '/computer-worker.js': ['computer-worker.js', 'text/javascript; charset=utf-8'],
   '/local-game.js': ['local-game.js', 'text/javascript; charset=utf-8'],
+  '/fullscreen.js': ['fullscreen.js', 'text/javascript; charset=utf-8'],
 };
 const host = process.env.HOST || '127.0.0.1';
 const port = Number(process.env.PORT || 4173);

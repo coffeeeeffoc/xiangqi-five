@@ -112,7 +112,7 @@ async function play(index) {
       if (room) { await sendAction({ type: 'deploy', to: index }); return; }
       deploy(state, index);
       selected = null; moving = false;
-    } else if (selected === null && !state.board[index] && canDeployDirectly(state)) {
+    } else if (!moving && selected === null && !state.board[index] && canDeployDirectly(state)) {
       if (room) { await sendAction({ type: 'deploy-directly', to: index }); return; }
       deployDirectly(state, index);
       selected = null; moving = false;
@@ -124,7 +124,7 @@ async function play(index) {
       selected = selected === index ? null : index;
       moving = selected !== null;
     } else {
-      hint(selected !== null ? '不能走到这里，请选择标记位置。' : '请先抽子，或选择棋盘上自己的棋子。');
+      hint(selected !== null ? '不能走到这里，请选择标记位置。' : moving ? '请先点己方棋子，再点标记位置移动；再次点移动按钮可取消。' : '请先抽子，或选择棋盘上自己的棋子。');
       return;
     }
     if (state.ply !== previousPly) {
@@ -144,7 +144,7 @@ function render() {
   scheduleComputer();
   const ended = Boolean(state.result);
   const side = state.turn;
-  const direct = selected === null && canDeployDirectly(state);
+  const direct = !moving && selected === null && canDeployDirectly(state);
   document.body.dataset.turn = side;
   document.body.dataset.result = state.result || '';
   const last = state.history.at(-1);
@@ -209,7 +209,7 @@ function render() {
   $('action-description').textContent = ended ? (state.result === 'draw' ? '当前玩家没有可用行动。再来一局吧。' : '五枚相连，胜负已定。好棋，下一局见。') : state.pending ? '点击任意空点部署，落子后轮到对方。' : selected !== null ? '实心圆点可移动，红圈位置可吃子。' : direct ? '点击空位随机抽子并部署，或选择己方棋子移动。也可先抽子查看。' : '抽取一枚棋子入场，或移动棋盘上的己方棋子。';
   $('draw-preview').innerHTML = state.pending ? `${pieceMarkup(state.pending, 'drawn')}<div><strong>${sideName(side)} · ${label(state.pending)}</strong><small>已锁定部署 · 请选择空位</small></div>` : ended ? `<span class="mystery-piece result-symbol">${state.result === 'draw' ? '和' : '胜'}</span><div><strong>${outcome}</strong><small>共 ${state.ply} 手 · 本局结束</small></div>` : '<span class="mystery-piece">?</span><div><strong>下一枚，会是什么？</strong><small>从剩余棋池中随机抽取</small></div>';
   $('draw-button').disabled = inputLocked() || ended || Boolean(state.pending) || !state.pools[side].length || !state.board.some((p) => !p);
-  $('draw-button').firstElementChild.textContent = state.pending ? '待部署 · 点击棋盘空位' : !state.pools[side].length ? '棋池已空' : '抽子入场';
+  $('draw-button').firstElementChild.textContent = state.pending ? `已抽到「${label(state.pending)}」· 点空位` : !state.pools[side].length ? '棋池已空' : '抽子入场';
   $('move-button').disabled = inputLocked() || ended || Boolean(state.pending) || !hasMove(state);
   $('move-button').classList.toggle('is-active', moving);
   hint(ended ? '点击「重新开局」开始下一场对弈。' : state.pending ? '本回合只能部署，落子后不能再移动。' : selected !== null ? '再次点击选中棋子可取消选择。' : moving ? '点击自己的棋子，查看可走的位置。' : direct ? '点空位随机落子，点己方棋子选择移动。' : '抽子后须完成部署，不能重抽。');
@@ -321,6 +321,8 @@ async function roomRequest(server, path, body, token) {
     headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) },
     body: body ? JSON.stringify(body) : undefined,
     signal: AbortSignal.timeout(8000),
+  }).catch(() => {
+    throw new Error(room ? '连接中断，正在重试同步。' : '暂时无法连接房间服务，请检查网络后重试。');
   });
   const data = await response.json().catch(() => { throw new Error('该地址没有运行房间 API；GitHub Pages 本身不能提供房间服务。'); });
   if (!response.ok) throw Object.assign(new Error(typeof data.error === 'string' ? data.error : '房间请求失败'), { status: response.status });
@@ -456,7 +458,10 @@ async function pollRoom() {
       const data = await roomRequest(currentRoom.server, `/${currentRoom.code}`, null, currentRoom.token);
       if (room !== currentRoom) return;
       changed = !networkHealthy || data.version !== room.version;
-      if (!networkHealthy) roomError = '';
+      if (!networkHealthy) {
+        roomError = '';
+        $('room-message').textContent = '连接已恢复，棋局已同步。';
+      }
       networkHealthy = true;
       if (changed) await applySnapshot(data);
     } catch (error) {
