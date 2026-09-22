@@ -152,10 +152,10 @@ try {
     await page.addInitScript((failure) => { Element.prototype.requestFullscreen = failure === 'unsupported' ? undefined : () => Promise.reject(new Error('denied')); Element.prototype.webkitRequestFullscreen = undefined; }, failure);
     await page.goto(url);
     await page.selectOption('#play-mode', 'local');
-    await page.locator('[data-game-fullscreen]').tap();
+    await page.locator('.masthead [data-game-fullscreen]').tap();
     await page.waitForFunction(() => !document.querySelector('#game-display-notice').hidden);
     assert.match(await page.locator('#game-display-notice').textContent(), failure === 'unsupported' ? /不支持/ : /未允许/);
-    assert.equal(await page.locator('[data-game-fullscreen]').getAttribute('aria-pressed'), 'false');
+    assert.equal(await page.locator('.masthead [data-game-fullscreen]').getAttribute('aria-pressed'), 'false');
     await page.locator('.cell').first().tap();
     assert.equal(await page.locator('#history-count').textContent(), '1');
     await page.close();
@@ -212,6 +212,7 @@ try {
   await cancellation.goto(url);
   await cancellation.selectOption('#difficulty', 'hard');
   await cancellation.locator('.cell').nth(40).click();
+  await cancellation.locator('#focus-toggle').click();
   await cancellation.selectOption('#play-mode', 'local');
   await cancellation.locator('#restart-confirm').click();
   await cancellation.waitForTimeout(5000);
@@ -237,6 +238,7 @@ try {
   await page.waitForFunction(() => document.querySelector('#room-message').textContent.includes('暂未开放'));
   assert.equal(await page.locator('#room-create').isDisabled(), true);
   await page.locator('#room-close').tap();
+  await page.locator('#focus-toggle').tap();
   await page.selectOption('#play-mode', 'local');
   await page.locator('#restart-confirm').tap();
   for (const index of [0, 89, 1, 79, 2, 69, 3, 59, 4]) { await cells.nth(index).tap(); await idle(); }
@@ -244,7 +246,9 @@ try {
   assert.equal(await page.locator('.cell.winning').count(), 5);
   await page.locator('#result-restart').tap();
   assert.equal(await page.locator('#history-count').textContent(), '0');
+  await page.locator('#focus-toggle').tap();
   await page.selectOption('#board-mode', 'gomoku');
+  await page.locator('#focus-toggle').tap();
   await page.locator('#zoom-board').tap();
   await page.locator('#zoom-board').tap();
   assert.equal(await page.locator('#zoom-value').textContent(), '200%');
@@ -256,6 +260,7 @@ try {
   assert.deepEqual(errors, []);
   console.log('PASS 390px static build: computer turn, reload, unavailable rooms, five-in-a-row, restart, 15x15 zoom/touch');
   // Black's visible winning/losing result follows the same real input path, in fullscreen.
+  await page.locator('#focus-toggle').tap();
   await page.locator('#new-game').tap(); await page.locator('#restart-confirm').tap();
   await page.locator('.masthead [data-game-fullscreen]').tap();
   await page.waitForFunction(() => document.fullscreenElement);
@@ -294,6 +299,7 @@ try {
     assert.match(await red.locator('#room-message').textContent(), /连接已恢复，棋局已同步/);
     await red.reload();
     await red.waitForFunction(() => document.querySelector('#history-count').textContent === '2' && !document.querySelector('#board .cell').disabled);
+    await red.locator('#focus-toggle').click();
     await red.locator('#new-game').click(); await red.locator('#restart-confirm').click();
     await black.waitForFunction(() => !document.querySelector('#cancel-restart').hidden);
     await black.locator('#cancel-restart').click();

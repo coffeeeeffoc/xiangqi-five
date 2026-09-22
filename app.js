@@ -31,6 +31,7 @@ let networkBusy = false;
 let networkHealthy = true;
 let roomError = '';
 let pollTask = null;
+let focused = false;
 const $ = (id) => document.getElementById(id);
 const resetBoardZoom = setupBoardZoom($('board-scroll'), $('zoom-board'), $('zoom-out'), $('zoom-reset'), $('zoom-value'));
 const coord = (i) => `${String.fromCharCode(65 + i % state.cols)}${Math.floor(i / state.cols) + 1}`;
@@ -106,6 +107,7 @@ function scheduleComputer() {
 
 async function play(index) {
   if (state.result || inputLocked()) return;
+  setFocus(true);
   const previousPly = state.ply;
   try {
     if (state.pending) {
@@ -237,11 +239,12 @@ function render() {
 
 $('draw-button').addEventListener('click', () => {
   if (inputLocked()) return;
+  setFocus(true);
   if (room) { void sendAction({ type: 'draw' }); return; }
   try { draw(state); selected = null; moving = false; saveLocal(); render(); }
   catch (error) { hint(error.message); }
 });
-$('move-button').addEventListener('click', () => { if (inputLocked()) return; moving = !moving; selected = null; render(); });
+$('move-button').addEventListener('click', () => { if (inputLocked()) return; setFocus(true); moving = !moving; selected = null; render(); });
 $('rules-open').addEventListener('click', () => $('rules-dialog').showModal());
 $('rules-close').addEventListener('click', () => $('rules-dialog').close());
 function requestRestart(mode, nextOpponent = opponent) {
@@ -290,7 +293,8 @@ document.addEventListener('contextmenu', (event) => event.preventDefault());
 const mobile = matchMedia('(max-width: 760px), (max-width: 1100px) and (max-height: 500px)');
 function arrangeControls() {
   const panel = document.querySelector('.action-panel');
-  if (mobile.matches) {
+  (focused ? document.querySelector('.header-actions') : document.body).append($('history-open'));
+  if (mobile.matches || focused) {
     document.querySelector('.board-section').insertBefore(panel, document.querySelector('.board-topline'));
     document.querySelector('.board-settings').append($('new-game'));
   } else {
@@ -298,8 +302,19 @@ function arrangeControls() {
     document.querySelector('.left-rail').append($('new-game'));
   }
 }
+function setFocus(value) {
+  if (focused === value) return;
+  focused = value;
+  document.body.classList.toggle('play-focus', focused);
+  $('focus-toggle').textContent = focused ? '设置' : '开始';
+  $('focus-toggle').setAttribute('aria-pressed', String(focused));
+  $('focus-toggle').setAttribute('aria-label', focused ? '返回设置，保留当前棋局' : '开始专注游玩');
+  arrangeControls(); resetBoardZoom();
+}
+$('focus-toggle').addEventListener('click', () => setFocus(!focused));
 mobile.addEventListener('change', arrangeControls);
 arrangeControls(); $('board-mode').value = state.mode; buildBoard();
+setFocus(Boolean(state.ply || state.pending));
 
 // Room requests are serialized with animations; polling never races a local action.
 function validSnapshot(data) {
@@ -334,6 +349,7 @@ async function applySnapshot(data) {
   const animate = state.mode === data.state.mode && data.state.ply === state.ply + 1;
   const rebuild = state.mode !== data.state.mode;
   state = data.state; room.version = data.version; room.joined = data.joined; room.restartVotes = data.restartVotes;
+  if (data.joined) setFocus(true);
   threatPly = -1;
   selected = null; moving = false;
   $('board-mode').value = state.mode;

@@ -2,6 +2,24 @@
 
 象棋的走法，五子棋的胜负。移动端优先，默认单人挑战，也支持双人同屏与好友房间，无第三方依赖。
 
+## 本轮共享好友排位（2026-09-23）
+
+在 small-games 集成构建中，“好友 PK · 全站榜”进入持久化共享服务；“休闲房”保留本项目原有临时房间。两者数据不会伪装互通。单机开始落子/抽子自动进入专注界面，“设置”返回模式选择并保留棋局；全屏仍是独立的浏览器能力。
+
+主榜固定 **9×10 自由部署**。红先黑后，服务端抽子并校验轮次、落点、吃子、连五与截止时间。胜 3、和 1、负 0，累计合法好友对战积分；每对身份每 UTC 日仅首场有效对局计分（北京时间 08:00 重置）。15 分钟或 600 手和棋；不足 10 手的超时/认输不计分，正常 9 手红方连五获胜可计分。旧休闲房、单机和机器人不计入全站榜；更改规则须更换 `xiangqi9x10-duel-v1` 版本。
+
+从 **small-games 根目录** 构建 H5 与独立原生目标：
+
+```powershell
+pnpm --dir games/submodules/xiangqi-five build
+node scripts/competition-build.mjs --game=xiangqi-five
+node scripts/competition-build.mjs --native --game=xiangqi-five
+```
+
+微信输出 `apps/shell-minigame/dist/wechat/xiangqi-five/`，B站输出 `apps/shell-minigame/dist/bilibili/xiangqi-five/`。两者是真正 Canvas 棋盘与平台触摸入口，共享服务端身份/房间协议；当前缺本游戏 AppID、平台登录密钥及域名配置，构建标记 `preview-unverified`，尚未完成开发者工具或真机验收。配置与后端启动由根仓库共享部署文档维护，不把网页房间链接当作原生分享验证。
+
+在本目录运行 `node --test competition.test.mjs`（需要 small-games 根服务规则），`node focus-check.mjs`，`node browser-check.mjs`。隔离 `competition_test` 后端启动后运行 `node online-check.mjs`，通过两个真实独立浏览器会话完成两局 PK、结算、排名和同对同日限分。`XIANGQI_COMPETITION_URL` 可指定当前联调入口；不要向生产数据环境运行此测试。证据和未验证项见 [RELEASE-REVIEW.md](./RELEASE-REVIEW.md)。
+
 ## 运行
 
 安装 Node.js 22 或更高版本，无需安装依赖：

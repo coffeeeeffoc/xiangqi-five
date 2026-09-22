@@ -130,3 +130,32 @@ body[data-result]:not([data-result=""]) .action-panel { display:none; }
   .board-footnote { grid-column:2; grid-row:10; flex-wrap:wrap; }
   .history-fab { left:8px; right:auto; }
 }
+
+/* Playing and browser fullscreen are independent; changing either preserves the board. */
+body.play-focus .intro, body.play-focus .brand, body.play-focus .edition,
+body.play-focus .left-rail, body.play-focus .right-rail, body.play-focus footer,
+body.play-focus .play-settings, body.play-focus .board-settings, body.play-focus #difficulty-hint,
+body.play-focus .action-panel .section-heading, body.play-focus #action-title,
+body.play-focus #action-description, body.play-focus .draw-preview, body.play-focus .or { display:none; }
+body.play-focus .masthead { height:48px; margin-bottom:4px; justify-content:flex-end; }
+body.play-focus .header-actions .text-button { min-height:44px; min-width:44px; }
+body.play-focus .game-layout { display:block; }
+body.play-focus .board-section { --board-ratio:.9; display:flex; flex-direction:column; max-width:640px; margin:auto; padding-bottom:12px; }
+body.play-focus .board-section:has([data-mode="gomoku"]) { --board-ratio:1; }
+body.play-focus .action-panel { display:grid; grid-template-columns:1fr 1fr; gap:4px 8px; padding:0; border:0; margin:0; }
+body.play-focus .action-panel .action-hint { grid-column:1/-1; min-height:0; margin:2px 0; font-size:11px; }
+body.play-focus .action-panel button { min-height:44px; padding:8px 12px; }
+body.play-focus #coach-hint { margin:3px 0; line-height:1.4; }
+body.play-focus .board-topline { margin:3px 0 4px; flex:none; }
+body.play-focus .board-scroll { order:1; width:min(100%,calc((100dvh - 238px) * var(--board-ratio))); align-self:center; }
+body.play-focus .zoom-controls { order:2; margin:5px 0 0; }
+body.play-focus .board-footnote { order:3; }
+body.play-focus .history-fab { display:flex; position:static; min-height:44px; padding:8px; gap:4px; border:0; background:transparent; box-shadow:none; font-size:12px; }
+body:has([data-competition-launch]) .history-fab { left:8px; right:auto; }
+@media(max-width:360px) { .masthead .brand { font-size:13px; } .header-actions { gap:3px; } }
+@media (min-width:560px) and (max-height:500px) and (orientation:landscape) {
+  body.play-focus .board-section { display:grid; grid-template-columns:minmax(0,1fr) calc((100dvh - 112px) * var(--board-ratio)); max-width:none; }
+  body.play-focus .board-scroll { width:100%; grid-column:2; grid-row:1 / span 8; }
+  body.play-focus .zoom-controls { grid-column:2; grid-row:9; }
+  body.play-focus .board-footnote { grid-column:2; grid-row:10; }
+}

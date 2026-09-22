@@ -15,7 +15,7 @@
   <div class="page">
     <header class="masthead">
       <a class="brand" href="./" aria-label="象五子棋首页"><span class="seal">象</span><span>象五子棋<small>XIANGQI FIVE</small></span></a>
-      <div class="header-actions"><span class="edition">自由部署版 <span>·</span> 01</span><button class="text-button" id="room-open">好友房间</button><button class="text-button" id="rules-open">玩法说明 <span aria-hidden="true">↗</span></button><button class="text-button" data-game-fullscreen>全屏</button></div>
+      <div class="header-actions"><span class="edition">自由部署版 <span>·</span> 01</span><button class="text-button" id="focus-toggle" aria-label="开始专注游玩" aria-pressed="false">开始</button><button class="text-button" id="room-open">休闲房</button><button class="text-button" id="rules-open">规则</button><button class="text-button" data-game-fullscreen>全屏</button></div>
     </header>
     <main>
       <section class="intro" aria-label="游戏介绍">
@@ -96,7 +96,7 @@
     <p class="win-rule">任意种类的己方棋子，横、竖或斜连续至少五枚，立即获胜。</p>
     <p class="fine-print">不判断将军、将死或将帅照面，帅将被吃也不直接判负。无合法行动时和棋；不自动判重复局面，可重新开局。单人和同屏棋局自动保存在此浏览器，刷新后继续。金圈提示对方下一手可成五的落点；堵住落点或吃掉连线棋子都能防守。</p>
   </dialog>
-  <button class="history-fab" id="history-open">对局记录 <span id="history-count">0</span></button>
+  <button class="history-fab" id="history-open" aria-label="对局记录">记录 <span id="history-count">0</span></button>
   <dialog id="history-dialog" aria-labelledby="history-title"><div class="dialog-heading"><h2 id="history-title">对局记录</h2><button class="close-button" id="history-close" aria-label="关闭对局记录">×</button></div><ol id="full-history" class="full-history"></ol></dialog>
   <dialog id="restart-dialog" aria-labelledby="restart-title"><p class="eyebrow">A NEW MATCH</p><h2 id="restart-title">重新摆开这一局？</h2><p><span id="restart-description">当前棋局将被清空，双方各恢复 16 枚棋子，红方先手。</span></p><div class="dialog-actions"><button class="move-button" id="restart-cancel">继续当前对局</button><button class="primary-button" id="restart-confirm">重新开局</button></div></dialog>
 </body>
