@@ -14,8 +14,11 @@
     let pending = false, timer, noticeTimer;
     const style = document.createElement('style');
     style.textContent = `
-      [data-game-fullscreen] { min-width: 60px; min-height: 44px; touch-action: manipulation; font-size: 13px; white-space: nowrap; }
-      [data-game-fullscreen]:focus-visible { outline: 3px solid #478ef2; outline-offset: 2px; }
+      [data-game-fullscreen] { display:inline-flex;align-items:center;justify-content:center;gap:7px;min-width:70px;min-height:44px;box-sizing:border-box;touch-action:manipulation;font:600 13px/1.4 'PingFang SC','Microsoft YaHei',sans-serif;white-space:nowrap;border-radius:999px!important;padding:8px 12px!important;border:1px solid #c8d7ca!important;background:#edf2e7!important;color:#244b3c!important;box-shadow:0 2px 8px #173d2510;cursor:pointer; }
+      [data-game-fullscreen]::before { content:'';display:block;width:13px;height:13px;flex:none;background:linear-gradient(currentColor,currentColor) left top/5px 1.5px no-repeat,linear-gradient(currentColor,currentColor) left top/1.5px 5px no-repeat,linear-gradient(currentColor,currentColor) right top/5px 1.5px no-repeat,linear-gradient(currentColor,currentColor) right top/1.5px 5px no-repeat,linear-gradient(currentColor,currentColor) left bottom/5px 1.5px no-repeat,linear-gradient(currentColor,currentColor) left bottom/1.5px 5px no-repeat,linear-gradient(currentColor,currentColor) right bottom/5px 1.5px no-repeat,linear-gradient(currentColor,currentColor) right bottom/1.5px 5px no-repeat; }
+      [data-game-fullscreen]:hover { background:#dfe9d9!important; }
+      [data-game-fullscreen]:focus-visible { outline: 3px solid #42997c; outline-offset: 3px; }
+      [data-game-fullscreen][aria-pressed=true] { background:#d3e4d3!important; }
       .game-fullscreen-dialog { display: block; margin: 8px 0 8px auto; border: 1px solid currentColor; border-radius: 8px; padding: 6px 12px; background: transparent; color: inherit; }
       #game-display-notice { position: fixed; z-index: 2147483647; bottom: max(12px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 28px); padding: 10px 14px; border-radius: 10px; background: #172c35; color: white; font: 14px/1.5 system-ui, sans-serif; pointer-events: none; }
     `;
