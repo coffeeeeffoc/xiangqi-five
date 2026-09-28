@@ -20,7 +20,7 @@ jobs: # 所有 Job 定义
       - uses: pnpm/action-setup@v4 # 安装 pnpm
       - uses: actions/setup-node@v4 # 安装 Node 并准备缓存
         with:
-          node-version: '24.12.0' # 固定 Node 版本
+          node-version: '24.21.0' # 固定 Node 版本
           cache: pnpm # 缓存 pnpm store
       - run: pnpm install --frozen-lockfile # 安装依赖（锁定文件严格一致）
       - run: pnpm test # 运行 test 脚本

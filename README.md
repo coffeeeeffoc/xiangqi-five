@@ -105,7 +105,7 @@ npm start
 
 ## pnpm 与 small-games 集成
 
-使用 Node.js 24 与 pnpm 8.14.1。独立克隆后执行 `pnpm install --frozen-lockfile`、`pnpm dev`、`pnpm test`、`pnpm build`。静态产物位于 `dist/`，可部署到任意静态服务器。
+使用 Node.js 24.21.0 与 pnpm 12.6.0。独立克隆后执行 `pnpm install --frozen-lockfile`、`pnpm dev`、`pnpm test`、`pnpm build`。静态产物位于 `dist/`，可部署到任意静态服务器。
 
 本仓库同时作为 [small-games](https://github.com/coffeeeeffoc/small-games) 的 `games/xiangqi-five` Git submodule。在父仓库运行 `pnpm --filter @coffeeeeffoc/xiangqi-five dev` 可独立开发；父仓库的 Web Shell 构建会包含静态产物。内部技术栈及游戏逻辑保持独立。
 
