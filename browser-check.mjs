@@ -280,6 +280,8 @@ try {
     await red.goto(onlineUrl); await red.selectOption('#play-mode', 'local'); await red.locator('.cell').nth(40).click();
     await red.locator('#room-open').click(); await red.locator('#room-create').click();
     await red.waitForFunction(() => !document.querySelector('#room-connected').hidden);
+    assert.equal(await red.locator('#challenge-open').isDisabled(), true, 'online authoritative games cannot be replaced by local training');
+    assert.equal(await red.locator('#challenge-quick-start').isDisabled(), true, 'short practice cannot replace a live authoritative room');
     const code = await red.locator('#room-code').inputValue();
     await red.locator('#room-close').click();
     await black.goto(onlineUrl); await black.locator('#room-open').click();

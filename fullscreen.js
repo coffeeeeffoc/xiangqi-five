@@ -6,8 +6,12 @@
   function install() {
     let host = document;
     try {
-      if (window.parent !== window && window.parent.document.querySelector('[data-game-display-host]'))
-        host = window.parent.document;
+      if (window.parent !== window) {
+        const display = window.parent.document.querySelector('[data-game-display-host]');
+        // Other panels may have a game host too; only fullscreen this iframe's owner.
+        if (display && window.frameElement && display.contains(window.frameElement))
+          host = window.parent.document;
+      }
     } catch { /* Cross-origin embeds control their own complete game document. */ }
     const active = () => document.fullscreenElement || document.webkitFullscreenElement
       || host.fullscreenElement || host.webkitFullscreenElement;

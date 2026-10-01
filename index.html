@@ -34,13 +34,22 @@
         </aside>
         <section class="board-section" aria-label="对弈区域">
           <section class="result-banner" id="result-banner" hidden tabindex="-1" aria-labelledby="result-title" aria-describedby="result-description" role="status" aria-live="polite">
-            <div><h2 id="result-title"></h2><p id="result-description"></p></div>
+            <div><h2 id="result-title"></h2><p id="result-description"></p><div id="challenge-result-actions" hidden><p id="challenge-next-goal"></p><button id="challenge-result-share" class="text-button">邀朋友解这题</button><p id="challenge-result-message" role="status"></p></div></div>
             <button class="primary-button" id="result-restart">再来一局</button>
           </section>
           <div class="room-strip" id="room-strip" hidden><span id="room-status" role="status"></span><button class="text-button" id="cancel-restart" hidden>取消重开申请</button></div>
-          <div class="play-settings"><select id="play-mode" aria-label="对局模式"><option value="computer">单人挑战 · 你执红</option><option value="local">双人同屏</option></select><select id="difficulty" aria-label="电脑难度" aria-describedby="difficulty-hint"><option value="practice">简易 · 稳健应对</option><option value="standard">标准 · 攻防兼顾</option><option value="hard">困难 · 深入算棋</option></select><span id="save-status" role="status">本机自动保存</span></div>
+          <div class="challenge-welcome"><span>象棋走法，同色连五。<br>吃将不算赢，来试一手破局。</span><button id="challenge-quick-start" class="text-button">60 秒练一题</button></div>
+          <div class="play-settings"><select id="play-mode" aria-label="对局模式"><option value="computer">单人挑战 · 你执红</option><option value="local">双人同屏</option></select><select id="difficulty" aria-label="电脑难度" aria-describedby="difficulty-hint"><option value="practice">简易 · 稳健应对</option><option value="standard">标准 · 攻防兼顾</option><option value="hard">困难 · 深入算棋</option></select><button id="challenge-open" class="text-button">战术闯关 · 入门与连招</button><span id="save-status" role="status">本机自动保存</span></div>
           <p id="difficulty-hint" class="coach-hint"></p>
           <div class="board-settings"><label for="board-mode">棋盘</label><select id="board-mode"><option value="xiangqi">象棋 · 9 × 10</option><option value="gomoku">五子棋 · 15 × 15</option></select></div>
+          <section id="challenge-panel" class="challenge-panel" hidden aria-labelledby="challenge-title">
+            <div class="challenge-heading"><strong id="challenge-title"></strong><small id="challenge-progress"></small></div>
+            <p id="challenge-objective"></p><p id="challenge-hint-text" class="challenge-hint" hidden></p>
+            <p id="challenge-move-message" role="status"></p>
+            <div class="challenge-actions"><button id="challenge-hint">提示</button><button id="challenge-share">分享同题</button><button id="challenge-select">选题</button><button id="challenge-exit">返回棋局</button></div>
+            <p id="challenge-share-message" role="status"></p>
+            <div id="challenge-share-fallback" hidden><label for="challenge-share-link">同题链接</label><input id="challenge-share-link" readonly></div>
+          </section>
           <p id="coach-hint" class="coach-hint" role="status"></p><button id="computer-retry" class="move-button" hidden>重试电脑回合</button>
           <div class="board-topline"><span><i class="status-dot"></i> <span id="turn-label">红方先行</span></span><span id="turn-count">第 01 手</span></div>
           <div class="zoom-controls" role="group" aria-label="棋盘缩放"><button id="zoom-out" aria-label="缩小棋盘" disabled>−</button><output id="zoom-value" aria-label="棋盘缩放比例">100%</output><button id="zoom-board" aria-label="放大棋盘">＋</button><button id="zoom-reset" disabled>恢复大小</button><span>双指缩放 / 移动</span></div>
@@ -98,6 +107,7 @@
   </dialog>
   <button class="history-fab" id="history-open" aria-label="对局记录">记录 <span id="history-count">0</span></button>
   <dialog id="history-dialog" aria-labelledby="history-title"><div class="dialog-heading"><h2 id="history-title">对局记录</h2><button class="close-button" id="history-close" aria-label="关闭对局记录">×</button></div><ol id="full-history" class="full-history"></ol></dialog>
+  <dialog id="challenge-dialog" aria-labelledby="challenge-dialog-title"><div class="dialog-heading"><h2 id="challenge-dialog-title">从一手连五，到两手连招</h2><button class="close-button" id="challenge-close" aria-label="关闭战术选题">×</button></div><p>先用六题认识连五、马腿、象眼与炮架，再练两手攻防。连招题黑方会按合法规则回应；两次红方行棋内连五。独立解题得两星，提示后一星，失败可重试。原棋局和已抽棋子都保留。</p><p id="challenge-summary"></p><button id="challenge-start-next" class="primary-button">接着练</button><div id="challenge-list" class="challenge-list"></div></dialog>
   <dialog id="restart-dialog" aria-labelledby="restart-title"><p class="eyebrow">A NEW MATCH</p><h2 id="restart-title">重新摆开这一局？</h2><p><span id="restart-description">当前棋局将被清空，双方各恢复 16 枚棋子，红方先手。</span></p><div class="dialog-actions"><button class="move-button" id="restart-cancel">继续当前对局</button><button class="primary-button" id="restart-confirm">重新开局</button></div></dialog>
 </body>
 </html>
