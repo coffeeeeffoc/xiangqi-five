@@ -23,7 +23,6 @@
       [data-game-fullscreen]:hover { background:#dfe9d9!important; }
       [data-game-fullscreen]:focus-visible { outline: 3px solid #42997c; outline-offset: 3px; }
       [data-game-fullscreen][aria-pressed=true] { background:#d3e4d3!important; }
-      .game-fullscreen-dialog { display: block; margin: 8px 0 8px auto; border: 1px solid currentColor; border-radius: 8px; padding: 6px 12px; background: transparent; color: inherit; }
       #game-display-notice { position: fixed; z-index: 2147483647; bottom: max(12px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 28px); padding: 10px 14px; border-radius: 10px; background: #172c35; color: white; font: 14px/1.5 system-ui, sans-serif; pointer-events: none; }
     `;
     document.head.append(style);
@@ -91,19 +90,8 @@
       owner.addEventListener('fullscreenchange', changed);
       owner.addEventListener('webkitfullscreenchange', changed);
     }
-    // History recreates its screens; native dialogs also need an accessible exit control.
-    const observer = new MutationObserver(() => {
-      for (const dialog of document.querySelectorAll('dialog[open]')) {
-        if (!dialog.querySelector('[data-game-fullscreen]')) {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'game-fullscreen-dialog';
-          button.setAttribute('data-game-fullscreen', '');
-          dialog.append(button);
-        }
-      }
-      sync();
-    });
+    // History recreates its screens; keep main game controls synchronized.
+    const observer = new MutationObserver(sync);
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['open'] });
     sync();
     window.addEventListener('pagehide', () => {

@@ -97,9 +97,12 @@ try {
     const button = await fullscreen.boundingBox();
     assert.ok(button.width >= 44 && button.height >= 44 && button.x >= 0 && button.x + button.width <= 305);
     await page.locator('#rules-open').tap();
-    await page.locator('#rules-dialog [data-game-fullscreen]').tap();
-    await page.waitForFunction(() => !document.fullscreenElement);
+    assert.equal(await page.locator('#rules-dialog [data-game-fullscreen], #rules-dialog .close-button').count(), 0);
     await page.locator('#rules-close').tap();
+    await page.waitForFunction(() => !document.querySelector('#rules-dialog').open);
+    assert.equal(await page.evaluate(() => Boolean(document.fullscreenElement)), true);
+    await fullscreen.tap();
+    await page.waitForFunction(() => !document.fullscreenElement);
     assert.equal(await page.evaluate(() => localStorage.getItem('xiangqi-five-local-v1')), beforeDisplay);
     await fullscreen.tap();
     await page.setViewportSize({ width: 844, height: 390 });

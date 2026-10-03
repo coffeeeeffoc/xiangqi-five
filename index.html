@@ -80,16 +80,16 @@
     <footer><span>象棋 × 五子棋 <i> / </i> 一局新意</span><span>一人挑战 · 双人对弈 · 自动续局</span></footer>
   </div>
   <dialog id="room-dialog" aria-labelledby="room-title">
-    <div class="dialog-heading"><h2 id="room-title">邀一位好友，开一局新棋</h2><button class="close-button" id="room-close" aria-label="关闭好友房间">×</button></div>
+    <div class="dialog-heading"><h2 id="room-title">邀一位好友，开一局新棋</h2></div>
     <p>创建者执红、加入者执黑。打开好友的邀请链接即可加入；本机棋局会保留，离开房间后恢复。</p>
     <details class="room-advanced"><summary>自建房间设置</summary><label class="room-label" for="room-server">房间服务地址</label><input id="room-server" type="url" placeholder="https://你的房间服务域名" autocomplete="url"></details>
     <label class="room-label" for="room-code">房间码</label><input id="room-code" maxlength="8" placeholder="输入好友的 8 位房间码" autocomplete="off" spellcheck="false">
     <div class="dialog-actions"><button class="primary-button" id="room-create">创建房间</button><button class="move-button" id="room-join">加入房间</button></div>
     <div id="room-connected" hidden><label class="room-label" for="room-invite">邀请链接（不含玩家凭证）</label><input id="room-invite" readonly><button class="move-button" id="room-copy">复制邀请链接</button><p>双方同意后才能重开。关闭页面不会释放席位；同一标签页刷新可恢复连接。房间闲置一小时或创建满一天后过期，服务重启会清空房间。</p><button class="move-button" id="room-leave">返回本机棋局（放弃当前席位）</button></div>
     <p id="room-message" role="status" aria-live="polite">正在检查好友对弈是否可用…</p><button class="move-button" id="room-local">与身边好友双人同屏</button>
-  </dialog>
+  <div class="dialog-actions"><button class="move-button" id="room-close">返回对局</button></div></dialog>
   <dialog id="rules-dialog" aria-labelledby="rules-title">
-    <div class="dialog-heading"><p class="eyebrow">HOW TO PLAY</p><button class="close-button" id="rules-close" aria-label="关闭玩法说明">×</button></div>
+    <div class="dialog-heading"><p class="eyebrow">HOW TO PLAY</p></div>
     <h2 id="rules-title">象棋的走法，五子的胜负。</h2>
     <p>可选 9×10 象棋棋盘或 15×15 五子棋棋盘，象棋盘显示楚河汉界，仅作标识，不限制移动。空盘开局，红方先手，双方各有 16 枚棋子。</p>
     <div class="rule-pair"><p><b>01 · 抽子部署</b>从未入场棋池随机抽一枚，放到任意空点。抽子后不可改走或重抽，部署后立即换手。未选中棋子时，也可直接点击空位随机抽子并落下。</p><p><b>02 · 移动吃子</b>按下表移动一枚己方棋子，可吃对方棋子。吃掉的棋子退出本局。</p></div>
@@ -104,10 +104,10 @@
     </tbody></table>
     <p class="win-rule">任意种类的己方棋子，横、竖或斜连续至少五枚，立即获胜。</p>
     <p class="fine-print">不判断将军、将死或将帅照面，帅将被吃也不直接判负。无合法行动时和棋；不自动判重复局面，可重新开局。单人和同屏棋局自动保存在此浏览器，刷新后继续。金圈提示对方下一手可成五的落点；堵住落点或吃掉连线棋子都能防守。</p>
-  </dialog>
+  <div class="dialog-actions"><button class="move-button" id="rules-close">返回对局</button></div></dialog>
   <button class="history-fab" id="history-open" aria-label="对局记录">记录 <span id="history-count">0</span></button>
-  <dialog id="history-dialog" aria-labelledby="history-title"><div class="dialog-heading"><h2 id="history-title">对局记录</h2><button class="close-button" id="history-close" aria-label="关闭对局记录">×</button></div><ol id="full-history" class="full-history"></ol></dialog>
-  <dialog id="challenge-dialog" aria-labelledby="challenge-dialog-title"><div class="dialog-heading"><h2 id="challenge-dialog-title">从一手连五，到两手连招</h2><button class="close-button" id="challenge-close" aria-label="关闭战术选题">×</button></div><p>先用六题认识连五、马腿、象眼与炮架，再练两手攻防。连招题黑方会按合法规则回应；两次红方行棋内连五。独立解题得两星，提示后一星，失败可重试。原棋局和已抽棋子都保留。</p><p id="challenge-summary"></p><button id="challenge-start-next" class="primary-button">接着练</button><div id="challenge-list" class="challenge-list"></div></dialog>
+  <dialog id="history-dialog" aria-labelledby="history-title"><div class="dialog-heading"><h2 id="history-title">对局记录</h2></div><ol id="full-history" class="full-history"></ol><div class="dialog-actions"><button class="move-button" id="history-close">返回对局</button></div></dialog>
+  <dialog id="challenge-dialog" aria-labelledby="challenge-dialog-title"><div class="dialog-heading"><h2 id="challenge-dialog-title">从一手连五，到两手连招</h2></div><p>先用六题认识连五、马腿、象眼与炮架，再练两手攻防。连招题黑方会按合法规则回应；两次红方行棋内连五。独立解题得两星，提示后一星，失败可重试。原棋局和已抽棋子都保留。</p><p id="challenge-summary"></p><button id="challenge-start-next" class="primary-button">接着练</button><div id="challenge-list" class="challenge-list"></div><div class="dialog-actions"><button class="move-button" id="challenge-close">返回当前对局</button></div></dialog>
   <dialog id="restart-dialog" aria-labelledby="restart-title"><p class="eyebrow">A NEW MATCH</p><h2 id="restart-title">重新摆开这一局？</h2><p><span id="restart-description">当前棋局将被清空，双方各恢复 16 枚棋子，红方先手。</span></p><div class="dialog-actions"><button class="move-button" id="restart-cancel">继续当前对局</button><button class="primary-button" id="restart-confirm">重新开局</button></div></dialog>
 </body>
 </html>
