@@ -1,114 +1,452 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <script src="./dev-mode.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f3efe5">
-  <meta name="description" content="象棋的走法，五子棋的胜负。单人挑战、双人同屏，自动保存棋局。">
-  <title>象五子棋 · 方寸之间，五子成势</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23b54432'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='44' fill='%23fff6e4'%3E象%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./style.css">
-  <script defer src="./fullscreen.js"></script>
-  <script type="module" src="./app.js"></script>
-</head>
-<body>
-  <div class="page">
-    <header class="masthead">
-      <a class="brand" href="./" aria-label="象五子棋首页"><span class="seal">象</span><span>象五子棋<small>XIANGQI FIVE</small></span></a>
-      <div class="header-actions"><span class="edition">自由部署版 <span>·</span> 01</span><button class="text-button" id="focus-toggle" aria-label="开始专注游玩" aria-pressed="false">开始</button><button class="text-button" id="room-open">休闲房</button><button class="text-button" id="rules-open">规则</button><button class="text-button" data-game-fullscreen>全屏</button></div>
-    </header>
-    <main>
-      <section class="intro" aria-label="游戏介绍">
-        <div><p class="eyebrow">熟悉的棋子，全新的棋局</p><h1>方寸之间，<span>五子成势。</span></h1></div>
-        <p class="intro-note">以象棋之法，落五子之局。<br>每一步，是布局，也是破局。</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fff8e9" />
+    <meta name="description" content="象棋的走法，五子棋的胜负。和可爱的小棋友一起，同色连五！" />
+    <title>象五子棋 · 同色连五，快乐加倍</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='20' fill='%23ed7867'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='44' fill='%23fff8e9'%3E象%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script defer src="./fullscreen.js"></script>
+    <script defer src="./dev-mode.js"></script>
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body data-screen="home">
+    <main class="app-shell">
+      <section class="screen home-screen" data-screen="home" aria-labelledby="home-title">
+        <span class="home-tag">象棋 × 五子棋</span>
+        <h1 id="home-title">象五子棋<span class="title-spark" aria-hidden="true">✦</span></h1>
+        <p class="home-subtitle">同色连五，快乐加倍</p>
+        <img
+          class="home-hero"
+          src="./assets/hero.svg"
+          alt="笑眯眯的帅和将，正在小棋盘上一起玩耍"
+          width="360"
+          height="300"
+        />
+        <div class="home-actions">
+          <button class="primary-button jumbo" id="home-start">
+            开始玩 <span aria-hidden="true">›</span></button
+          ><button class="mint-button" id="home-continue" hidden>
+            继续上次的棋局 <span aria-hidden="true">›</span></button
+          ><button class="mint-button" id="challenge-quick-start">
+            <span aria-hidden="true">◎</span> 60 秒练一题 <span aria-hidden="true">›</span>
+          </button>
+        </div>
+        <div class="home-links">
+          <button id="rules-open" class="text-button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 5c4-2 7-1 9 1 2-2 5-3 9-1v14c-4-2-7-1-9 1-2-2-5-3-9-1zM12 6v14" /></svg
+            >玩法小课堂</button
+          ><button id="home-settings" class="text-button">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 3 6 0 1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1z" />
+              <circle cx="12" cy="12" r="3" /></svg
+            >设置
+          </button>
+        </div>
+        <p class="home-note">随时离开，下次接着玩</p>
       </section>
-      <div class="game-layout">
-        <aside class="left-rail">
-          <div class="section-heading"><span>对局</span><span class="micro">THE MATCH</span></div>
-          <div class="match-mode"><span class="status-dot"></span><b id="match-label">单人挑战 · 你执红</b><span>自由部署</span></div>
-          <section class="player-card black" id="black-player" aria-label="黑方棋子池"></section>
-          <div class="versus"><span></span> 双方棋池 <span></span></div>
-          <section class="player-card red" id="red-player" aria-label="红方棋子池"></section>
-          <p class="pool-note">数字为尚未入场的棋子数量<br>被吃棋子退出本局，不返回棋池</p>
-          <button class="new-game" id="new-game"><span aria-hidden="true">↻</span> 重新开局</button>
-        </aside>
-        <section class="board-section" aria-label="对弈区域">
-          <section class="result-banner" id="result-banner" hidden tabindex="-1" aria-labelledby="result-title" aria-describedby="result-description" role="status" aria-live="polite">
-            <div><h2 id="result-title"></h2><p id="result-description"></p><div id="challenge-result-actions" hidden><p id="challenge-next-goal"></p><button id="challenge-result-share" class="text-button">邀朋友解这题</button><p id="challenge-result-message" role="status"></p></div></div>
-            <button class="primary-button" id="result-restart">再来一局</button>
-          </section>
-          <div class="room-strip" id="room-strip" hidden><span id="room-status" role="status"></span><button class="text-button" id="cancel-restart" hidden>取消重开申请</button></div>
-          <div class="challenge-welcome"><span>象棋走法，同色连五。<br>吃将不算赢，来试一手破局。</span><button id="challenge-quick-start" class="text-button">60 秒练一题</button></div>
-          <div class="play-settings"><select id="play-mode" aria-label="对局模式"><option value="computer">单人挑战 · 你执红</option><option value="local">双人同屏</option></select><select id="difficulty" aria-label="电脑难度" aria-describedby="difficulty-hint"><option value="practice">简易 · 稳健应对</option><option value="standard">标准 · 攻防兼顾</option><option value="hard">困难 · 深入算棋</option></select><button id="challenge-open" class="text-button">战术闯关 · 入门与连招</button><span id="save-status" role="status">本机自动保存</span></div>
-          <p id="difficulty-hint" class="coach-hint"></p>
-          <div class="board-settings"><label for="board-mode">棋盘</label><select id="board-mode"><option value="xiangqi">象棋 · 9 × 10</option><option value="gomoku">五子棋 · 15 × 15</option></select></div>
-          <section id="challenge-panel" class="challenge-panel" hidden aria-labelledby="challenge-title">
-            <div class="challenge-heading"><strong id="challenge-title"></strong><small id="challenge-progress"></small></div>
-            <p id="challenge-objective"></p><p id="challenge-hint-text" class="challenge-hint" hidden></p>
-            <p id="challenge-move-message" role="status"></p>
-            <div class="challenge-actions"><button id="challenge-hint">提示</button><button id="challenge-share">分享同题</button><button id="challenge-select">选题</button><button id="challenge-exit">返回棋局</button></div>
-            <p id="challenge-share-message" role="status"></p>
-            <div id="challenge-share-fallback" hidden><label for="challenge-share-link">同题链接</label><input id="challenge-share-link" readonly></div>
-          </section>
-          <p id="coach-hint" class="coach-hint" role="status"></p><button id="computer-retry" class="move-button" hidden>重试电脑回合</button>
-          <div class="board-topline"><span><i class="status-dot"></i> <span id="turn-label">红方先行</span></span><span id="turn-count">第 01 手</span></div>
-          <div class="zoom-controls" role="group" aria-label="棋盘缩放"><button id="zoom-out" aria-label="缩小棋盘" disabled>−</button><output id="zoom-value" aria-label="棋盘缩放比例">100%</output><button id="zoom-board" aria-label="放大棋盘">＋</button><button id="zoom-reset" disabled>恢复大小</button><span>双指缩放 / 移动</span></div>
-          <div class="board-scroll" id="board-scroll"><div class="board-frame">
-            <div class="board" id="board" aria-label="9列10行棋盘">
-
+      <section class="screen" data-screen="modes" hidden aria-labelledby="modes-title">
+        <header class="screen-header">
+          <button class="icon-button" data-back aria-label="返回首页">←</button
+          ><span class="eyebrow">选一种快乐</span><span></span>
+        </header>
+        <h1 id="modes-title">今天怎么玩？</h1>
+        <p class="page-subtitle">一个人动脑，两个人热闹。</p>
+        <div class="mode-list">
+          <button id="mode-computer" class="mode-card coral-card">
+            <div>
+              <strong>单人挑战</strong><small>和聪明的小棋友<br />来一场较量吧！</small>
             </div>
+            <span class="mascot red" aria-hidden="true"><b>兵</b><i>•ᴗ•</i></span
+            ><span class="card-arrow" aria-hidden="true">›</span></button
+          ><button id="mode-local" class="mode-card mint-card">
+            <div>
+              <strong>双人同屏</strong><small>和身边的朋友<br />轮流落子，一起玩。</small>
+            </div>
+            <span class="mascot-pair" aria-hidden="true"
+              ><span class="mascot red"><b>帅</b><i>•ᴗ•</i></span
+              ><span class="mascot black"><b>将</b><i>•ᴗ•</i></span></span
+            ><span class="card-arrow" aria-hidden="true">›</span></button
+          ><button id="mode-online" class="mode-card gold-card" hidden>
+            <div>
+              <strong>好友对弈</strong><small>分享邀请<br />远方的朋友也能玩。</small>
+            </div>
+            <svg class="mode-link" viewBox="0 0 64 64" aria-hidden="true">
+              <path
+                d="M27 39 39 27M23 34l-6 6a10 10 0 0 0 14 14l10-10a10 10 0 0 0 0-14M41 30l6-6a10 10 0 0 0-14-14L23 20a10 10 0 0 0 0 14"
+              /></svg
+            ><span class="card-arrow" aria-hidden="true">›</span></button
+          ><button id="room-open" class="mode-card gold-card">
+            <div><strong>好友房间</strong><small>发个房间码，邀朋友来玩。</small></div>
+            <span class="mode-symbol" aria-hidden="true">♧</span
+            ><span class="card-arrow" aria-hidden="true">›</span></button
+          ><button id="challenge-open" class="mode-card training-card">
+            <div><strong>战术闯关</strong><small>从一手连五，到两手连招。</small></div>
+            <span class="flag-art" aria-hidden="true">⚑</span
+            ><span class="card-arrow" aria-hidden="true">›</span>
+          </button>
+        </div>
+        <details id="mode-extras" class="fine-rules" hidden><summary>更多玩法</summary></details>
+        <p class="bottom-note">✦ 每一局，都有新惊喜 ✦</p>
+      </section>
+      <section class="screen" data-screen="setup" hidden aria-labelledby="setup-title">
+        <header class="screen-header">
+          <button class="icon-button" data-back aria-label="返回">←</button
+          ><span class="eyebrow">准备好了吗</span><span></span>
+        </header>
+        <h1 id="setup-title">摆好小棋盘</h1>
+        <p class="page-subtitle">选好之后，就开始这一局。</p>
+        <div class="setup-mascot">
+          <span class="mascot red" aria-hidden="true"><b>帅</b><i>•ᴗ•</i></span>
+        </div>
+        <div class="settings-card">
+          <label for="play-mode">和谁一起玩</label
+          ><select id="play-mode">
+            <option value="computer">小棋友 · 单人挑战</option>
+            <option value="local">身边的朋友 · 双人同屏</option></select
+          ><label for="board-mode">棋盘大小</label
+          ><select id="board-mode">
+            <option value="xiangqi">经典棋盘 · 9 × 10</option>
+            <option value="gomoku">大棋盘 · 15 × 15</option></select
+          ><label id="difficulty-label" for="difficulty">小棋友的实力</label
+          ><select id="difficulty" aria-describedby="difficulty-hint">
+            <option value="practice">简易 · 轻松试试</option>
+            <option value="standard">标准 · 认真过招</option>
+            <option value="hard">困难 · 挑战一下</option>
+          </select>
+          <p id="difficulty-hint" class="small-note"></p>
+        </div>
+        <p class="small-note" id="save-status" role="status"></p>
+        <button id="setup-start" class="primary-button jumbo">
+          开始这一局 <span aria-hidden="true">›</span>
+        </button>
+      </section>
+      <section class="screen game-screen" data-screen="game" hidden aria-label="对弈区域">
+        <header class="screen-header game-header">
+          <button class="icon-button" id="game-back" aria-label="返回首页，保留棋局">←</button
+          ><strong id="match-label">单人挑战</strong
+          ><button class="icon-button more-icon" id="game-more" aria-label="更多对局选项">
+            <span></span><span></span><span></span>
+          </button>
+        </header>
+        <div class="opponent-row">
+          <span class="avatar-piece black" aria-hidden="true"><b>将</b><i>•ᴗ•</i></span>
+          <div>
+            <strong id="opponent-name">小棋友</strong
+            ><small id="opponent-status">同色连五，就能赢</small>
           </div>
-          </div><div class="board-footnote"><span>河界仅作标识，移动不受限制</span><span>可后退 · 连五即胜</span></div>
+          <span id="turn-count" class="turn-count">第 01 手</span>
+        </div>
+        <div class="room-strip" id="room-strip" hidden>
+          <span id="room-status" role="status"></span
+          ><button class="text-button" id="cancel-restart" hidden>取消重开</button>
+        </div>
+        <section id="challenge-panel" class="challenge-panel" hidden>
+          <div><strong id="challenge-title"></strong><small id="challenge-progress"></small></div>
+          <p id="challenge-objective"></p>
+          <p id="challenge-move-message" role="status"></p>
         </section>
-        <aside class="right-rail">
-          <section class="action-panel">
-            <div class="section-heading"><span>这一手</span><span class="micro" id="action-side">RED'S TURN</span></div>
-            <h2 id="action-title">落子，或走子</h2>
-            <p id="action-description">抽取一枚棋子入场，<br>或移动棋盘上的己方棋子。</p>
-            <div class="draw-preview" id="draw-preview"><span class="mystery-piece">?</span><div><strong>下一枚，会是什么？</strong><small>从剩余棋池中随机抽取</small></div></div>
-            <button class="primary-button" id="draw-button"><span>抽子入场</span><span aria-hidden="true">＋</span></button>
-            <div class="or"><span></span> 或 <span></span></div>
-            <button class="move-button" id="move-button">移动场上棋子 <span aria-hidden="true">↗</span></button>
-            <p class="action-hint" id="action-hint" role="status" aria-live="polite">抽子后须完成部署，不能重抽。</p>
-          </section>
-          <section class="record-panel"><div class="section-heading"><span>对局记录</span><span class="micro">MOVES</span></div><ol id="history"><li class="empty-history">棋盘尚静，等你落下第一子。</li></ol></section>
-          <div class="principle"><span class="mini-seal">五</span><p>不问将军，只争五连。<small>吃掉威胁，也是一种防守。</small></p></div>
-        </aside>
+        <div class="board-scroll" id="board-scroll">
+          <div class="board-frame">
+            <div class="board" id="board" aria-label="9列10行棋盘"></div>
+          </div>
+        </div>
+        <div class="player-row">
+          <span class="avatar-piece red" aria-hidden="true"><b>帅</b><i>•ᴗ•</i></span
+          ><strong id="turn-label" role="status">轮到你啦</strong
+          ><button id="game-zoom" class="icon-button zoom-icon" aria-label="放大棋盘">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10" cy="10" r="6" />
+              <path d="m15 15 6 6M7 10h6M10 7v6" />
+            </svg></button
+          ><button id="game-zoom-reset" class="text-button" hidden>恢复</button>
+        </div>
+        <p id="coach-hint" class="coach-hint" role="status"></p>
+        <button id="computer-retry" class="mint-button" hidden>重试小棋友回合</button>
+        <section class="action-panel">
+          <div class="draw-preview" id="draw-preview"></div>
+          <button class="primary-button" id="draw-button"><span>抽一枚</span></button
+          ><button class="mint-button" id="move-button">移动</button>
+          <p class="action-hint" id="action-hint" role="status" aria-live="polite"></p>
+        </section>
+        <div class="training-dock" id="training-dock" hidden>
+          <button class="mint-button" id="training-help-open">给我一点提示</button
+          ><button class="text-button" id="training-topics-open">换一题</button>
+        </div>
+      </section>
+      <section class="screen" data-screen="tools" hidden aria-labelledby="tools-title">
+        <header class="screen-header">
+          <button id="tools-close" class="icon-button" data-back aria-label="返回对局">←</button
+          ><span class="eyebrow">收在这里的小工具</span><span></span>
+        </header>
+        <h1 id="tools-title">对局小口袋</h1>
+        <p class="page-subtitle">棋局会保留，慢慢看。</p>
+        <div class="tool-list">
+          <button id="tools-rules">玩法小课堂 <span>›</span></button
+          ><button id="history-open">
+            对局记录 <small id="history-count">0</small><span>›</span></button
+          ><button id="tools-pool">看看双方棋池 <span>›</span></button
+          ><button id="tools-settings">调整玩法与难度 <span>›</span></button
+          ><button id="tools-room" hidden>房间与邀请 <span>›</span></button
+          ><button id="challenge-select" hidden>换一道战术题 <span>›</span></button
+          ><button id="challenge-exit" hidden>返回原来的棋局 <span>›</span></button
+          ><button id="new-game">重新开局 <span>↻</span></button>
+        </div>
+        <div class="zoom-controls" role="group" aria-label="棋盘缩放">
+          <button id="zoom-out" class="icon-button" aria-label="缩小棋盘">−</button
+          ><output id="zoom-value">100%</output
+          ><button id="zoom-board" class="icon-button" aria-label="放大棋盘">＋</button
+          ><button id="zoom-reset" class="text-button">恢复大小</button>
+        </div>
+        <p class="small-note">棋盘也可以双指缩放、拖动查看。</p>
+        <button class="mint-button" data-game-fullscreen>全屏</button>
+      </section>
+      <section
+        class="screen"
+        data-screen="rules"
+        id="rules-dialog"
+        hidden
+        aria-labelledby="rules-title"
+      >
+        <header class="screen-header">
+          <button id="rules-close" class="icon-button" data-back aria-label="返回">←</button
+          ><span class="eyebrow">三步就会玩</span><span></span>
+        </header>
+        <h1 id="rules-title">玩法小课堂</h1>
+        <div class="lesson-list">
+          <article class="lesson">
+            <div class="lesson-heading">
+              <span>1</span>
+              <h2>抽一枚，放上场</h2>
+            </div>
+            <p>点「抽一枚」，再点任意空位。<br />也可以直接点空位，随机落子。</p>
+            <div class="deploy-art" aria-hidden="true">
+              <span class="mini-token">兵</span><span class="dotted-target"></span
+              ><span class="art-arrow">↓</span>
+            </div>
+            <small>抽到的棋子要放完，不能重抽。</small>
+          </article>
+          <article class="lesson">
+            <div class="lesson-heading">
+              <span>2</span>
+              <h2>点棋子，再点落点</h2>
+            </div>
+            <p>点自己的棋子，看它能去哪儿。<br />绿点能走，红圈能吃对方的子。</p>
+            <div class="move-art" aria-hidden="true">
+              <i></i><span class="mini-token">帅</span><i></i>
+            </div>
+          </article>
+          <article class="lesson">
+            <div class="lesson-heading">
+              <span>3</span>
+              <h2>同色连五就赢</h2>
+            </div>
+            <p>横着、竖着、斜着都可以。<br />吃掉将帅，也要连五才算赢哦。</p>
+            <div class="five-art" aria-hidden="true">
+              <span>兵</span><span>车</span><span>帅</span><span>炮</span><span>马</span>
+            </div>
+          </article>
+        </div>
+        <button id="pieces-open" class="mint-button">看看棋子怎么走 <span>›</span></button
+        ><button id="rules-play" class="primary-button jumbo">去试一局 <span>›</span></button>
+      </section>
+      <section class="screen" data-screen="pieces" hidden aria-labelledby="pieces-title">
+        <header class="screen-header">
+          <button id="pieces-close" class="icon-button" data-back aria-label="返回玩法小课堂">
+            ←</button
+          ><span class="eyebrow">认识七位小伙伴</span><span></span>
+        </header>
+        <h1 id="pieces-title">棋子怎么走？</h1>
+        <div id="piece-guide" class="piece-guide"></div>
+        <details class="fine-rules">
+          <summary>还有这些小规则</summary>
+          <p>
+            河界和九宫不限制活动；没有将军、将死或飞将。被吃的棋子退出本局，不返回棋池。棋池用完仍能移动。无合法行动时和棋，不自动判重复局面。
+          </p>
+          <p>
+            单人和同屏自动保存在本机。金圈表示对方下一手可能连五；堵住落点或吃掉连线棋子都能防守。
+          </p>
+        </details>
+      </section>
+      <section
+        class="screen"
+        data-screen="history"
+        id="history-dialog"
+        hidden
+        aria-labelledby="history-title"
+      >
+        <header class="screen-header">
+          <button id="history-close" class="icon-button" data-back aria-label="返回对局">←</button
+          ><span class="eyebrow">每一步都记得</span><span></span>
+        </header>
+        <h1 id="history-title">对局记录</h1>
+        <ol id="full-history" class="full-history"></ol>
+      </section>
+      <section class="screen" data-screen="pool" hidden aria-labelledby="pool-title">
+        <header class="screen-header">
+          <button id="pool-close" class="icon-button" data-back aria-label="返回对局">←</button
+          ><span class="eyebrow">等待上场的小伙伴</span><span></span>
+        </header>
+        <h1 id="pool-title">双方棋池</h1>
+        <section class="player-card black" id="black-player" aria-label="黑方棋池"></section>
+        <section class="player-card red" id="red-player" aria-label="红方棋池"></section>
+        <p class="small-note">被吃的棋子退出本局，不会回到棋池。</p>
+      </section>
+      <section
+        class="screen"
+        data-screen="challenges"
+        id="challenge-dialog"
+        hidden
+        aria-labelledby="challenge-dialog-title"
+      >
+        <header class="screen-header">
+          <button id="challenge-close" class="icon-button" data-back aria-label="返回">←</button
+          ><span class="eyebrow">一点点变厉害</span><span></span>
+        </header>
+        <h1 id="challenge-dialog-title">战术小冒险</h1>
+        <p class="page-subtitle">六题入门，两题连招。一起找出妙手！</p>
+        <p id="challenge-summary" class="progress-pill"></p>
+        <button id="challenge-start-next" class="primary-button"></button>
+        <div id="challenge-list" class="challenge-list"></div>
+        <details class="fine-rules">
+          <summary>练习与星星</summary>
+          <p>
+            独立完成得两星，用提示得一星。两手题中黑方会认真应对。原棋局会保留，练习不计入好友排位。
+          </p>
+        </details>
+      </section>
+      <section
+        class="screen"
+        data-screen="challenge-help"
+        hidden
+        aria-labelledby="challenge-help-title"
+      >
+        <header class="screen-header">
+          <button class="icon-button" data-back aria-label="返回练习">←</button
+          ><span class="eyebrow">来一点灵感</span><span></span>
+        </header>
+        <h1 id="challenge-help-title">妙手小锦囊</h1>
+        <button id="challenge-hint" class="mint-button">打开提示</button>
+        <p id="challenge-hint-text" class="hint-card" hidden></p>
+        <p class="small-note">打开提示后，本题最高获得一颗星。</p>
+        <button id="challenge-share" class="primary-button">邀朋友解同一道题</button>
+        <p id="challenge-share-message" role="status"></p>
+        <div id="challenge-share-fallback" hidden>
+          <label for="challenge-share-link">长按复制同题链接</label
+          ><input id="challenge-share-link" readonly />
+        </div>
+      </section>
+      <section
+        class="screen"
+        data-screen="room"
+        id="room-dialog"
+        hidden
+        aria-labelledby="room-title"
+      >
+        <header class="screen-header">
+          <button id="room-close" class="icon-button" data-back aria-label="返回">←</button
+          ><span class="eyebrow">快乐一起分享</span><span></span>
+        </header>
+        <h1 id="room-title">邀朋友下一局</h1>
+        <p class="page-subtitle">房主执红，朋友执黑。</p>
+        <div class="settings-card">
+          <label class="room-label" for="room-code">朋友的房间码</label
+          ><input
+            id="room-code"
+            maxlength="8"
+            placeholder="输入 8 位房间码"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <div class="button-pair">
+            <button class="primary-button" id="room-create">创建房间</button
+            ><button class="mint-button" id="room-join">加入房间</button>
+          </div>
+        </div>
+        <div id="room-connected" hidden>
+          <label for="room-invite">发给朋友的邀请链接</label
+          ><input id="room-invite" readonly /><button class="mint-button" id="room-copy">
+            复制邀请链接</button
+          ><button id="room-play" class="primary-button">去棋盘等朋友</button
+          ><button class="text-button" id="room-leave">离开房间，返回本机棋局</button>
+        </div>
+        <p id="room-message" role="status" aria-live="polite"></p>
+        <button class="mint-button" id="room-local">和身边朋友双人同屏</button>
+        <details class="fine-rules room-advanced">
+          <summary>房间设置与说明</summary>
+          <label for="room-server">房间服务地址</label
+          ><input
+            id="room-server"
+            type="url"
+            placeholder="https://你的房间服务域名"
+            autocomplete="url"
+          />
+          <p>
+            本机棋局会保留。房间重开需双方同意；刷新同一标签页可续局。房间闲置一小时或创建满一天后过期，服务重启也会清空。
+          </p>
+        </details>
+      </section>
+      <section
+        class="screen restart-screen"
+        data-screen="restart"
+        id="restart-dialog"
+        hidden
+        aria-labelledby="restart-title"
+      >
+        <header class="screen-header">
+          <button id="restart-cancel" class="icon-button" data-back aria-label="继续当前棋局">
+            ←</button
+          ><span></span><span></span>
+        </header>
+        <div class="setup-mascot">
+          <span class="mascot red" aria-hidden="true"><b>帅</b><i>•ᴗ•</i></span>
+        </div>
+        <h1 id="restart-title">重新摆一局？</h1>
+        <p id="restart-description" class="page-subtitle"></p>
+        <button class="primary-button jumbo" id="restart-confirm">好呀，重新开始</button
+        ><button id="restart-keep" class="mint-button" data-back>继续原来的棋局</button>
+      </section>
+      <section class="screen result-screen" data-screen="result" hidden aria-label="对局结算">
+        <header class="screen-header">
+          <button class="icon-button" id="result-home" aria-label="返回首页">←</button
+          ><span class="eyebrow">每一局都很精彩</span><span></span>
+        </header>
+        <section
+          id="result-banner"
+          tabindex="-1"
+          aria-labelledby="result-title"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          <div class="result-art" aria-hidden="true">
+            ✦<span class="mascot red"><b>五</b><i>•ᴗ•</i></span
+            >✦
+          </div>
+          <h1 id="result-title"></h1>
+          <p id="result-description" class="page-subtitle"></p>
+          <div id="challenge-result-actions" hidden>
+            <p id="challenge-next-goal" class="small-note"></p>
+            <button id="challenge-result-share" class="mint-button">邀朋友解这题</button>
+            <p id="challenge-result-message" role="status"></p>
+          </div>
+          <button class="primary-button jumbo" id="result-restart">再来一局</button
+          ><button id="result-board" class="mint-button">看看刚才的棋盘</button>
+        </section>
+      </section>
+      <div hidden aria-hidden="true">
+        <span id="action-side"></span>
+        <h2 id="action-title"></h2>
+        <p id="action-description"></p>
+        <ol id="history"></ol>
       </div>
-      <p id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
     </main>
-    <footer><span>象棋 × 五子棋 <i> / </i> 一局新意</span><span>一人挑战 · 双人对弈 · 自动续局</span></footer>
-  </div>
-  <dialog id="room-dialog" aria-labelledby="room-title">
-    <div class="dialog-heading"><h2 id="room-title">邀一位好友，开一局新棋</h2></div>
-    <p>创建者执红、加入者执黑。打开好友的邀请链接即可加入；本机棋局会保留，离开房间后恢复。</p>
-    <details class="room-advanced"><summary>自建房间设置</summary><label class="room-label" for="room-server">房间服务地址</label><input id="room-server" type="url" placeholder="https://你的房间服务域名" autocomplete="url"></details>
-    <label class="room-label" for="room-code">房间码</label><input id="room-code" maxlength="8" placeholder="输入好友的 8 位房间码" autocomplete="off" spellcheck="false">
-    <div class="dialog-actions"><button class="primary-button" id="room-create">创建房间</button><button class="move-button" id="room-join">加入房间</button></div>
-    <div id="room-connected" hidden><label class="room-label" for="room-invite">邀请链接（不含玩家凭证）</label><input id="room-invite" readonly><button class="move-button" id="room-copy">复制邀请链接</button><p>双方同意后才能重开。关闭页面不会释放席位；同一标签页刷新可恢复连接。房间闲置一小时或创建满一天后过期，服务重启会清空房间。</p><button class="move-button" id="room-leave">返回本机棋局（放弃当前席位）</button></div>
-    <p id="room-message" role="status" aria-live="polite">正在检查好友对弈是否可用…</p><button class="move-button" id="room-local">与身边好友双人同屏</button>
-  <div class="dialog-actions"><button class="move-button" id="room-close">返回对局</button></div></dialog>
-  <dialog id="rules-dialog" aria-labelledby="rules-title">
-    <div class="dialog-heading"><p class="eyebrow">HOW TO PLAY</p></div>
-    <h2 id="rules-title">象棋的走法，五子的胜负。</h2>
-    <p>可选 9×10 象棋棋盘或 15×15 五子棋棋盘，象棋盘显示楚河汉界，仅作标识，不限制移动。空盘开局，红方先手，双方各有 16 枚棋子。</p>
-    <div class="rule-pair"><p><b>01 · 抽子部署</b>从未入场棋池随机抽一枚，放到任意空点。抽子后不可改走或重抽，部署后立即换手。未选中棋子时，也可直接点击空位随机抽子并落下。</p><p><b>02 · 移动吃子</b>按下表移动一枚己方棋子，可吃对方棋子。吃掉的棋子退出本局。</p></div>
-    <table><caption>自由部署版走子规则</caption><tbody>
-      <tr><th>车</th><td>横竖任意距离，路径不能有棋子。</td></tr>
-      <tr><th>马</th><td>走日字，直行方向相邻有子则蹩马腿。</td></tr>
-      <tr><th>相 / 象</th><td>斜走两格，中间有子则塞象眼；无活动区域限制。</td></tr>
-      <tr><th>士</th><td>斜走一格，不限九宫。</td></tr>
-      <tr><th>帅 / 将</th><td>横竖走一格，不限九宫，无飞将吃子。</td></tr>
-      <tr><th>炮</th><td>不吃子时同车；吃子时须恰好隔一枚棋子。</td></tr>
-      <tr><th>兵 / 卒</th><td>前、后、左、右均可走一格，无河界或前进方向限制。</td></tr>
-    </tbody></table>
-    <p class="win-rule">任意种类的己方棋子，横、竖或斜连续至少五枚，立即获胜。</p>
-    <p class="fine-print">不判断将军、将死或将帅照面，帅将被吃也不直接判负。无合法行动时和棋；不自动判重复局面，可重新开局。单人和同屏棋局自动保存在此浏览器，刷新后继续。金圈提示对方下一手可成五的落点；堵住落点或吃掉连线棋子都能防守。</p>
-  <div class="dialog-actions"><button class="move-button" id="rules-close">返回对局</button></div></dialog>
-  <button class="history-fab" id="history-open" aria-label="对局记录">记录 <span id="history-count">0</span></button>
-  <dialog id="history-dialog" aria-labelledby="history-title"><div class="dialog-heading"><h2 id="history-title">对局记录</h2></div><ol id="full-history" class="full-history"></ol><div class="dialog-actions"><button class="move-button" id="history-close">返回对局</button></div></dialog>
-  <dialog id="challenge-dialog" aria-labelledby="challenge-dialog-title"><div class="dialog-heading"><h2 id="challenge-dialog-title">从一手连五，到两手连招</h2></div><p>先用六题认识连五、马腿、象眼与炮架，再练两手攻防。连招题黑方会按合法规则回应；两次红方行棋内连五。独立解题得两星，提示后一星，失败可重试。原棋局和已抽棋子都保留。</p><p id="challenge-summary"></p><button id="challenge-start-next" class="primary-button">接着练</button><div id="challenge-list" class="challenge-list"></div><div class="dialog-actions"><button class="move-button" id="challenge-close">返回当前对局</button></div></dialog>
-  <dialog id="restart-dialog" aria-labelledby="restart-title"><p class="eyebrow">A NEW MATCH</p><h2 id="restart-title">重新摆开这一局？</h2><p><span id="restart-description">当前棋局将被清空，双方各恢复 16 枚棋子，红方先手。</span></p><div class="dialog-actions"><button class="move-button" id="restart-cancel">继续当前对局</button><button class="primary-button" id="restart-confirm">重新开局</button></div></dialog>
-</body>
+    <p id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+  </body>
 </html>
