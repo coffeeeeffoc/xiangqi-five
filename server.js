@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { createRoomService } from './rooms.js';
 
 const files = {
-  '/assets/hero.svg': ['assets/hero.svg', 'image/svg+xml'],
+  '/assets/hero-paper.webp': ['assets/hero-paper.webp', 'image/webp'],
   '/dev-mode.js': ['dev-mode.js', 'text/javascript; charset=utf-8'],
   '/': ['index.html', 'text/html; charset=utf-8'],
   '/index.html': ['index.html', 'text/html; charset=utf-8'],

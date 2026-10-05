@@ -52,7 +52,7 @@ try {
     await page.goto(url);
     await page.locator('#home-start').click();
     await page.locator('#mode-local').click();
-    await page.selectOption('#board-mode', mode);
+    await page.locator(`[data-board="${mode}"]`).click();
     await page.locator('#setup-start').click();
     await page.locator('[data-screen="game"]:not(body)').waitFor({ state: 'visible' });
     const cells = page.locator('.cell');
@@ -128,7 +128,7 @@ try {
   await page.goto(url);
   await page.locator('#home-start').click();
   await page.locator('#mode-computer').click();
-  await page.selectOption('#difficulty', 'practice');
+  await page.locator('[data-difficulty="practice"]').click();
   await page.locator('#setup-start').click();
   await page.locator('[data-screen="game"]:not(body)').waitFor({ state: 'visible' });
   await page.locator('.cell').first().focus();

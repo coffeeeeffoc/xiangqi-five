@@ -6,7 +6,13 @@ import { once } from 'node:events';
 import { chromium, expect } from '@playwright/test';
 import { createRoomService } from './rooms.js';
 
-const mime = { html: 'text/html', js: 'text/javascript', css: 'text/css', svg: 'image/svg+xml' };
+const mime = {
+  html: 'text/html',
+  js: 'text/javascript',
+  css: 'text/css',
+  svg: 'image/svg+xml',
+  webp: 'image/webp',
+};
 const server = createServer(async (request, response) => {
   const filename = new URL(request.url, 'http://localhost').pathname.slice(1) || 'index.html';
   if (!/^(?:assets\/)?[\w.-]+$/.test(filename)) return response.writeHead(404).end();
@@ -64,8 +70,8 @@ async function startGame(
   await screen(game, 'modes');
   await game.locator(`#mode-${opponent}`)[input]();
   await screen(game, 'setup');
-  await game.locator('#board-mode').selectOption(mode);
-  if (opponent === 'computer') await game.locator('#difficulty').selectOption(difficulty);
+  await game.locator(`[data-board="${mode}"]`)[input]();
+  if (opponent === 'computer') await game.locator(`[data-difficulty="${difficulty}"]`)[input]();
   await game.locator('#setup-start')[input]();
   await screen(game, 'game');
 }
@@ -473,13 +479,22 @@ try {
       await screen(page, 'home');
       await page.locator('#home-settings').tap();
       await screen(page, 'setup');
-      assert.equal(await page.locator('#difficulty').inputValue(), difficulty);
-      assert.equal(await page.locator('#difficulty option').count(), 3);
+      assert.equal(
+        await page
+          .locator('[data-difficulty][aria-pressed="true"]')
+          .getAttribute('data-difficulty'),
+        difficulty,
+      );
+      assert.equal(await page.locator('[data-difficulty]').count(), 3);
       await applySetup(page, 'tap');
       const cols = mode === 'xiangqi' ? 9 : 15,
         rook = 4 * cols + 4;
       await page.locator('.cell').nth(rook).tap();
-      assert.equal(await page.locator('#difficulty').isDisabled(), true);
+      assert.equal(
+        await page.locator('.cell').first().isDisabled(),
+        true,
+        'computer turn locks board input',
+      );
       await idle(page, 2);
       const saved = await page.evaluate(() =>
         JSON.parse(localStorage.getItem('xiangqi-five-local-v1')),
@@ -507,8 +522,9 @@ try {
   await cancellation.goto(url);
   await startGame(cancellation, { opponent: 'computer', difficulty: 'hard' });
   await cancellation.locator('.cell').nth(40).click();
-  await settings(cancellation);
-  await cancellation.locator('#play-mode').selectOption('local');
+  await cancellation.locator('#game-back').click();
+  await cancellation.locator('#home-start').click();
+  await cancellation.locator('#mode-local').click();
   await applySetup(cancellation, 'click', true);
   await cancellation.waitForTimeout(5000);
   assert.equal(
@@ -517,7 +533,7 @@ try {
     'cancelled worker cannot write into a new local game',
   );
   await settings(cancellation);
-  assert.equal(await cancellation.locator('#play-mode').inputValue(), 'local');
+  assert.equal(await cancellation.locator('#setup-title').textContent(), '双人同屏');
   assert.equal(
     await cancellation.locator('#difficulty').isVisible(),
     false,
@@ -584,7 +600,7 @@ try {
   await screen(page, 'game');
   assert.equal(await page.locator('#history-count').textContent(), '0');
   await settings(page, 'tap');
-  await page.selectOption('#board-mode', 'gomoku');
+  await page.locator('[data-board="gomoku"]').tap();
   await applySetup(page, 'tap');
   await page.locator('#game-zoom').tap();
   await page.locator('#game-zoom').tap();

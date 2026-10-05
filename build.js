@@ -19,8 +19,8 @@ for (const file of [
 }
 await mkdir(new URL('./dist/assets/', import.meta.url), { recursive: true });
 await copyFile(
-  new URL('./assets/hero.svg', import.meta.url),
-  new URL('./dist/assets/hero.svg', import.meta.url),
+  new URL('./assets/hero-paper.webp', import.meta.url),
+  new URL('./dist/assets/hero-paper.webp', import.meta.url),
 );
 await writeFile(new URL('dist/.nojekyll', import.meta.url), '');
 console.log('静态前端已生成到 dist/；联机仍需运行房间服务。');

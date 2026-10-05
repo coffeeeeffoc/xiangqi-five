@@ -59,6 +59,7 @@ let selected = null;
 let moving = false;
 let busy = false;
 let resultAnnounced = false;
+let resultDismissed = false;
 let restartMode = state.mode;
 let cells = [];
 let boardFocusIndex = 0;
@@ -97,15 +98,13 @@ const pieceMarkup = (p, extra = '') =>
 
 // Navigation changes the visible page only; game state stays in memory.
 function showScreen(name, { replace = false, push = true } = {}) {
+  if (name === 'result' && challenge) name = 'game';
   if (name === 'result' && !state.result && (!challenge || challenge.status === 'playing'))
     name = 'game';
   if (name === 'challenge-help' && !challenge) name = 'game';
   if (name === 'setup' && (room || challenge)) name = room ? 'room' : 'tools';
   if (name === 'setup' && !setupDraft) {
     setupDraft = { mode: state.mode, opponent, difficulty };
-    $('play-mode').value = opponent;
-    $('board-mode').value = state.mode;
-    $('difficulty').value = difficulty;
   }
   if (!document.querySelector(`[data-screen="${name}"]:not(body)`)) return;
   const leavingGame = currentScreen === 'game' && name !== 'game';
@@ -162,15 +161,27 @@ function openSetup(nextOpponent = opponent) {
   }
   if (challenge) exitChallenge();
   setupDraft = { mode: state.mode, opponent: nextOpponent, difficulty };
-  $('play-mode').value = nextOpponent;
-  $('board-mode').value = state.mode;
-  $('difficulty').value = difficulty;
   showScreen('setup');
   renderSetup();
 }
 function renderSetup() {
   const computer = (setupDraft?.opponent || opponent) === 'computer';
-  $('difficulty').hidden = $('difficulty-label').hidden = $('difficulty-hint').hidden = !computer;
+  $('setup-title').textContent = computer ? '单人挑战' : '双人同屏';
+  $('setup-subtitle').textContent = computer
+    ? '你执红，和小棋友过过招。'
+    : '一副棋盘，两个人的快乐。';
+  $('difficulty').hidden = $('difficulty-hint').hidden = !computer;
+  $('board-mode').disabled = busy || networkBusy;
+  $('difficulty').disabled = busy || thinking;
+  document.querySelectorAll('[data-board]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.board === setupDraft?.mode));
+  });
+  document.querySelectorAll('[data-difficulty]').forEach((button) => {
+    button.setAttribute(
+      'aria-pressed',
+      String(button.dataset.difficulty === setupDraft?.difficulty),
+    );
+  });
   $('difficulty-hint').textContent = {
     practice: '轻松熟悉连五与走子。',
     standard: '一起想想连线，也要防守哦。',
@@ -181,7 +192,7 @@ function renderSetup() {
     setupDraft?.opponent === opponent &&
     (state.ply || state.pending)
       ? '继续这一局 ›'
-      : '开始这一局 ›';
+      : '开始对弈 ›';
 }
 $('home-start').addEventListener('click', () => showScreen('modes'));
 $('home-continue').addEventListener('click', () => {
@@ -231,7 +242,13 @@ $('result-home').addEventListener('click', () => {
   showScreen('home');
   render();
 });
-$('result-board').addEventListener('click', () => showScreen('game'));
+$('result-board').addEventListener('click', () => {
+  if (challenge) {
+    resultDismissed = true;
+    render();
+    $('training-next').focus({ preventScroll: true });
+  } else showScreen('game');
+});
 for (const id of ['zoom-board', 'zoom-out', 'zoom-reset'])
   $(id).addEventListener(
     'click',
@@ -515,20 +532,10 @@ function render() {
   const direct = !moving && selected === null && canDeployDirectly(state);
   document.body.dataset.turn = side;
   document.body.dataset.result = state.result || '';
+  document.body.classList.toggle('practice-finished', Boolean(challenge && ended));
   const last = state.history.at(-1);
-  if (currentScreen !== 'setup') $('play-mode').value = opponent;
-  $('play-mode').disabled = busy || Boolean(room) || Boolean(challenge) || networkBusy;
-  if (currentScreen !== 'setup') $('difficulty').value = difficulty;
-  $('difficulty').hidden = opponent !== 'computer' || Boolean(room) || Boolean(challenge);
-  $('difficulty').disabled = busy || thinking;
-  $('difficulty-hint').hidden = $('difficulty').hidden;
-  $('difficulty-hint').textContent = {
-    practice: '简易也会防连五、避送子，适合熟悉攻防。',
-    standard: '兼顾连线与吃子，计算对手的反击。',
-    hard: '更深入计算连续攻防与交换，复杂局面需思考数秒。',
-  }[difficulty];
   $('match-label').textContent = challenge
-    ? '战术小冒险'
+    ? '战术小棋友'
     : room
       ? '好友对弈'
       : opponent === 'computer'
@@ -571,7 +578,6 @@ function render() {
     const enemy = side === 'red' ? 'black' : 'red';
     threats = ended ? [] : winningActions({ ...state, pending: null, turn: enemy }, enemy);
   }
-  $('board-mode').disabled = busy || Boolean(room) || Boolean(challenge);
   $('room-open').disabled = busy || networkBusy || Boolean(challenge);
   $('challenge-open').disabled = busy || networkBusy || Boolean(room);
   $('challenge-quick-start').disabled = busy || networkBusy || Boolean(room);
@@ -669,8 +675,8 @@ function render() {
             : `${sideName(side)}，轮到你啦`;
   $('turn-count').textContent = challenge
     ? challenge.definition.goal === 'two-turn'
-      ? `红方 ${state.ply < 2 ? 1 : 2}/2 手 · 黑方会反击`
-      : '红方一步 · 棋池已用完'
+      ? `第 ${state.ply < 2 ? 1 : 2}/2 手`
+      : '红方走一手'
     : ended
       ? `共 ${state.ply} 手`
       : `第 ${String(state.ply + 1).padStart(2, '0')} 手`;
@@ -756,13 +762,7 @@ function render() {
       : selected !== null
         ? movement[state.board[selected].type]
         : '点红子再点标记位置；棋池已用完，只能走子。';
-    hint(
-      ended
-        ? '点击「重试本题」或「下一题」继续练习。'
-        : selected !== null
-          ? movement[state.board[selected].type]
-          : '点红子再点标记位置；非法落点不消耗机会。',
-    );
+    hint('');
   }
   if (!computerError && selected === null && !threats.length) $('coach-hint').textContent = '';
   const historyMarkup = (events) =>
@@ -779,7 +779,17 @@ function render() {
   $('full-history').innerHTML = historyMarkup(state.history) || empty;
   $('history-count').textContent = state.ply;
   renderRoom();
-  $('result-banner').hidden = !ended;
+  const resultBanner = $('result-banner');
+  const resultParent = challenge
+    ? $('practice-result-slot')
+    : document.querySelector('.result-screen');
+  if (resultBanner.parentElement !== resultParent) resultParent.append(resultBanner);
+  resultBanner.classList.toggle('practice-result', Boolean(challenge));
+  resultBanner.classList.toggle('practice-failed', challenge?.status === 'failed');
+  resultBanner.hidden = !ended || Boolean(challenge && (resultDismissed || busy));
+  $('result-board').textContent = challenge ? '收起提示' : '看看刚才的棋盘';
+  $('training-next').hidden = !challenge || !ended || busy;
+  $('training-next').textContent = challenge?.status === 'solved' ? '下一题' : '再试一次';
   $('result-title').textContent = challenge
     ? outcome
     : state.result === 'draw'
@@ -800,14 +810,6 @@ function render() {
         ? '同意重开'
         : '申请再来一局';
   if (challenge) {
-    $('result-description').textContent =
-      challenge.status === 'solved'
-        ? `${challenge.hintShown ? '借助提示完成' : '独立解出 · 获得两颗星'}。${challenge.definition.explanation}`
-        : challenge.definition.goal === 'defend'
-          ? '黑方仍有下一手成五的走法。试试拆掉威胁，或截断它的行车线。'
-          : challenge.definition.goal === 'two-turn'
-            ? '两次红方行棋后还没连五。第一手要留出兑现路线，也要考虑黑方的应对；可以重试或展开提示。'
-            : '这一步合法，但红方没有连成五枚；吃将也不直接算赢。可重试或查看提示。';
     $('result-restart').textContent = challenge.status === 'solved' ? '下一题' : '重试本题';
     const next = CHALLENGES[(CHALLENGES.indexOf(challenge.definition) + 1) % CHALLENGES.length];
     $('challenge-next-goal').textContent =
@@ -818,16 +820,24 @@ function render() {
           : challenge.definition.goal === 'defend'
             ? '下一目标：重试本题，消除全部黑方威胁。'
             : '下一目标：重试本题，把五连断点找出来。';
-    $('challenge-result-share').textContent = '邀朋友解这题';
+    $('challenge-result-share').textContent = '分享';
+    $('challenge-result-share').setAttribute('aria-label', '邀请朋友解同一道题');
+    const lastRed = state.history.filter((event) => event.side === 'red').at(-1);
+    $('result-description').textContent =
+      challenge.status === 'solved'
+        ? `${lastRed ? `${coord(lastRed.from)} → ${coord(lastRed.to)} · ` : ''}${challenge.definition.goal === 'defend' ? '黑方已无法一手连五' : '同色五子已连成一线'}${challenge.hintShown ? ' · ★' : ' · ★★'}`
+        : challenge.definition.goal === 'defend'
+          ? '黑方还能连五，再找找防守的落点。'
+          : '还没连成五子，再试一手。';
   }
   $('challenge-result-actions').hidden = !challenge || !ended;
   renderChallenge();
   if (!ended) resultAnnounced = false;
   else if (currentScreen === 'game' && !busy && !resultAnnounced) {
-    showScreen('result');
+    if (!challenge) showScreen('result');
     resultAnnounced = true;
     $('result-banner').focus({ preventScroll: true });
-    $('result-banner').scrollIntoView({ block: 'nearest' });
+    if (!challenge) $('result-banner').scrollIntoView({ block: 'nearest' });
   }
   if (currentScreen === 'setup') renderSetup();
   $('announcement').textContent =
@@ -837,25 +847,37 @@ function render() {
 function renderChallenge() {
   const milestones = challengeMilestones(challengeProgress);
   $('challenge-summary').textContent =
-    `入门 ${milestones.basics}/6 · 连招 ${milestones.combos}/2 · ${milestones.stars}/16 星。本机记录，练习不计入排位。`;
+    `已完成 ${milestones.basics + milestones.combos}/8 题　·　★ ${milestones.stars}/16`;
   $('challenge-start-next').textContent =
     `接着练 · ${recommendedChallenge(challengeProgress).title}`;
   $('challenge-panel').hidden = !challenge;
+  $('challenge-move-message').hidden = !challenge;
   if (!challenge) return;
   const definition = challenge.definition;
   $('challenge-title').textContent =
-    `${CHALLENGES.indexOf(definition) + 1}/${CHALLENGES.length} · ${definition.title}`;
+    `${String(CHALLENGES.indexOf(definition) + 1).padStart(2, '0')} · ${definition.title}`;
   const record = challengeProgress[definition.id];
-  $('challenge-progress').textContent = record?.stars
-    ? `${'★'.repeat(record.stars)}${'☆'.repeat(2 - record.stars)} 已完成`
-    : '独立解题得两颗星';
+  $('challenge-progress').textContent = record?.stars ? '★'.repeat(record.stars) : '';
   const reply = state.ply >= 2 && definition.goal === 'two-turn' ? state.history[1] : null;
   $('challenge-objective').textContent =
+    definition.goal === 'two-turn'
+      ? `连招 ${reply ? 2 : 1}/2`
+      : definition.goal === 'defend'
+        ? '拆掉威胁'
+        : '一手连五';
+  $('challenge-help-objective').textContent =
     reply && challenge.status === 'playing'
-      ? `目标 2/2：黑${label(reply.piece)} ${coord(reply.from)}→${coord(reply.to)}。找剩下的成五路线。`
+      ? `黑${label(reply.piece)} ${coord(reply.from)}→${coord(reply.to)}。找剩下的成五路线。`
       : definition.description;
-  $('challenge-hint-text').hidden = !challenge.hintShown;
-  $('challenge-hint-text').textContent = reply ? definition.replyHint : definition.hint;
+  const solved = challenge.status === 'solved';
+  $('training-help-open').textContent = solved ? '看解法' : '提示';
+  $('challenge-hint').hidden = $('challenge-hint-cost').hidden = solved;
+  $('challenge-hint-text').hidden = !solved && !challenge.hintShown;
+  $('challenge-hint-text').textContent = solved
+    ? definition.explanation
+    : reply
+      ? definition.replyHint
+      : definition.hint;
   $('challenge-hint').textContent = challenge.hintShown ? '提示已展开' : '提示';
   $('challenge-hint').disabled = busy || challenge.hintShown || challenge.status === 'solved';
   $('challenge-share').disabled = busy || networkBusy || challengeSharing;
@@ -877,8 +899,8 @@ function startChallenge(id) {
   moving = false;
   threatPly = -1;
   resultAnnounced = false;
+  resultDismissed = false;
   document.body.classList.add('challenge-active');
-  $('board-mode').value = state.mode;
   $('challenge-share-fallback').hidden = true;
   $('challenge-share-message').textContent = '';
   $('challenge-result-message').textContent = '';
@@ -927,7 +949,6 @@ function exitChallenge() {
   const url = new URL(location.href);
   url.searchParams.delete('challenge');
   history.replaceState(null, '', url);
-  $('board-mode').value = state.mode;
   buildBoard();
   setFocus(true);
   showScreen('game');
@@ -940,8 +961,7 @@ function openChallenges() {
   for (const [index, item] of CHALLENGES.entries()) {
     if (index === 0 || index === 6) {
       const heading = document.createElement('h3');
-      heading.textContent =
-        index === 0 ? '01 · 六题入门，每题约 60 秒' : '02 · 两手连招，把黑方也算进去';
+      heading.textContent = index === 0 ? '入门 · 六道妙手' : '进阶 · 两手连招';
       $('challenge-list').append(heading);
     }
     const button = document.createElement('button');
@@ -949,7 +969,8 @@ function openChallenges() {
     button.type = 'button';
     button.className = 'challenge-card';
     button.dataset.challenge = item.id;
-    button.innerHTML = `<strong>${index + 1}. ${item.title}<span>${'★'.repeat(stars)}${'☆'.repeat(2 - stars)}</span></strong><small>${item.description}</small>`;
+    button.classList.toggle('completed', stars > 0);
+    button.innerHTML = `<span class="challenge-number">${String(index + 1).padStart(2, '0')}</span><div><strong>${item.title}<span>${'★'.repeat(stars)}${'☆'.repeat(2 - stars)}</span></strong><small>${item.goal === 'two-turn' ? '两手连招' : item.goal === 'defend' ? '拆掉威胁' : '一手连五'}</small></div><span class="challenge-arrow" aria-hidden="true">›</span>`;
     button.addEventListener('click', () => startChallenge(item.id));
     $('challenge-list').append(button);
   }
@@ -1076,22 +1097,17 @@ function resetGame(mode, nextOpponent = opponent) {
   state = newGame(mode);
   selected = null;
   moving = false;
-  $('board-mode').value = mode;
   saveLocal();
   buildBoard();
   render();
 }
-$('play-mode').addEventListener('change', () => {
-  setupDraft.opponent = $('play-mode').value;
-  renderSetup();
-});
-$('difficulty').addEventListener('change', () => {
-  setupDraft.difficulty = $('difficulty').value;
-  renderSetup();
-});
-$('board-mode').addEventListener('change', () => {
-  setupDraft.mode = $('board-mode').value;
-  renderSetup();
+document.querySelectorAll('[data-board], [data-difficulty]').forEach((button) => {
+  button.addEventListener('click', () => {
+    if (!setupDraft || busy || networkBusy) return;
+    if (button.dataset.board) setupDraft.mode = button.dataset.board;
+    else setupDraft.difficulty = button.dataset.difficulty;
+    renderSetup();
+  });
 });
 $('setup-start').addEventListener('click', () => {
   if (busy || networkBusy || room || challenge || !setupDraft) return;
@@ -1110,7 +1126,7 @@ $('computer-retry').addEventListener('click', () => {
   render();
 });
 $('new-game').addEventListener('click', () => requestRestart(state.mode));
-$('result-restart').addEventListener('click', () => {
+function restartResult() {
   if (busy || networkBusy || (!state.result && !challenge)) return;
   if (challenge) {
     const index = CHALLENGES.indexOf(challenge.definition);
@@ -1125,7 +1141,9 @@ $('result-restart').addEventListener('click', () => {
     showScreen('game');
     cells[0].focus({ preventScroll: true });
   }
-});
+}
+$('result-restart').addEventListener('click', restartResult);
+$('training-next').addEventListener('click', restartResult);
 $('restart-confirm').addEventListener('click', () => {
   showScreen('game');
   if (room) void sendAction({ type: 'restart' });
@@ -1140,7 +1158,6 @@ function setFocus(value) {
   focused = value;
   document.body.classList.toggle('play-focus', focused);
 }
-$('board-mode').value = state.mode;
 buildBoard();
 showScreen('home', { replace: true });
 
@@ -1221,7 +1238,6 @@ async function applySnapshot(data) {
   threatPly = -1;
   selected = null;
   moving = false;
-  $('board-mode').value = state.mode;
   if (rebuild) buildBoard();
   busy = animate;
   render();
@@ -1425,7 +1441,6 @@ $('room-leave').addEventListener('click', () => {
     moving = false;
     restored = true;
     threatPly = -1;
-    $('board-mode').value = state.mode;
     buildBoard();
     render();
   } else resetGame(state.mode);

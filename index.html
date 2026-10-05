@@ -23,7 +23,7 @@
         <p class="home-subtitle">同色连五，快乐加倍</p>
         <img
           class="home-hero"
-          src="./assets/hero.svg"
+          src="./assets/hero-paper.webp"
           alt="笑眯眯的帅和将，正在小棋盘上一起玩耍"
           width="360"
           height="300"
@@ -95,36 +95,47 @@
         <details id="mode-extras" class="fine-rules" hidden><summary>更多玩法</summary></details>
         <p class="bottom-note">✦ 每一局，都有新惊喜 ✦</p>
       </section>
-      <section class="screen" data-screen="setup" hidden aria-labelledby="setup-title">
+      <section class="screen setup-screen" data-screen="setup" hidden aria-labelledby="setup-title">
         <header class="screen-header">
           <button class="icon-button" data-back aria-label="返回">←</button
-          ><span class="eyebrow">准备好了吗</span><span></span>
+          ><span class="eyebrow">下一局，等你落子</span><span></span>
         </header>
-        <h1 id="setup-title">摆好小棋盘</h1>
-        <p class="page-subtitle">选好之后，就开始这一局。</p>
-        <div class="setup-mascot">
-          <span class="mascot red" aria-hidden="true"><b>帅</b><i>•ᴗ•</i></span>
+        <h1 id="setup-title">单人挑战</h1>
+        <p id="setup-subtitle" class="page-subtitle">你执红，和小棋友过过招。</p>
+        <div class="setup-duo" aria-hidden="true">
+          <span class="mascot red"><b>帅</b><i>•ᴗ•</i></span>
+          <span class="duel-mark">对弈</span>
+          <span class="mascot black"><b>将</b><i>•ᴗ•</i></span>
         </div>
-        <div class="settings-card">
-          <label for="play-mode">和谁一起玩</label
-          ><select id="play-mode">
-            <option value="computer">小棋友 · 单人挑战</option>
-            <option value="local">身边的朋友 · 双人同屏</option></select
-          ><label for="board-mode">棋盘大小</label
-          ><select id="board-mode">
-            <option value="xiangqi">经典棋盘 · 9 × 10</option>
-            <option value="gomoku">大棋盘 · 15 × 15</option></select
-          ><label id="difficulty-label" for="difficulty">小棋友的实力</label
-          ><select id="difficulty" aria-describedby="difficulty-hint">
-            <option value="practice">简易 · 轻松试试</option>
-            <option value="standard">标准 · 认真过招</option>
-            <option value="hard">困难 · 挑战一下</option>
-          </select>
-          <p id="difficulty-hint" class="small-note"></p>
-        </div>
+        <fieldset id="board-mode" class="board-choices">
+          <legend>选一副棋盘</legend>
+          <button type="button" data-board="xiangqi" aria-pressed="true">
+            <span class="board-mini classic-mini" aria-hidden="true"><i>楚河　汉界</i></span>
+            <strong>经典棋盘</strong><small>9 × 10 · 步步紧凑</small>
+            <span class="choice-tick" aria-hidden="true">✓</span>
+          </button>
+          <button type="button" data-board="gomoku" aria-pressed="false">
+            <span class="board-mini wide-mini" aria-hidden="true"></span>
+            <strong>大棋盘</strong><small>15 × 15 · 尽情布阵</small>
+            <span class="choice-tick" aria-hidden="true">✓</span>
+          </button>
+        </fieldset>
+        <fieldset id="difficulty" class="difficulty-choices" aria-describedby="difficulty-hint">
+          <legend>小棋友的实力</legend>
+          <button type="button" data-difficulty="practice" aria-pressed="false">
+            <strong>简易</strong><small>轻松试试</small>
+          </button>
+          <button type="button" data-difficulty="standard" aria-pressed="true">
+            <strong>标准</strong><small>认真过招</small>
+          </button>
+          <button type="button" data-difficulty="hard" aria-pressed="false">
+            <strong>困难</strong><small>挑战妙手</small>
+          </button>
+        </fieldset>
+        <p id="difficulty-hint" class="small-note"></p>
         <p class="small-note" id="save-status" role="status"></p>
         <button id="setup-start" class="primary-button jumbo">
-          开始这一局 <span aria-hidden="true">›</span>
+          开始对弈 <span aria-hidden="true">›</span>
         </button>
       </section>
       <section class="screen game-screen" data-screen="game" hidden aria-label="对弈区域">
@@ -148,15 +159,15 @@
           ><button class="text-button" id="cancel-restart" hidden>取消重开</button>
         </div>
         <section id="challenge-panel" class="challenge-panel" hidden>
-          <div><strong id="challenge-title"></strong><small id="challenge-progress"></small></div>
-          <p id="challenge-objective"></p>
-          <p id="challenge-move-message" role="status"></p>
+          <strong id="challenge-title"></strong><span id="challenge-objective"></span>
+          <small id="challenge-progress"></small>
         </section>
         <div class="board-scroll" id="board-scroll">
           <div class="board-frame">
             <div class="board" id="board" aria-label="9列10行棋盘"></div>
           </div>
         </div>
+        <div id="practice-result-slot"></div>
         <div class="player-row">
           <span class="avatar-piece red" aria-hidden="true"><b>帅</b><i>•ᴗ•</i></span
           ><strong id="turn-label" role="status">轮到你啦</strong
@@ -168,6 +179,7 @@
           ><button id="game-zoom-reset" class="text-button" hidden>恢复</button>
         </div>
         <p id="coach-hint" class="coach-hint" role="status"></p>
+        <p id="challenge-move-message" class="coach-hint" role="status" hidden></p>
         <button id="computer-retry" class="mint-button" hidden>重试小棋友回合</button>
         <section class="action-panel">
           <div class="draw-preview" id="draw-preview"></div>
@@ -176,7 +188,8 @@
           <p class="action-hint" id="action-hint" role="status" aria-live="polite"></p>
         </section>
         <div class="training-dock" id="training-dock" hidden>
-          <button class="mint-button" id="training-help-open">给我一点提示</button
+          <button class="mint-button" id="training-next" hidden>下一题</button>
+          <button class="mint-button" id="training-help-open">提示</button
           ><button class="text-button" id="training-topics-open">换一题</button>
         </div>
       </section>
@@ -332,9 +345,10 @@
           ><span class="eyebrow">来一点灵感</span><span></span>
         </header>
         <h1 id="challenge-help-title">妙手小锦囊</h1>
+        <p id="challenge-help-objective" class="page-subtitle"></p>
         <button id="challenge-hint" class="mint-button">打开提示</button>
         <p id="challenge-hint-text" class="hint-card" hidden></p>
-        <p class="small-note">打开提示后，本题最高获得一颗星。</p>
+        <p id="challenge-hint-cost" class="small-note">打开提示后，本题最高获得一颗星。</p>
         <button id="challenge-share" class="primary-button">邀朋友解同一道题</button>
         <p id="challenge-share-message" role="status"></p>
         <div id="challenge-share-fallback" hidden>

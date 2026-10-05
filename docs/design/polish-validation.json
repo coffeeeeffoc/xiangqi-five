@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-05T16:29:27.927Z",
+  "browser": "140.0.7339.186",
+  "checks": [
+    "305×568 xiangqi: screen navigation, touch turns/move, pending draw, save/reload, restart",
+    "305×568 gomoku: screen navigation, touch turns/move, pending draw, save/reload, restart",
+    "390×844 xiangqi: screen navigation, touch turns/move, pending draw, save/reload, restart",
+    "390×844 gomoku: screen navigation, touch turns/move, pending draw, save/reload, restart",
+    "844×390 xiangqi: screen navigation, touch turns/move, pending draw, save/reload, restart",
+    "844×390 gomoku: screen navigation, touch turns/move, pending draw, save/reload, restart",
+    "real two-finger pinch cancel, no accidental deployment, touch input recovers",
+    "training deep link, illegal horse, hint page, real solve/result, ordinary save isolation",
+    "xiangqi: board single Tab stop, edge/Home/End navigation, consecutive keyboard turns, Escape selection cancel",
+    "gomoku: board single Tab stop, edge/Home/End navigation, consecutive keyboard turns, Escape selection cancel",
+    "real computer Worker completes safely while reading rules; navigation/focus stays on rules",
+    "small phone: home lessons, all seven piece guides, collapsed details, all eight challenges, room entry and page return",
+    "board change: draft preserves moves, dedicated confirmation page, cancel preserves state, confirm changes board",
+    "real room: create/invite/join pages, two independent touch turns and sync, leave restores local game",
+    "real room: remote restart replaces an old result page with the fresh playable board",
+    "shared developer mode: explicit opt-in works, explicit opt-out hides its entry",
+    "browser Back after reload restores an editable setup draft and preserves the saved game",
+    "result sharing without clipboard opens a visible manual-copy page and returns to the result",
+    "305×568: mode-specific preparation, themed choices, keyboard, compact practice heading, retained winning board, dismiss/solution/next",
+    "390×844: mode-specific preparation, themed choices, keyboard, compact practice heading, retained winning board, dismiss/solution/next",
+    "844×390: mode-specific preparation, themed choices, keyboard, compact practice heading, retained winning board, dismiss/solution/next"
+  ],
+  "screenshots": [
+    "polish-home-390.png",
+    "polish-modes-390.png",
+    "polish-setup-computer-390.png",
+    "polish-setup-local-305.png",
+    "polish-practice-390.png",
+    "polish-solved-390.png",
+    "polish-solved-305.png",
+    "polish-solved-844.png",
+    "polish-topics-390.png",
+    "polish-rules-390.png"
+  ],
+  "additionalValidation": {
+    "unitTests": 25,
+    "challengeAndKeyboardScripts": "passed",
+    "shellIframeBrowserScript": "passed",
+    "sharedDevModeUnitTests": 5,
+    "sharedDevModeBrowserChecks": 10,
+    "physicalDevices": "not tested",
+    "nativeMinigame": "not tested",
+    "standaloneServerAsset": "200 image/webp, rendered at 390×844, no page errors"
+  }
+}

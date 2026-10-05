@@ -194,7 +194,7 @@ try {
     'capturing the king does not pass without five',
   );
   assert.equal(await page.locator('.cell.winning').count(), 0);
-  await page.locator('#result-restart').tap();
+  await page.locator('#training-next').tap();
   assert.equal(await page.locator('#history-count').textContent(), '0');
   await play(page, 11, 47);
   assert.equal(await page.locator('#result-title').textContent(), '一手成五！');
@@ -216,7 +216,7 @@ try {
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       true,
     );
-    await page.locator('#result-restart').tap();
+    await page.locator('#training-next').tap();
     assert.equal(
       new URL(page.url()).searchParams.get('challenge'),
       CHALLENGES[(index + 1) % CHALLENGES.length].id,
@@ -231,7 +231,7 @@ try {
     '这手还差一点',
     'blocking the endpoint still loses to a capture',
   );
-  await page.locator('#result-restart').tap();
+  await page.locator('#training-next').tap();
   await play(page, 67, 31);
   assert.equal(
     await page.locator('#result-title').textContent(),
@@ -252,8 +252,8 @@ try {
     'king capture never substitutes for five',
   );
   assert.match(
-    await page.locator('#challenge-objective').textContent(),
-    /目标 2\/2.*黑马 E6→C5/,
+    await page.locator('#challenge-help-objective').textContent(),
+    /黑马 E6→C5/,
     'the defender adapts to the alternative king-first plan',
   );
   await play(page, 51, 42);
@@ -278,7 +278,7 @@ try {
   await page.locator('#challenge-select').tap();
   assert.match(
     await page.locator('#challenge-summary').textContent(),
-    /入门 6\/6 · 连招 2\/2 · 16\/16 星/,
+    /已完成 8\/8 题.*16\/16/,
   );
   await page.locator('#challenge-close').tap();
   await page.goto(base + '?challenge=crossroads');
@@ -290,7 +290,7 @@ try {
     '这手还差一点',
     'a refuted plan gets two genuine turns rather than a fake success',
   );
-  await page.locator('#result-restart').tap();
+  await page.locator('#training-next').tap();
   assert.equal(await page.locator('#history-count').textContent(), '0');
   assert.equal(await saved(page), original);
 
@@ -541,8 +541,16 @@ try {
       document.querySelector('#history-count').textContent === '2' &&
       document.querySelector('#board').getAttribute('aria-busy') === 'false',
   );
-  assert.equal(await computer.locator('#play-mode').inputValue(), 'computer');
-  assert.equal(await computer.locator('#difficulty').inputValue(), 'practice');
+  await computer.locator('#game-more').tap();
+  await computer.locator('#tools-settings').tap();
+  await screen(computer, 'setup');
+  assert.equal(await computer.locator('#setup-title').textContent(), '单人挑战');
+  assert.equal(
+    await computer
+      .locator('[data-difficulty][aria-pressed="true"]')
+      .getAttribute('data-difficulty'),
+    'practice',
+  );
   assert.match(await computer.locator('.cell').nth(40).getAttribute('aria-label'), /红方车/);
   await computer.close();
   console.log(
@@ -574,11 +582,8 @@ try {
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       true,
     );
-    await page.locator('#result-restart').click();
-    assert.equal(
-      await page.locator('#challenge-title').textContent(),
-      `2/${CHALLENGES.length} · 两马一条路`,
-    );
+    await page.locator('#training-next').click();
+    assert.equal(await page.locator('#challenge-title').textContent(), '02 · 两马一条路');
     await page.goto(base + '?challenge=crossroads');
     await page.locator('.cell').nth(43).focus();
     await page.keyboard.press('Enter');

@@ -119,6 +119,12 @@ const idle = (page) =>
     () => document.querySelector('#board').getAttribute('aria-busy') === 'false',
   );
 
+async function openLegacyRoom(page) {
+  if (!(await page.locator('#room-open').isVisible()))
+    await page.locator('#mode-extras summary').tap();
+  await page.locator('#room-open').tap();
+}
+
 async function makePage(viewport, motion = 'reduce') {
   const page = await browser.newPage({
     viewport,
@@ -142,8 +148,8 @@ async function startLocal(page, mode) {
   await touchTarget(page, 'mode-local');
   await page.locator('#mode-local').tap();
   await screen(page, 'setup');
-  assert.equal(await page.locator('#play-mode').inputValue(), 'local');
-  await page.selectOption('#board-mode', mode);
+  assert.equal(await page.locator('#setup-title').textContent(), '双人同屏');
+  await page.locator(`[data-board="${mode}"]`).tap();
   await page.locator('#setup-start').tap();
   await screen(page, 'game');
   for (const id of ['game-back', 'game-more', 'draw-button', 'move-button'])
@@ -152,7 +158,7 @@ async function startLocal(page, mode) {
 
 async function screenshot(page, name) {
   const path = fileURLToPath(new URL(`${name}.png`, artifactRoot));
-  await page.screenshot({ path, fullPage: true });
+  await page.screenshot({ path, fullPage: true, animations: 'disabled' });
   evidence.screenshots.push(path);
 }
 
@@ -321,7 +327,8 @@ try {
   await screen(challenge, 'game');
   await challenge.locator('.cell').nth(21).tap();
   await challenge.locator('.cell').nth(40).tap();
-  await screen(challenge, 'result');
+  await idle(challenge);
+  await screen(challenge, 'game');
   assert.equal(await challenge.locator('#result-title').textContent(), '一手成五！');
   assert.equal(await saved(challenge), ordinary, 'training does not overwrite the ordinary game');
   assert.equal(
@@ -397,7 +404,7 @@ try {
   await computer.locator('#home-start').tap();
   await computer.locator('#mode-computer').tap();
   await screen(computer, 'setup');
-  await computer.selectOption('#difficulty', 'standard');
+  await computer.locator('[data-difficulty="standard"]').tap();
   await computer.locator('#setup-start').tap();
   await screen(computer, 'game');
   await computer.locator('.cell').nth(40).tap();
@@ -459,7 +466,7 @@ try {
   await screenshot(navigation, 'challenges-305x568');
   await navigation.locator('#challenge-close').tap();
   await screen(navigation, 'modes');
-  await navigation.locator('#room-open').tap();
+  await openLegacyRoom(navigation);
   await screen(navigation, 'room');
   await navigation.locator('#room-close').tap();
   await screen(navigation, 'modes');
@@ -481,7 +488,7 @@ try {
   await switching.locator('#game-more').tap();
   await switching.locator('#tools-settings').tap();
   await screen(switching, 'setup');
-  await switching.selectOption('#board-mode', 'gomoku');
+  await switching.locator('[data-board="gomoku"]').tap();
   assert.equal(
     await saved(switching),
     beforeSwitch,
@@ -524,7 +531,7 @@ try {
   const localBeforeRoom = await saved(host);
   await host.locator('#game-back').tap();
   await host.locator('#home-start').tap();
-  await host.locator('#room-open').tap();
+  await openLegacyRoom(host);
   await screen(host, 'room');
   await host.locator('#room-create').tap();
   await host.locator('#room-connected').waitFor({ state: 'visible' });
@@ -580,7 +587,7 @@ try {
   await startLocal(restartHost, 'xiangqi');
   await restartHost.locator('#game-back').tap();
   await restartHost.locator('#home-start').tap();
-  await restartHost.locator('#room-open').tap();
+  await openLegacyRoom(restartHost);
   await screen(restartHost, 'room');
   await restartHost.locator('#room-create').tap();
   await restartHost.locator('#room-connected').waitFor({ state: 'visible' });
@@ -664,7 +671,7 @@ try {
   await screen(backAfterReload, 'home');
   await backAfterReload.goBack();
   await screen(backAfterReload, 'setup');
-  await backAfterReload.selectOption('#board-mode', 'xiangqi');
+  await backAfterReload.locator('[data-board="xiangqi"]').tap();
   await backAfterReload.locator('#setup-start').tap();
   await screen(backAfterReload, 'game');
   assert.equal(await saved(backAfterReload), beforeHistory);
@@ -691,7 +698,7 @@ try {
   await screen(shareFallback, 'game');
   await shareFallback.locator('.cell').nth(14).tap();
   await shareFallback.locator('.cell').nth(41).tap();
-  await screen(shareFallback, 'result');
+  await screen(shareFallback, 'game');
   await shareFallback.locator('#challenge-result-share').tap();
   await screen(shareFallback, 'challenge-help');
   assert.equal(await shareFallback.locator('#challenge-share-link').isVisible(), true);
@@ -706,12 +713,132 @@ try {
     'rook-bridge',
   );
   await shareFallback.locator('.screen[data-screen="challenge-help"] [data-back]').tap();
-  await screen(shareFallback, 'result');
+  await screen(shareFallback, 'game');
   await shareFallback.close();
   evidence.checks.push(
     'result sharing without clipboard opens a visible manual-copy page and returns to the result',
   );
   console.log('PASS result share fallback: visible copy field, focus, exact same-puzzle link');
+
+  // Preparation stays in the chosen mode; practice results keep the final board in view.
+  for (const [width, height] of [
+    [305, 568],
+    [390, 844],
+    [844, 390],
+  ]) {
+    const page = await makePage({ width, height });
+    await page.goto(url);
+    await screenshot(page, `polish-home-${width}`);
+    assert.equal(
+      await page.locator('.screen select').count(),
+      0,
+      'game pages use themed touch controls',
+    );
+    assert.equal(
+      await page.locator('.home-hero').evaluate((img) => img.complete && img.naturalWidth > 0),
+      true,
+    );
+    await page.locator('#home-start').tap();
+    await screenshot(page, `polish-modes-${width}`);
+    for (const mode of ['computer', 'local']) {
+      await page.locator(`#mode-${mode}`).tap();
+      await screen(page, 'setup');
+      assert.equal(
+        await page.locator('#setup-title').textContent(),
+        mode === 'computer' ? '单人挑战' : '双人同屏',
+      );
+      assert.equal(await page.locator('#difficulty').isVisible(), mode === 'computer');
+      await page.locator('[data-board="gomoku"]').tap();
+      assert.equal(
+        await page.locator('[data-board="gomoku"]').getAttribute('aria-pressed'),
+        'true',
+      );
+      assert.equal(await saved(page), null, 'draft choices do not start or replace a game');
+      for (const button of [
+        '[data-board="xiangqi"]',
+        '[data-board="gomoku"]',
+        ...(mode === 'computer'
+          ? [
+              '[data-difficulty="practice"]',
+              '[data-difficulty="standard"]',
+              '[data-difficulty="hard"]',
+            ]
+          : []),
+      ]) {
+        const box = await page.locator(button).boundingBox();
+        assert.ok(box.width >= 44 && box.height >= 44, `${button}: usable touch target`);
+      }
+      if (mode === 'computer') {
+        await page.locator('[data-difficulty="hard"]').focus();
+        await page.keyboard.press('Enter');
+        assert.equal(
+          await page.locator('[data-difficulty="hard"]').getAttribute('aria-pressed'),
+          'true',
+        );
+      }
+      await screenshot(page, `polish-setup-${mode}-${width}`);
+      await page.locator('.setup-screen [data-back]').tap();
+      await screen(page, 'modes');
+    }
+    await page.goto(url + '?challenge=rook-bridge');
+    await screen(page, 'game');
+    const before = await page.locator('#board').boundingBox();
+    assert.ok(
+      before.y >= 0 && before.y + before.height <= height,
+      'whole practice board is visible',
+    );
+    assert.ok(
+      (await page.locator('#challenge-panel').innerText()).length < 40,
+      'practice heading stays concise',
+    );
+    await screenshot(page, `polish-practice-${width}`);
+    await page.locator('.cell').nth(14).tap();
+    await page.locator('.cell').nth(41).tap();
+    await idle(page);
+    await screen(page, 'game');
+    await page.locator('#result-banner').waitFor({ state: 'visible' });
+    const board = await page.locator('#board').boundingBox();
+    const notice = await page.locator('#result-banner').boundingBox();
+    assert.deepEqual(board, before, 'solving preserves board size and position');
+    assert.ok(
+      notice.y >= board.y + board.height || notice.x + notice.width <= board.x,
+      'result never covers a piece',
+    );
+    assert.ok(notice.y + notice.height <= height, 'compact notice remains inside the viewport');
+    assert.equal(
+      await page.locator('.cell.winning').count(),
+      5,
+      'all five winning pieces remain visible',
+    );
+    assert.match(await page.locator('#result-description').textContent(), /F2 → F5/);
+    await screenshot(page, `polish-solved-${width}`);
+    await page.locator('#result-board').tap();
+    assert.equal(await page.locator('#result-banner').isVisible(), false);
+    assert.equal(
+      await page.locator('.cell.winning').count(),
+      5,
+      'dismissing retains the winning line',
+    );
+    await page.locator('#training-help-open').tap();
+    await screen(page, 'challenge-help');
+    assert.match(await page.locator('#challenge-hint-text').innerText(), /F2 → F5/);
+    await page.locator('.screen[data-screen="challenge-help"] [data-back]').tap();
+    await screen(page, 'game');
+    assert.equal(
+      await page.locator('#result-banner').isVisible(),
+      false,
+      'returning does not redisplay dismissed notice',
+    );
+    await page.locator('#training-next').tap();
+    await screen(page, 'game');
+    assert.equal(new URL(page.url()).searchParams.get('challenge'), 'horse-leg');
+    assert.equal(await page.locator('#history-count').textContent(), '0');
+    await page.close();
+    evidence.checks.push(
+      `${width}×${height}: mode-specific preparation, themed choices, keyboard, compact practice heading, retained winning board, dismiss/solution/next`,
+    );
+    console.log(`PASS ${width}×${height}: themed preparation and unobstructed practice result`);
+  }
 
   assert.deepEqual(pageErrors, [], 'no uncaught browser errors');
   await writeFile(new URL('checks.json', artifactRoot), JSON.stringify(evidence, null, 2));
