@@ -1,0 +1,753 @@
+{
+  "checkedAt": "2026-10-06T14:34:28.963Z",
+  "environment": "Chromium mobile emulation with actual touch input; not physical-device testing",
+  "browser": "151.0.7922.173",
+  "success": true,
+  "screenshots": [
+    {
+      "page": "home",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-home-390x844.png"
+    },
+    {
+      "page": "modes",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-modes-390x844.png"
+    },
+    {
+      "page": "setup",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-setup-computer-390x844.png"
+    },
+    {
+      "page": "setup",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-setup-local-390x844.png"
+    },
+    {
+      "page": "game",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-game-ready-390x844.png"
+    },
+    {
+      "page": "game",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-game-pending-390x844.png"
+    },
+    {
+      "page": "tools",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-tools-390x844.png"
+    },
+    {
+      "page": "rules",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-rules-390x844.png"
+    },
+    {
+      "page": "pieces",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-pieces-390x844.png"
+    },
+    {
+      "page": "history",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-history-390x844.png"
+    },
+    {
+      "page": "pool",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-pool-390x844.png"
+    },
+    {
+      "page": "restart",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-restart-390x844.png"
+    },
+    {
+      "page": "challenges",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-challenges-390x844.png"
+    },
+    {
+      "page": "challenge-help",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-challenge-help-390x844.png"
+    },
+    {
+      "page": "game",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-practice-solved-390x844.png"
+    },
+    {
+      "page": "room",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-room-390x844.png"
+    },
+    {
+      "page": "result",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "docs/design/refresh-result-390x844.png"
+    },
+    {
+      "page": "game",
+      "viewport": {
+        "width": 305,
+        "height": 568
+      },
+      "path": "docs/design/refresh-large-board-305x568.png"
+    },
+    {
+      "page": "game",
+      "viewport": {
+        "width": 305,
+        "height": 568
+      },
+      "path": "docs/design/refresh-large-board-pending-305x568.png"
+    },
+    {
+      "page": "game",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "path": "docs/design/refresh-game-landscape-844x390.png"
+    }
+  ],
+  "checks": [
+    "390x844 classic ready: complete board and primary controls fit the viewport",
+    "Actual zoom tap increases both board size and chess glyph size",
+    "390x844 classic pending: complete board and primary controls fit the viewport",
+    "Pending draw identity and mandatory-placement state survive rules, guides, history, pool and restart cancellation",
+    "Nine real alternating touch placements trigger the red five-in-a-row result page",
+    "large-board-305x568: complete board and primary controls fit the viewport",
+    "large-board pending 305x568: complete board and primary controls fit the viewport",
+    "game-landscape-844x390: complete board and primary controls fit the viewport",
+    "Every captured page has no horizontal overflow; loaded bundled font, glyph containment and cell-relative scaling verified"
+  ],
+  "glyphChecks": [
+    {
+      "name": "390x844 classic ready",
+      "loaded": true,
+      "fontCheck": true,
+      "decorationCount": 0,
+      "tokens": [
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 23.4222,
+          "token": {
+            "x": 140.96875,
+            "y": 239.03125,
+            "width": 32.484375,
+            "height": 32.484375
+          },
+          "glyph": {
+            "x": 145.5,
+            "y": 243.5625,
+            "width": 23,
+            "height": 24
+          },
+          "fontLineBox": {
+            "x": 145.5,
+            "y": 237.5625,
+            "width": 23.421875,
+            "height": 34
+          },
+          "cellWidth": 37.78125
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 23.4222,
+          "token": {
+            "x": 178.75,
+            "y": 276.828125,
+            "width": 32.46875,
+            "height": 32.46875
+          },
+          "glyph": {
+            "x": 183.265625,
+            "y": 281.34375,
+            "width": 23,
+            "height": 24
+          },
+          "fontLineBox": {
+            "x": 183.265625,
+            "y": 275.34375,
+            "width": 23.421875,
+            "height": 34
+          },
+          "cellWidth": 37.765625
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 23.4222,
+          "token": {
+            "x": 178.75,
+            "y": 314.625,
+            "width": 32.46875,
+            "height": 32.46875
+          },
+          "glyph": {
+            "x": 183.265625,
+            "y": 319.140625,
+            "width": 23,
+            "height": 24
+          },
+          "fontLineBox": {
+            "x": 183.265625,
+            "y": 313.140625,
+            "width": 23.421875,
+            "height": 34
+          },
+          "cellWidth": 37.765625
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 23.4222,
+          "token": {
+            "x": 254.296875,
+            "y": 352.421875,
+            "width": 32.484375,
+            "height": 32.484375
+          },
+          "glyph": {
+            "x": 258.828125,
+            "y": 356.953125,
+            "width": 23,
+            "height": 24
+          },
+          "fontLineBox": {
+            "x": 258.828125,
+            "y": 350.953125,
+            "width": 23.421875,
+            "height": 34
+          },
+          "cellWidth": 37.78125
+        }
+      ]
+    },
+    {
+      "name": "390x844 classic zoomed",
+      "loaded": true,
+      "fontCheck": true,
+      "decorationCount": 0,
+      "tokens": [
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 35.8911,
+          "token": {
+            "x": 111.703125,
+            "y": 200.765625,
+            "width": 49.78125,
+            "height": 49.78125
+          },
+          "glyph": {
+            "x": 119.640625,
+            "y": 209.703125,
+            "width": 34,
+            "height": 34
+          },
+          "fontLineBox": {
+            "x": 118.640625,
+            "y": 199.703125,
+            "width": 35.890625,
+            "height": 51
+          },
+          "cellWidth": 57.890625
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 35.8911,
+          "token": {
+            "x": 169.59375,
+            "y": 258.671875,
+            "width": 49.78125,
+            "height": 49.78125
+          },
+          "glyph": {
+            "x": 177.53125,
+            "y": 267.609375,
+            "width": 34,
+            "height": 34
+          },
+          "fontLineBox": {
+            "x": 176.53125,
+            "y": 257.609375,
+            "width": 35.890625,
+            "height": 51
+          },
+          "cellWidth": 57.890625
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 35.8911,
+          "token": {
+            "x": 169.59375,
+            "y": 316.578125,
+            "width": 49.78125,
+            "height": 49.78125
+          },
+          "glyph": {
+            "x": 177.53125,
+            "y": 325.515625,
+            "width": 34,
+            "height": 34
+          },
+          "fontLineBox": {
+            "x": 176.53125,
+            "y": 315.515625,
+            "width": 35.890625,
+            "height": 51
+          },
+          "cellWidth": 57.890625
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 35.8911,
+          "token": {
+            "x": 285.375,
+            "y": 374.484375,
+            "width": 49.78125,
+            "height": 49.78125
+          },
+          "glyph": {
+            "x": 293.3125,
+            "y": 383.421875,
+            "width": 34,
+            "height": 34
+          },
+          "fontLineBox": {
+            "x": 292.3125,
+            "y": 373.421875,
+            "width": 35.890625,
+            "height": 51
+          },
+          "cellWidth": 57.890625
+        }
+      ]
+    },
+    {
+      "name": "all seven piece guides",
+      "loaded": true,
+      "fontCheck": true,
+      "decorationCount": 0,
+      "tokens": [
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 27,
+          "token": {
+            "x": 41,
+            "y": 165.890625,
+            "width": 42,
+            "height": 42
+          },
+          "glyph": {
+            "x": 49.5,
+            "y": 174.390625,
+            "width": 25,
+            "height": 27
+          },
+          "fontLineBox": {
+            "x": 48.5,
+            "y": 167.390625,
+            "width": 27,
+            "height": 39
+          },
+          "cellWidth": null
+        },
+        {
+          "text": "马",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 27,
+          "token": {
+            "x": 41,
+            "y": 260.078125,
+            "width": 42,
+            "height": 42
+          },
+          "glyph": {
+            "x": 49.5,
+            "y": 268.578125,
+            "width": 25,
+            "height": 27
+          },
+          "fontLineBox": {
+            "x": 48.5,
+            "y": 261.578125,
+            "width": 27,
+            "height": 39
+          },
+          "cellWidth": null
+        },
+        {
+          "text": "相",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 27,
+          "token": {
+            "x": 41,
+            "y": 363.859375,
+            "width": 42,
+            "height": 42
+          },
+          "glyph": {
+            "x": 48.5,
+            "y": 372.359375,
+            "width": 26,
+            "height": 27
+          },
+          "fontLineBox": {
+            "x": 48.5,
+            "y": 365.359375,
+            "width": 27,
+            "height": 39
+          },
+          "cellWidth": null
+        },
+        {
+          "text": "士",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 27,
+          "token": {
+            "x": 41,
+            "y": 467.640625,
+            "width": 42,
+            "height": 42
+          },
+          "glyph": {
+            "x": 49.5,
+            "y": 476.140625,
+            "width": 25,
+            "height": 25
+          },
+          "fontLineBox": {
+            "x": 48.5,
+            "y": 469.140625,
+            "width": 27,
+            "height": 39
+          },
+          "cellWidth": null
+        },
+        {
+          "text": "帅",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 27,
+          "token": {
+            "x": 41,
+            "y": 571.421875,
+            "width": 42,
+            "height": 42
+          },
+          "glyph": {
+            "x": 49.5,
+            "y": 579.921875,
+            "width": 25,
+            "height": 27
+          },
+          "fontLineBox": {
+            "x": 48.5,
+            "y": 572.921875,
+            "width": 27,
+            "height": 39
+          },
+          "cellWidth": null
+        },
+        {
+          "text": "炮",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 27,
+          "token": {
+            "x": 41,
+            "y": 684.796875,
+            "width": 42,
+            "height": 42
+          },
+          "glyph": {
+            "x": 48.5,
+            "y": 693.296875,
+            "width": 26,
+            "height": 27
+          },
+          "fontLineBox": {
+            "x": 48.5,
+            "y": 686.296875,
+            "width": 27,
+            "height": 39
+          },
+          "cellWidth": null
+        },
+        {
+          "text": "兵",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 27,
+          "token": {
+            "x": 41,
+            "y": 788.578125,
+            "width": 42,
+            "height": 42
+          },
+          "glyph": {
+            "x": 49.5,
+            "y": 797.078125,
+            "width": 26,
+            "height": 28
+          },
+          "fontLineBox": {
+            "x": 48.5,
+            "y": 790.078125,
+            "width": 27,
+            "height": 39
+          },
+          "cellWidth": null
+        }
+      ]
+    },
+    {
+      "name": "both player pool headings",
+      "loaded": true,
+      "fontCheck": true,
+      "decorationCount": 0,
+      "tokens": [
+        {
+          "text": "将",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 24,
+          "token": {
+            "x": 43,
+            "y": 163.28125,
+            "width": 38,
+            "height": 38
+          },
+          "glyph": {
+            "x": 50,
+            "y": 171.28125,
+            "width": 24,
+            "height": 24
+          },
+          "fontLineBox": {
+            "x": 50,
+            "y": 164.28125,
+            "width": 24,
+            "height": 35
+          },
+          "cellWidth": null
+        },
+        {
+          "text": "帅",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 24,
+          "token": {
+            "x": 43,
+            "y": 392.4375,
+            "width": 38,
+            "height": 38
+          },
+          "glyph": {
+            "x": 51,
+            "y": 400.4375,
+            "width": 22,
+            "height": 24
+          },
+          "fontLineBox": {
+            "x": 50,
+            "y": 393.4375,
+            "width": 24,
+            "height": 35
+          },
+          "cellWidth": null
+        }
+      ]
+    },
+    {
+      "name": "large-board-305x568",
+      "loaded": true,
+      "fontCheck": true,
+      "decorationCount": 0,
+      "tokens": [
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 10.8707,
+          "token": {
+            "x": 22.234375,
+            "y": 114.625,
+            "width": 15.0625,
+            "height": 15.0625
+          },
+          "glyph": {
+            "x": 24.328125,
+            "y": 116.71875,
+            "width": 11,
+            "height": 11
+          },
+          "fontLineBox": {
+            "x": 24.328125,
+            "y": 113.71875,
+            "width": 10.875,
+            "height": 16
+          },
+          "cellWidth": 17.53125
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 10.8707,
+          "token": {
+            "x": 267.6875,
+            "y": 360.078125,
+            "width": 15.0625,
+            "height": 15.0625
+          },
+          "glyph": {
+            "x": 269.78125,
+            "y": 362.171875,
+            "width": 11,
+            "height": 11
+          },
+          "fontLineBox": {
+            "x": 269.78125,
+            "y": 359.171875,
+            "width": 10.875,
+            "height": 16
+          },
+          "cellWidth": 17.53125
+        }
+      ]
+    },
+    {
+      "name": "game-landscape-844x390",
+      "loaded": true,
+      "fontCheck": true,
+      "decorationCount": 0,
+      "tokens": [
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 21.1758,
+          "token": {
+            "x": 508,
+            "y": 26.5,
+            "width": 29.359375,
+            "height": 29.359375
+          },
+          "glyph": {
+            "x": 512.09375,
+            "y": 30.59375,
+            "width": 21,
+            "height": 22
+          },
+          "fontLineBox": {
+            "x": 512.09375,
+            "y": 25.59375,
+            "width": 21.171875,
+            "height": 30
+          },
+          "cellWidth": 34.140625
+        },
+        {
+          "text": "车",
+          "font": "\"Xiangqi Chess Glyphs\", \"Songti SC\", \"Noto Serif CJK SC\", SimSun, serif",
+          "fontSize": 21.1758,
+          "token": {
+            "x": 781.234375,
+            "y": 334.078125,
+            "width": 29.359375,
+            "height": 29.359375
+          },
+          "glyph": {
+            "x": 785.328125,
+            "y": 338.171875,
+            "width": 21,
+            "height": 22
+          },
+          "fontLineBox": {
+            "x": 785.328125,
+            "y": 333.171875,
+            "width": 21.171875,
+            "height": 30
+          },
+          "cellWidth": 34.15625
+        }
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "builtSourceSha256": {
+    "index.html": "393e046946fc5aae9226cd6fb41151c09308fe479e642bb3d810a93777db4bca",
+    "style.css": "39f6e4dcc149345a833a521d1c29caa8110674b1f33f5356b41157114506c531",
+    "app.js": "7ea3579314fc87f3cca97963da7dedbcc03fa2c822de6b8719cf7f1609653758",
+    "assets/chess-glyphs.woff2": "39330e614b48edf992abfeb5268c9eff952fb4ca1779e4c2efddcf786dda8460",
+    "assets/hero-paper.webp": "74f76a06d3dba8211798390e4aa1ac53ac8950f1b9a02cd0c557b6d50b8dc3b6"
+  },
+  "overview": {
+    "path": "docs/design/refresh-implemented-overview.png",
+    "sourceScreenshots": [
+      "docs/design/refresh-home-390x844.png",
+      "docs/design/refresh-modes-390x844.png",
+      "docs/design/refresh-setup-computer-390x844.png",
+      "docs/design/refresh-game-pending-390x844.png",
+      "docs/design/refresh-challenges-390x844.png",
+      "docs/design/refresh-tools-390x844.png"
+    ],
+    "composition": "Six unchanged screenshot viewports arranged into a contact sheet; long pages show their top 390 × 844 viewport. Full-page originals are retained."
+  }
+}

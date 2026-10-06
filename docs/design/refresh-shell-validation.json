@@ -1,0 +1,42 @@
+{
+  "environment": "Desktop Chromium with mobile viewport and touch emulation; no physical phone",
+  "cases": [
+    {
+      "width": 320,
+      "height": 568,
+      "homeExit": "upright and at least 44px",
+      "homeSharing": "clean public link and panel within viewport",
+      "menusAndMatch": "host navigation hidden",
+      "iframeArea": "entire viewport",
+      "returnAndExit": "passed"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "homeExit": "upright and at least 44px",
+      "homeSharing": "clean public link and panel within viewport",
+      "menusAndMatch": "host navigation hidden",
+      "iframeArea": "entire viewport",
+      "returnAndExit": "passed",
+      "fullscreenEnterExitAndReturn": "passed"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "homeExit": "upright and at least 44px",
+      "homeSharing": "clean public link and panel within viewport",
+      "menusAndMatch": "host navigation hidden",
+      "iframeArea": "entire viewport",
+      "returnAndExit": "passed"
+    },
+    {
+      "deepLink": "cannon-cross",
+      "initialLoad": "passed",
+      "reload": "passed",
+      "returnHome": "passed"
+    }
+  ],
+  "errors": [],
+  "browser": "151.0.7922.173",
+  "status": "passed"
+}

@@ -4,6 +4,11 @@ import { createRoomService } from './rooms.js';
 
 const files = {
   '/assets/hero-paper.webp': ['assets/hero-paper.webp', 'image/webp'],
+  '/assets/chess-glyphs.woff2': ['assets/chess-glyphs.woff2', 'font/woff2'],
+  '/assets/chess-glyphs-LICENSE.txt': [
+    'assets/chess-glyphs-LICENSE.txt',
+    'text/plain; charset=utf-8',
+  ],
   '/dev-mode.js': ['dev-mode.js', 'text/javascript; charset=utf-8'],
   '/': ['index.html', 'text/html; charset=utf-8'],
   '/index.html': ['index.html', 'text/html; charset=utf-8'],

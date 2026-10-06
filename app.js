@@ -14,7 +14,7 @@ import {
   deployDirectly,
 } from './game.js';
 
-import { silhouette, animateTurn } from './pieces.js';
+import { animateTurn } from './pieces.js';
 import { setupBoardZoom } from './board-view.js';
 import { applyComputerAction, winningActions } from './computer.js';
 import { SAVE_KEY, encodeGame, decodeGame } from './local-game.js';
@@ -84,6 +84,14 @@ try {
   challengeStorageAvailable = false;
 }
 const $ = (id) => document.getElementById(id);
+function setChevronLabel(id, text) {
+  const button = $(id);
+  button.textContent = text;
+  button.insertAdjacentHTML(
+    'beforeend',
+    '<svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>',
+  );
+}
 const resetBoardZoom = setupBoardZoom(
   $('board-scroll'),
   $('zoom-board'),
@@ -94,7 +102,23 @@ const resetBoardZoom = setupBoardZoom(
 const coord = (i) =>
   `${String.fromCharCode(65 + (i % state.cols))}${Math.floor(i / state.cols) + 1}`;
 const pieceMarkup = (p, extra = '') =>
-  `<span class="piece ${p.side} ${extra}"><span class="piece-label">${label(p)}</span>${silhouette(p.type)}</span>`;
+  `<span class="piece ${p.side} ${extra}"><span class="piece-label">${label(p)}</span></span>`;
+
+function notifyDisplayState(name = currentScreen) {
+  if (window.parent === window) return;
+  try {
+    window.parent.postMessage(
+      {
+        type: 'small-games:display-state',
+        gameId: 'xiangqi-five',
+        screen: name === 'home' ? 'home' : 'playing',
+      },
+      location.origin,
+    );
+  } catch {
+    /* Standalone play and unrelated embeds need no host navigation. */
+  }
+}
 
 // Navigation changes the visible page only; game state stays in memory.
 function showScreen(name, { replace = false, push = true } = {}) {
@@ -113,6 +137,7 @@ function showScreen(name, { replace = false, push = true } = {}) {
   document.querySelectorAll('.screen[data-screen]').forEach((page) => {
     page.hidden = page.dataset.screen !== name;
   });
+  notifyDisplayState(name);
   if (push)
     history[replace ? 'replaceState' : 'pushState'](
       { ...history.state, xqScreen: name },
@@ -167,9 +192,7 @@ function openSetup(nextOpponent = opponent) {
 function renderSetup() {
   const computer = (setupDraft?.opponent || opponent) === 'computer';
   $('setup-title').textContent = computer ? '单人挑战' : '双人同屏';
-  $('setup-subtitle').textContent = computer
-    ? '你执红，和小棋友过过招。'
-    : '一副棋盘，两个人的快乐。';
+  $('setup-subtitle').textContent = computer ? '你执红，电脑执黑。' : '红方先手，双方轮流落子。';
   $('difficulty').hidden = $('difficulty-hint').hidden = !computer;
   $('board-mode').disabled = busy || networkBusy;
   $('difficulty').disabled = busy || thinking;
@@ -183,16 +206,18 @@ function renderSetup() {
     );
   });
   $('difficulty-hint').textContent = {
-    practice: '轻松熟悉连五与走子。',
-    standard: '一起想想连线，也要防守哦。',
-    hard: '小棋友会多想几步，稍等它一会儿。',
+    practice: '适合熟悉走子与连五。',
+    standard: '兼顾连线与防守。',
+    hard: '深入计算攻防，可能需要稍等。',
   }[setupDraft?.difficulty || difficulty];
-  $('setup-start').textContent =
+  setChevronLabel(
+    'setup-start',
     setupDraft?.mode === state.mode &&
-    setupDraft?.opponent === opponent &&
-    (state.ply || state.pending)
-      ? '继续这一局 ›'
-      : '开始对弈 ›';
+      setupDraft?.opponent === opponent &&
+      (state.ply || state.pending)
+      ? '继续这一局'
+      : '开始对弈',
+  );
 }
 $('home-start').addEventListener('click', () => showScreen('modes'));
 $('home-continue').addEventListener('click', () => {
@@ -274,13 +299,13 @@ window.addEventListener('xiangqi-online-close', () => {
   render();
 });
 const guide = [
-  ['rook', '车 · 直直往前冲', '横竖直走任意距离，不能跳过棋子。'],
-  ['horse', '马 · 跳一个日字', '先直一格再斜一格；直行邻格有子会蹩马腿。'],
-  ['elephant', '象 · 斜斜走田字', '斜走两格，中间有子会塞象眼。'],
-  ['advisor', '士 · 斜着挪一步', '斜走一格，棋盘上哪里都能去。'],
-  ['king', '帅将 · 稳稳走一步', '上下左右一格，不限九宫。'],
-  ['cannon', '炮 · 借个小跳板', '直走不越子；吃子要隔恰好一枚棋子。'],
-  ['pawn', '兵卒 · 自由小步走', '上下左右一格，后退也可以！'],
+  ['rook', '车 · 横竖直走', '沿横线或竖线走任意距离，不能越过棋子。'],
+  ['horse', '马 · 走日字', '先直一格再斜一格；直行邻格有子时不能走。'],
+  ['elephant', '相 / 象 · 走田字', '斜走两格，中间有子时不能走；不受河界限制。'],
+  ['advisor', '仕 / 士 · 斜走一格', '斜走一格，不受九宫限制。'],
+  ['king', '帅 / 将 · 横竖一格', '上下左右走一格，不受九宫限制；被吃不直接判负。'],
+  ['cannon', '炮 · 隔子吃子', '沿横线或竖线移动时不能越子；吃子须恰好隔一枚棋子。'],
+  ['pawn', '兵 / 卒 · 四向一格', '上下左右走一格，可以后退。'],
 ];
 $('piece-guide').innerHTML = guide
   .map(
@@ -476,8 +501,8 @@ async function play(index) {
         selected !== null
           ? '不能走到这里，请选择标记位置。'
           : moving
-            ? '请先点己方棋子，再点标记位置移动；再次点移动按钮可取消。'
-            : '请先抽子，或选择棋盘上自己的棋子。',
+            ? '先点己方棋子，再点标记位置移动；点「取消移动」可退出。'
+            : '请先抽取棋子，或选择己方棋子移动。',
       );
       return;
     }
@@ -535,33 +560,31 @@ function render() {
   document.body.classList.toggle('practice-finished', Boolean(challenge && ended));
   const last = state.history.at(-1);
   $('match-label').textContent = challenge
-    ? '战术小棋友'
+    ? '战术练习'
     : room
       ? '好友对弈'
       : opponent === 'computer'
         ? '单人挑战'
         : '双人同屏';
   $('opponent-name').textContent = room
-    ? '远方的朋友'
+    ? '好友'
     : challenge
-      ? '战术小棋友'
+      ? '电脑'
       : opponent === 'computer'
-        ? '小棋友'
-        : '黑方小伙伴';
-  $('opponent-status').textContent = thinking ? '正在认真想一想…' : '同色连五，就能赢';
+        ? '电脑'
+        : '黑方玩家';
+  $('opponent-status').textContent = thinking ? '思考中…' : '同色连五获胜';
   $('home-continue').hidden = !(state.ply || state.pending || room || challenge);
-  $('home-continue').textContent = challenge
-    ? '继续战术小冒险 ›'
-    : room
-      ? '回到好友棋盘 ›'
-      : '继续上次的棋局 ›';
+  setChevronLabel('home-continue', challenge ? '继续战术练习' : room ? '返回好友对弈' : '继续棋局');
   $('training-dock').hidden = !challenge;
   $('tools-settings').hidden = Boolean(room || challenge);
   $('tools-room').hidden = !room;
   $('challenge-select').hidden = $('challenge-exit').hidden = !challenge;
   $('draw-button').setAttribute(
     'aria-label',
-    state.pending ? `已抽到${label(state.pending)}，请点空位部署` : '随机抽取一枚棋子',
+    state.pending
+      ? `已抽到「${label(state.pending)}」，点棋盘空位放置，不能重抽或改为移动`
+      : '抽取棋子，随机获得一枚，再点空位放置',
   );
   $('save-status').textContent = challenge
     ? challengeStorageAvailable
@@ -571,7 +594,7 @@ function render() {
       ? '好友房间 · 自动同步'
       : !storageAvailable
         ? '浏览器未允许保存，请勿关闭本页'
-        : `${restored ? '已续上次棋局 · ' : ''}本机自动保存`;
+        : `${restored ? '已恢复棋局 · ' : ''}本机自动保存`;
   $('computer-retry').hidden = !computerError;
   if (threatPly !== state.ply) {
     threatPly = state.ply;
@@ -585,6 +608,13 @@ function render() {
     busy || networkBusy || Boolean(room && (!room.joined || !networkHealthy));
   $('board').setAttribute('aria-busy', String(busy || thinking));
   const boardLocked = ended || inputLocked();
+  document.querySelector('.action-panel').dataset.state = boardLocked
+    ? 'waiting'
+    : state.pending
+      ? 'pending'
+      : moving || selected !== null
+        ? 'moving'
+        : 'ready';
   if (currentScreen === 'game' && !ended && boardLocked && cells.includes(document.activeElement))
     resumeBoardFocus = true;
   cells.forEach((cell, i) => {
@@ -645,7 +675,7 @@ function render() {
         const count = pool.filter((p) => p === type).length;
         return `<div class="pool-piece ${count ? '' : 'depleted'}" aria-label="${NAMES[player][index]}剩余${count}枚"><span>${NAMES[player][index]}</span><small>${count}</small></div>`;
       },
-    ).join('')}</div><div class="pool-total">待入场 <b>${pool.length}</b> 枚</div>`;
+    ).join('')}</div><div class="pool-total">剩余 <b>${pool.length}</b> 枚</div>`;
   }
   const outcome =
     challenge && ended
@@ -655,24 +685,24 @@ function render() {
           : challenge.definition.goal === 'two-turn'
             ? '连招成五！'
             : '一手成五！'
-        : '这手还差一点'
+        : '未达成目标'
       : state.result === 'draw'
         ? '本局和棋'
-        : `${sideName(side)}五子成势`;
+        : `${sideName(side)}连五获胜`;
   const computerTurn = !room && !challenge && opponent === 'computer' && side === 'black';
   $('turn-label').textContent = ended
     ? outcome
     : challenge && side === 'black'
-      ? '小棋友在应对…'
+      ? '电脑应对中…'
       : computerTurn
-        ? '小棋友在想啦…'
+        ? '电脑思考中…'
         : room
           ? room.side === side
-            ? '轮到你啦'
-            : '等朋友走一手'
+            ? '轮到你落子'
+            : '等待好友落子'
           : opponent === 'computer' || challenge
-            ? '轮到你啦'
-            : `${sideName(side)}，轮到你啦`;
+            ? '轮到你落子'
+            : `${sideName(side)}回合`;
   $('turn-count').textContent = challenge
     ? challenge.definition.goal === 'two-turn'
       ? `第 ${state.ply < 2 ? 1 : 2}/2 手`
@@ -680,34 +710,34 @@ function render() {
     : ended
       ? `共 ${state.ply} 手`
       : `第 ${String(state.ply + 1).padStart(2, '0')} 手`;
-  $('action-side').textContent = ended ? 'MATCH COMPLETE' : `${side.toUpperCase()}'S TURN`;
+  $('action-side').textContent = ended ? '本局结束' : `${sideName(side)}回合`;
   $('action-title').textContent = ended
     ? outcome
     : state.pending
-      ? `${label(state.pending)}已入手，请落子`
+      ? `已抽到「${label(state.pending)}」，点棋盘空位放置`
       : selected !== null
         ? `移动「${label(state.board[selected])}」`
         : moving
           ? '选择一枚己方棋子'
           : direct
-            ? '点击空位，直接上场'
-            : '落子，或走子';
+            ? '抽取棋子或移动棋子'
+            : '移动棋子';
   $('action-description').textContent = ended
     ? state.result === 'draw'
-      ? '当前玩家没有可用行动。再来一局吧。'
-      : '五枚相连，胜负已定。好棋，下一局见。'
+      ? '当前玩家无合法行动，本局和棋。'
+      : '同色五子连成一线，本局结束。'
     : state.pending
-      ? '点击任意空点部署，落子后轮到对方。'
+      ? '点棋盘空位放置，不能重抽或改为移动。'
       : selected !== null
         ? '实心圆点可移动，红圈位置可吃子。'
         : direct
-          ? '点击空位随机抽子并部署，或选择己方棋子移动。也可先抽子查看。'
-          : '抽取一枚棋子入场，或移动棋盘上的己方棋子。';
+          ? '可先抽取棋子再放置，也可点空位随机落子，或点己方棋子移动。'
+          : '选择己方棋子，再点标记位置移动。';
   $('draw-preview').innerHTML = state.pending
-    ? `${pieceMarkup(state.pending, 'drawn')}<div><strong>${sideName(side)} · ${label(state.pending)}</strong><small>已锁定部署 · 请选择空位</small></div>`
+    ? `${pieceMarkup(state.pending, 'drawn')}<div><strong>已抽到「${label(state.pending)}」</strong><small>点棋盘空位放置</small></div>`
     : ended
       ? `<span class="mystery-piece result-symbol">${state.result === 'draw' ? '和' : '胜'}</span><div><strong>${outcome}</strong><small>共 ${state.ply} 手 · 本局结束</small></div>`
-      : '<span class="mystery-piece">?</span><div><strong>下一枚，会是什么？</strong><small>从剩余棋池中随机抽取</small></div>';
+      : '<span class="mystery-piece">?</span><div><strong>落子或移动</strong><small>也可直接点空位随机落子</small></div>';
   $('draw-button').disabled =
     inputLocked() ||
     ended ||
@@ -715,28 +745,30 @@ function render() {
     !state.pools[side].length ||
     !state.board.some((p) => !p);
   $('draw-button').firstElementChild.textContent = state.pending
-    ? `放「${label(state.pending)}」`
+    ? `已抽到「${label(state.pending)}」`
     : !state.pools[side].length
-      ? '棋池已空'
-      : '抽一枚';
+      ? '无剩余棋子'
+      : '抽取棋子';
   $('move-button').disabled = inputLocked() || ended || Boolean(state.pending) || !hasMove(state);
   $('move-button').classList.toggle('is-active', moving);
+  $('move-button').textContent = moving ? '取消移动' : '移动棋子';
+  $('move-button').setAttribute('aria-pressed', String(moving));
   hint(
     ended
       ? '点击「重新开局」开始下一场对弈。'
       : state.pending
-        ? '本回合只能部署，落子后不能再移动。'
+        ? '点棋盘空位放置，不能重抽或改为移动。'
         : selected !== null
           ? '再次点击选中棋子可取消选择。'
           : moving
             ? '点击自己的棋子，查看可走的位置。'
             : direct
-              ? '点空位随机落子，点己方棋子选择移动。'
-              : '抽子后须完成部署，不能重抽。',
+              ? '随机获得一枚，再点空位放置。'
+              : '点己方棋子，再点标记位置移动。',
   );
   const movement = {
     rook: '车：横竖直走，不能越子。',
-    horse: '马：走日字，直行相邻有子会蹩腿。',
+    horse: '马：走日字，直行邻格有子时不能走。',
     elephant: '象：斜走两格，中间有子不能走。',
     advisor: '士：斜走一格，不限九宫。',
     king: '将帅：横竖一格，被吃不直接判负。',
@@ -746,22 +778,22 @@ function render() {
   $('coach-hint').textContent =
     computerError ||
     (ended
-      ? '目标达成后可以换棋盘，或挑战更谨慎的电脑。'
+      ? '可重新开局，或调整棋盘与难度。'
       : computerTurn
-        ? '电脑与您使用相同棋池、相同走子规则。'
+        ? '电脑与你使用相同的棋池与走子规则。'
         : selected !== null
           ? movement[state.board[selected].type]
           : threats.length
-            ? '警惕金圈：对方下一手可成五！堵住落点，或吃掉连线中的棋子。'
+            ? '金圈表示对方下一手可连五。堵住落点，或吃掉连线中的棋子。'
             : state.ply < 4
-              ? '点空位随机上场，点己方棋子移动；同色横、竖、斜连五就赢。'
-              : '连五才能获胜，吃将不算赢。点己方棋子，查看绿点走法与红圈吃子。');
+              ? '点空位随机落子，点己方棋子移动；同色横、竖、斜连五获胜。'
+              : '连五才获胜，吃将不直接获胜。点己方棋子查看可走位置。');
   if (challenge) {
     $('coach-hint').textContent = ended
-      ? '可重试同题，也可分享给好友比较解法。'
+      ? '可重试本题，或分享给好友。'
       : selected !== null
         ? movement[state.board[selected].type]
-        : '点红子再点标记位置；棋池已用完，只能走子。';
+        : '点红方棋子，再点标记位置移动；本题不能抽取棋子。';
     hint('');
   }
   if (!computerError && selected === null && !threats.length) $('coach-hint').textContent = '';
@@ -771,10 +803,10 @@ function render() {
       .reverse()
       .map(
         (event) =>
-          `<li><span class="move-number">${String(event.ply).padStart(2, '0')}</span><span class="record-piece ${event.side}">${label(event.piece)}</span><span>${event.action === 'deploy' ? '部署' : event.captured ? `吃${label(event.captured)}` : '移动'} <small>${event.action === 'move' ? coord(event.from) + ' → ' : ''}${coord(event.to)}</small></span><span class="record-side">${sideName(event.side)}</span></li>`,
+          `<li><span class="move-number">${String(event.ply).padStart(2, '0')}</span><span class="record-piece ${event.side}">${label(event.piece)}</span><span>${event.action === 'deploy' ? '落子' : event.captured ? `吃${label(event.captured)}` : '移动'} <small>${event.action === 'move' ? coord(event.from) + ' → ' : ''}${coord(event.to)}</small></span><span class="record-side">${sideName(event.side)}</span></li>`,
       )
       .join('');
-  const empty = '<li class="empty-history">棋盘尚静，等你落下第一子。</li>';
+  const empty = '<li class="empty-history">暂无记录，落子后会显示在这里。</li>';
   $('history').innerHTML = historyMarkup(state.history.slice(-5)) || empty;
   $('full-history').innerHTML = historyMarkup(state.history) || empty;
   $('history-count').textContent = state.ply;
@@ -787,7 +819,7 @@ function render() {
   resultBanner.classList.toggle('practice-result', Boolean(challenge));
   resultBanner.classList.toggle('practice-failed', challenge?.status === 'failed');
   resultBanner.hidden = !ended || Boolean(challenge && (resultDismissed || busy));
-  $('result-board').textContent = challenge ? '收起提示' : '看看刚才的棋盘';
+  $('result-board').textContent = challenge ? '收起结果' : '查看棋盘';
   $('training-next').hidden = !challenge || !ended || busy;
   $('training-next').textContent = challenge?.status === 'solved' ? '下一题' : '再试一次';
   $('result-title').textContent = challenge
@@ -797,7 +829,7 @@ function render() {
       : `${sideName(side)}获胜！`;
   $('result-description').textContent = room?.restartVotes.length
     ? `${sideName(room.restartVotes[0])}已申请重开，等待另一方同意。`
-    : `共 ${state.ply} 手${state.result === 'draw' ? '，当前无可用行动。' : '，五子连线，胜负已定。'}${room ? '双方同意后开始下一局。' : '再来一局，重新开战。'}`;
+    : `共 ${state.ply} 手${state.result === 'draw' ? '，当前无合法行动。' : '，同色五子连成一线。'}${room ? '双方同意后开始下一局。' : ''}`;
   $('result-restart').disabled =
     busy ||
     networkBusy ||
@@ -816,10 +848,10 @@ function render() {
       challenge.status === 'solved'
         ? `下一目标：${next.title} · ${next.goal === 'two-turn' ? '两手连招' : next.goal === 'defend' ? '解除威胁' : '一手连五'}`
         : challenge.definition.goal === 'two-turn'
-          ? '下一目标：重试本题，把黑方的回应也算进去。'
+          ? '重试本题，考虑黑方回应后的连五路线。'
           : challenge.definition.goal === 'defend'
-            ? '下一目标：重试本题，消除全部黑方威胁。'
-            : '下一目标：重试本题，把五连断点找出来。';
+            ? '重试本题，消除黑方的全部连五威胁。'
+            : '重试本题，找到连五的缺口。';
     $('challenge-result-share').textContent = '分享';
     $('challenge-result-share').setAttribute('aria-label', '邀请朋友解同一道题');
     const lastRed = state.history.filter((event) => event.side === 'red').at(-1);
@@ -827,8 +859,8 @@ function render() {
       challenge.status === 'solved'
         ? `${lastRed ? `${coord(lastRed.from)} → ${coord(lastRed.to)} · ` : ''}${challenge.definition.goal === 'defend' ? '黑方已无法一手连五' : '同色五子已连成一线'}${challenge.hintShown ? ' · ★' : ' · ★★'}`
         : challenge.definition.goal === 'defend'
-          ? '黑方还能连五，再找找防守的落点。'
-          : '还没连成五子，再试一手。';
+          ? '黑方仍能连五，请重试或查看提示。'
+          : '尚未连成五子，请重试或查看提示。';
   }
   $('challenge-result-actions').hidden = !challenge || !ended;
   renderChallenge();
@@ -849,7 +881,7 @@ function renderChallenge() {
   $('challenge-summary').textContent =
     `已完成 ${milestones.basics + milestones.combos}/8 题　·　★ ${milestones.stars}/16`;
   $('challenge-start-next').textContent =
-    `接着练 · ${recommendedChallenge(challengeProgress).title}`;
+    `继续练习 · ${recommendedChallenge(challengeProgress).title}`;
   $('challenge-panel').hidden = !challenge;
   $('challenge-move-message').hidden = !challenge;
   if (!challenge) return;
@@ -863,11 +895,11 @@ function renderChallenge() {
     definition.goal === 'two-turn'
       ? `连招 ${reply ? 2 : 1}/2`
       : definition.goal === 'defend'
-        ? '拆掉威胁'
+        ? '解除威胁'
         : '一手连五';
   $('challenge-help-objective').textContent =
     reply && challenge.status === 'playing'
-      ? `黑${label(reply.piece)} ${coord(reply.from)}→${coord(reply.to)}。找剩下的成五路线。`
+      ? `黑${label(reply.piece)} ${coord(reply.from)}→${coord(reply.to)}。找到下一手连五的路线。`
       : definition.description;
   const solved = challenge.status === 'solved';
   $('training-help-open').textContent = solved ? '看解法' : '提示';
@@ -961,7 +993,7 @@ function openChallenges() {
   for (const [index, item] of CHALLENGES.entries()) {
     if (index === 0 || index === 6) {
       const heading = document.createElement('h3');
-      heading.textContent = index === 0 ? '入门 · 六道妙手' : '进阶 · 两手连招';
+      heading.textContent = index === 0 ? '入门 · 单步练习' : '进阶 · 两手连招';
       $('challenge-list').append(heading);
     }
     const button = document.createElement('button');
@@ -970,7 +1002,7 @@ function openChallenges() {
     button.className = 'challenge-card';
     button.dataset.challenge = item.id;
     button.classList.toggle('completed', stars > 0);
-    button.innerHTML = `<span class="challenge-number">${String(index + 1).padStart(2, '0')}</span><div><strong>${item.title}<span>${'★'.repeat(stars)}${'☆'.repeat(2 - stars)}</span></strong><small>${item.goal === 'two-turn' ? '两手连招' : item.goal === 'defend' ? '拆掉威胁' : '一手连五'}</small></div><span class="challenge-arrow" aria-hidden="true">›</span>`;
+    button.innerHTML = `<span class="challenge-number">${String(index + 1).padStart(2, '0')}</span><div><strong>${item.title}<span>${'★'.repeat(stars)}${'☆'.repeat(2 - stars)}</span></strong><small>${item.goal === 'two-turn' ? '两手连招' : item.goal === 'defend' ? '解除威胁' : '一手连五'}</small></div><span class="challenge-arrow" aria-hidden="true">›</span>`;
     button.addEventListener('click', () => startChallenge(item.id));
     $('challenge-list').append(button);
   }
@@ -1038,7 +1070,7 @@ async function shareChallenge() {
         $('challenge-share-link').focus();
         $('challenge-share-link').select();
         feedback('请长按或使用 Ctrl+C 复制下方链接。');
-      } else feedback('同题链接已准备好，可在妙手小锦囊中长按复制。');
+      } else feedback('同题链接已准备好，可在战术提示页长按复制。');
     }
   } finally {
     challengeSharing = false;
@@ -1217,7 +1249,7 @@ async function roomRequest(server, path, body, token) {
     throw new Error(room ? '连接中断，正在重试同步。' : '暂时无法连接房间服务，请检查网络后重试。');
   });
   const data = await response.json().catch(() => {
-    throw new Error('该地址没有运行房间 API；GitHub Pages 本身不能提供房间服务。');
+    throw new Error('该地址暂不支持好友房间，请检查服务地址。');
   });
   if (!response.ok)
     throw Object.assign(new Error(typeof data.error === 'string' ? data.error : '房间请求失败'), {
@@ -1296,8 +1328,7 @@ function renderRoom() {
   $('room-status').textContent =
     `${room.code} · 你执${room.side === 'red' ? '红' : '黑'} · ${status}`;
   if (roomError || !networkHealthy || !room.joined || room.restartVotes.length) hint(status);
-  else if (room.side !== state.turn && !state.result)
-    hint(`等待${sideName(state.turn)}行动，你可以查看对局记录。`);
+  else if (room.side !== state.turn && !state.result) hint(`等待${sideName(state.turn)}落子。`);
 }
 function endpoint() {
   const url = new URL($('room-server').value);
@@ -1372,7 +1403,7 @@ async function checkRoomService() {
   if (room) return;
   roomServiceReady = false;
   renderRoom();
-  $('room-message').textContent = '正在检查好友对弈是否可用…';
+  $('room-message').textContent = '正在连接房间服务…';
   try {
     const response = await fetch(`${endpoint()}/api/rooms/health`, {
       signal: AbortSignal.timeout(4000),
@@ -1383,8 +1414,8 @@ async function checkRoomService() {
     /* Static hosting remains fully playable without a room service. */
   }
   $('room-message').textContent = roomServiceReady
-    ? '好友对弈可用。选择棋盘后创建房间，或输入好友发来的房间码。'
-    : '此版本暂未开放在线房间。你可以继续单人挑战，或与身边的朋友双人同屏。';
+    ? '可创建房间，或输入好友发来的房间码。'
+    : '暂未开放在线房间。可选择单人挑战或双人同屏。';
   renderRoom();
 }
 function openRoom() {
@@ -1511,3 +1542,9 @@ if (invitation.has('room') && !room) {
 }
 const initialChallenge = challengeFromUrl(location.href);
 if (initialChallenge && !room && !invitation.has('room')) startChallenge(initialChallenge);
+
+// The host resets its display state when the iframe finishes loading.
+// Notify again on the next task so deep links retain the immersive game view.
+const notifyAfterLoad = () => setTimeout(() => notifyDisplayState(), 0);
+if (document.readyState === 'complete') notifyAfterLoad();
+else window.addEventListener('load', notifyAfterLoad, { once: true });

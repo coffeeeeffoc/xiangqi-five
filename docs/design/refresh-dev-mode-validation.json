@@ -1,0 +1,85 @@
+{
+  "games": 1,
+  "checks": [
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "default",
+      "enabled": false
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "default",
+      "enabled": false
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "url",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "url",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "storage",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "storage",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "explicit-off",
+      "enabled": false
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "explicit-off",
+      "enabled": false
+    }
+  ],
+  "errors": [],
+  "passed": true,
+  "browser": "151.0.7922.173",
+  "sourceSuite": "/workspace/small-games/scripts/test-game-dev-mode.mjs",
+  "scope": "Original four mode cases and check() assertions, scoped to xiangqi-five; standalone built dist and actual StandaloneGame component production bundle.",
+  "limits": [
+    "Focused component host, not the full production ShellApp/router/catalog build.",
+    "Original unrelated wulong-city gesture, modal, persistence and external-embed checks omitted.",
+    "Desktop Chromium with touch and mobile emulation, not a physical device.",
+    "Focused host uses root asset paths; GitHub Pages base-path packaging is not verified here."
+  ],
+  "focusedHost": {
+    "component": "Actual StandaloneGame.tsx",
+    "nodeEnv": "production",
+    "minified": true,
+    "fullShellBuild": false
+  },
+  "gameBuild": {
+    "directory": "games/submodules/xiangqi-five/dist",
+    "servedAppSha256": "7ea3579314fc87f3cca97963da7dedbcc03fa2c822de6b8719cf7f1609653758",
+    "servedBytesMatchDist": true
+  },
+  "environment": {
+    "browser": "151.0.7922.173",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "touch": true,
+    "mobileEmulation": true,
+    "physicalDevice": false
+  }
+}

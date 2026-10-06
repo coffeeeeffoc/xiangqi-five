@@ -271,19 +271,19 @@ try {
     await page.locator('#draw-button').tap();
     assert.match(
       await page.locator('#draw-button').getAttribute('aria-label'),
-      /已抽到车/,
+      /已抽到「车」/,
       'the pending piece is named in the accessible mobile control',
     );
     assert.match(
       await page.locator('#draw-button').innerText(),
-      /放「车」/,
+      /已抽到「车」/,
       'the pending piece is named in the visible mobile control',
     );
     await page.reload();
     await resume(page, 'tap');
     assert.match(
       await page.locator('#draw-button').innerText(),
-      /放「车」/,
+      /已抽到「车」/,
       'pending draw survives reload with visible identity',
     );
     await cells.nth(1).tap();
@@ -380,7 +380,7 @@ try {
         await startGame(frame, { mode, input });
         const rect = await frame.locator('#board').boundingBox();
         assert.ok(
-          rect.y >= 56 && rect.y + rect.height <= 390,
+          rect.y >= 0 && rect.y + rect.height <= 390,
           `embedded ${mode}: all board rows visible (${JSON.stringify(rect)})`,
         );
         await checkZoom(page, frame, input);

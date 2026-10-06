@@ -3,12 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#fff8e9" />
-    <meta name="description" content="象棋的走法，五子棋的胜负。和可爱的小棋友一起，同色连五！" />
-    <title>象五子棋 · 同色连五，快乐加倍</title>
+    <meta name="theme-color" content="#f7f3ea" />
+    <meta
+      name="description"
+      content="象棋走法，同色连五。抽取棋子落在空位，或移动场上棋子，率先连成五子获胜。"
+    />
+    <title>象五子棋 · 象棋走法，同色连五</title>
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='20' fill='%23ed7867'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='44' fill='%23fff8e9'%3E象%3C/text%3E%3C/svg%3E"
+    />
+    <link
+      rel="preload"
+      href="./assets/chess-glyphs.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="./style.css" />
     <script defer src="./fullscreen.js"></script>
@@ -19,8 +29,8 @@
     <main class="app-shell">
       <section class="screen home-screen" data-screen="home" aria-labelledby="home-title">
         <span class="home-tag">象棋 × 五子棋</span>
-        <h1 id="home-title">象五子棋<span class="title-spark" aria-hidden="true">✦</span></h1>
-        <p class="home-subtitle">同色连五，快乐加倍</p>
+        <h1 id="home-title">象五子棋</h1>
+        <p class="home-subtitle">象棋走法，同色连五</p>
         <img
           class="home-hero"
           src="./assets/hero-paper.webp"
@@ -30,98 +40,141 @@
         />
         <div class="home-actions">
           <button class="primary-button jumbo" id="home-start">
-            开始玩 <span aria-hidden="true">›</span></button
+            开始对弈
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
           ><button class="mint-button" id="home-continue" hidden>
-            继续上次的棋局 <span aria-hidden="true">›</span></button
-          ><button class="mint-button" id="challenge-quick-start">
-            <span aria-hidden="true">◎</span> 60 秒练一题 <span aria-hidden="true">›</span>
+            继续棋局
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg>
           </button>
         </div>
-        <div class="home-links">
+        <div class="home-utilities">
+          <button class="text-button practice-button" id="challenge-quick-start">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="13" r="8" />
+              <circle cx="11" cy="13" r="4" />
+              <path d="m11 13 9-9M17 4h3v3" />
+            </svg>
+            <span><strong>战术练习</strong><small>60 秒练一题</small></span>
+          </button>
           <button id="rules-open" class="text-button">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3 5c4-2 7-1 9 1 2-2 5-3 9-1v14c-4-2-7-1-9 1-2-2-5-3-9-1zM12 6v14" /></svg
-            >玩法小课堂</button
-          ><button id="home-settings" class="text-button">
+            ><span><strong>玩法说明</strong><small>快速上手</small></span>
+          </button>
+        </div>
+        <div class="home-links">
+          <button id="home-settings" class="text-button">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="m9 3 6 0 1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1z" />
               <circle cx="12" cy="12" r="3" /></svg
             >设置
           </button>
         </div>
-        <p class="home-note">随时离开，下次接着玩</p>
+        <p class="home-note">自动保存，随时继续</p>
       </section>
       <section class="screen" data-screen="modes" hidden aria-labelledby="modes-title">
         <header class="screen-header">
-          <button class="icon-button" data-back aria-label="返回首页">←</button
-          ><span class="eyebrow">选一种快乐</span><span></span>
+          <button class="icon-button" data-back aria-label="返回首页">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">选择玩法</span><span></span>
         </header>
         <h1 id="modes-title">今天怎么玩？</h1>
-        <p class="page-subtitle">一个人动脑，两个人热闹。</p>
+        <p class="page-subtitle">各有乐趣，选一种开始。</p>
         <div class="mode-list">
           <button id="mode-computer" class="mode-card coral-card">
-            <div>
-              <strong>单人挑战</strong><small>和聪明的小棋友<br />来一场较量吧！</small>
-            </div>
-            <span class="mascot red" aria-hidden="true"><b>兵</b><i>•ᴗ•</i></span
-            ><span class="card-arrow" aria-hidden="true">›</span></button
+            <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="7" r="4" />
+              <path d="M4 21v-3a8 8 0 0 1 16 0v3Z" />
+            </svg>
+            <div><strong>单人挑战</strong><small>和电脑练习攻防</small></div>
+            <svg class="card-arrow button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
           ><button id="mode-local" class="mode-card mint-card">
-            <div>
-              <strong>双人同屏</strong><small>和身边的朋友<br />轮流落子，一起玩。</small>
-            </div>
-            <span class="mascot-pair" aria-hidden="true"
-              ><span class="mascot red"><b>帅</b><i>•ᴗ•</i></span
-              ><span class="mascot black"><b>将</b><i>•ᴗ•</i></span></span
-            ><span class="card-arrow" aria-hidden="true">›</span></button
-          ><button id="mode-online" class="mode-card gold-card" hidden>
-            <div>
-              <strong>好友对弈</strong><small>分享邀请<br />远方的朋友也能玩。</small>
-            </div>
-            <svg class="mode-link" viewBox="0 0 64 64" aria-hidden="true">
+            <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="9" cy="7" r="3.5" />
               <path
-                d="M27 39 39 27M23 34l-6 6a10 10 0 0 0 14 14l10-10a10 10 0 0 0 0-14M41 30l6-6a10 10 0 0 0-14-14L23 20a10 10 0 0 0 0 14"
-              /></svg
-            ><span class="card-arrow" aria-hidden="true">›</span></button
+                d="M2 21v-2a7 7 0 0 1 14 0v2ZM16 4a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 4 6v1h-3"
+              />
+            </svg>
+            <div><strong>双人同屏</strong><small>和身边的人轮流落子</small></div>
+            <svg class="card-arrow button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
+          ><button id="mode-online" class="mode-card gold-card" hidden>
+            <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="m9 15 6-6M8 13l-3 3a4 4 0 0 0 6 6l4-4a4 4 0 0 0 0-6M16 11l3-3a4 4 0 0 0-6-6L9 6a4 4 0 0 0 0 6"
+              />
+            </svg>
+            <div><strong>好友对弈</strong><small>分享邀请，和远方的朋友下棋</small></div>
+            <svg class="card-arrow button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
           ><button id="room-open" class="mode-card gold-card">
-            <div><strong>好友房间</strong><small>发个房间码，邀朋友来玩。</small></div>
-            <span class="mode-symbol" aria-hidden="true">♧</span
-            ><span class="card-arrow" aria-hidden="true">›</span></button
+            <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m2 11 10-9 10 9M5 9v12h14V9M9 21v-8h6v8" />
+            </svg>
+            <div><strong>好友房间</strong><small>发个房间码，一起对弈</small></div>
+            <svg class="card-arrow button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
           ><button id="challenge-open" class="mode-card training-card">
-            <div><strong>战术闯关</strong><small>从一手连五，到两手连招。</small></div>
-            <span class="flag-art" aria-hidden="true">⚑</span
-            ><span class="card-arrow" aria-hidden="true">›</span>
+            <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="13" r="9" />
+              <circle cx="11" cy="13" r="5" />
+              <circle cx="11" cy="13" r="1" />
+              <path d="m11 13 10-10M17 3h4v4" />
+            </svg>
+            <div><strong>战术练习</strong><small>从一手连五到两手连招</small></div>
+            <svg class="card-arrow button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg>
           </button>
         </div>
         <details id="mode-extras" class="fine-rules" hidden><summary>更多玩法</summary></details>
-        <p class="bottom-note">✦ 每一局，都有新惊喜 ✦</p>
+        <p class="bottom-note">每种玩法都能随时继续</p>
       </section>
       <section class="screen setup-screen" data-screen="setup" hidden aria-labelledby="setup-title">
         <header class="screen-header">
-          <button class="icon-button" data-back aria-label="返回">←</button
-          ><span class="eyebrow">下一局，等你落子</span><span></span>
+          <button class="icon-button" data-back aria-label="返回">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">对局准备</span><span></span>
         </header>
         <h1 id="setup-title">单人挑战</h1>
-        <p id="setup-subtitle" class="page-subtitle">你执红，和小棋友过过招。</p>
+        <p id="setup-subtitle" class="page-subtitle">你执红，和电脑练习攻防。</p>
         <div class="setup-duo" aria-hidden="true">
           <span class="mascot red"><b>帅</b><i>•ᴗ•</i></span>
           <span class="duel-mark">对弈</span>
           <span class="mascot black"><b>将</b><i>•ᴗ•</i></span>
         </div>
         <fieldset id="board-mode" class="board-choices">
-          <legend>选一副棋盘</legend>
+          <legend>选择棋盘</legend>
           <button type="button" data-board="xiangqi" aria-pressed="true">
             <span class="board-mini classic-mini" aria-hidden="true"><i>楚河　汉界</i></span>
-            <strong>经典棋盘</strong><small>9 × 10 · 步步紧凑</small>
-            <span class="choice-tick" aria-hidden="true">✓</span>
+            <strong>经典棋盘</strong><small>9 × 10 · 紧凑对弈</small>
+            <span class="choice-tick" aria-hidden="true"
+              ><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg
+            ></span>
           </button>
           <button type="button" data-board="gomoku" aria-pressed="false">
             <span class="board-mini wide-mini" aria-hidden="true"></span>
-            <strong>大棋盘</strong><small>15 × 15 · 尽情布阵</small>
-            <span class="choice-tick" aria-hidden="true">✓</span>
+            <strong>大棋盘</strong><small>15 × 15 · 自由布阵</small>
+            <span class="choice-tick" aria-hidden="true"
+              ><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg
+            ></span>
           </button>
         </fieldset>
         <fieldset id="difficulty" class="difficulty-choices" aria-describedby="difficulty-hint">
-          <legend>小棋友的实力</legend>
+          <legend>对手难度</legend>
           <button type="button" data-difficulty="practice" aria-pressed="false">
             <strong>简易</strong><small>轻松试试</small>
           </button>
@@ -135,22 +188,28 @@
         <p id="difficulty-hint" class="small-note"></p>
         <p class="small-note" id="save-status" role="status"></p>
         <button id="setup-start" class="primary-button jumbo">
-          开始对弈 <span aria-hidden="true">›</span>
+          开始对弈
+          <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 5 7 7-7 7" />
+          </svg>
         </button>
       </section>
       <section class="screen game-screen" data-screen="game" hidden aria-label="对弈区域">
         <header class="screen-header game-header">
-          <button class="icon-button" id="game-back" aria-label="返回首页，保留棋局">←</button
+          <button class="icon-button" id="game-back" aria-label="返回首页，保留棋局">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
           ><strong id="match-label">单人挑战</strong
           ><button class="icon-button more-icon" id="game-more" aria-label="更多对局选项">
             <span></span><span></span><span></span>
           </button>
         </header>
         <div class="opponent-row">
-          <span class="avatar-piece black" aria-hidden="true"><b>将</b><i>•ᴗ•</i></span>
+          <span class="avatar-piece black" aria-hidden="true"><b>将</b></span>
           <div>
             <strong id="opponent-name">小棋友</strong
-            ><small id="opponent-status">同色连五，就能赢</small>
+            ><small id="opponent-status">同色连五获胜</small>
           </div>
           <span id="turn-count" class="turn-count">第 01 手</span>
         </div>
@@ -169,8 +228,8 @@
         </div>
         <div id="practice-result-slot"></div>
         <div class="player-row">
-          <span class="avatar-piece red" aria-hidden="true"><b>帅</b><i>•ᴗ•</i></span
-          ><strong id="turn-label" role="status">轮到你啦</strong
+          <span class="avatar-piece red" aria-hidden="true"><b>帅</b></span
+          ><strong id="turn-label" role="status">轮到你落子</strong
           ><button id="game-zoom" class="icon-button zoom-icon" aria-label="放大棋盘">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="10" cy="10" r="6" />
@@ -183,38 +242,102 @@
         <button id="computer-retry" class="mint-button" hidden>重试小棋友回合</button>
         <section class="action-panel">
           <div class="draw-preview" id="draw-preview"></div>
-          <button class="primary-button" id="draw-button"><span>抽一枚</span></button
-          ><button class="mint-button" id="move-button">移动</button>
+          <button class="primary-button" id="draw-button"><span>抽取棋子</span></button
+          ><button class="mint-button" id="move-button">移动棋子</button>
           <p class="action-hint" id="action-hint" role="status" aria-live="polite"></p>
         </section>
         <div class="training-dock" id="training-dock" hidden>
           <button class="mint-button" id="training-next" hidden>下一题</button>
-          <button class="mint-button" id="training-help-open">提示</button
+          <button class="mint-button" id="training-help-open">战术提示</button
           ><button class="text-button" id="training-topics-open">换一题</button>
         </div>
       </section>
       <section class="screen" data-screen="tools" hidden aria-labelledby="tools-title">
         <header class="screen-header">
-          <button id="tools-close" class="icon-button" data-back aria-label="返回对局">←</button
-          ><span class="eyebrow">收在这里的小工具</span><span></span>
+          <button id="tools-close" class="icon-button" data-back aria-label="返回对局">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">棋局已为你保留</span><span></span>
         </header>
-        <h1 id="tools-title">对局小口袋</h1>
-        <p class="page-subtitle">棋局会保留，慢慢看。</p>
+        <h1 id="tools-title">对局选项</h1>
+        <p class="page-subtitle">查看棋局，调整你的对弈体验。</p>
         <div class="tool-list">
-          <button id="tools-rules">玩法小课堂 <span>›</span></button
+          <button id="tools-rules">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 4h13l5 5v12H3ZM16 4v5h5M7 13h10M7 17h7" />
+            </svg>
+            玩法说明
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
           ><button id="history-open">
-            对局记录 <small id="history-count">0</small><span>›</span></button
-          ><button id="tools-pool">看看双方棋池 <span>›</span></button
-          ><button id="tools-settings">调整玩法与难度 <span>›</span></button
-          ><button id="tools-room" hidden>房间与邀请 <span>›</span></button
-          ><button id="challenge-select" hidden>换一道战术题 <span>›</span></button
-          ><button id="challenge-exit" hidden>返回原来的棋局 <span>›</span></button
-          ><button id="new-game">重新开局 <span>↻</span></button>
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            对局记录 <small id="history-count">0</small
+            ><svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
+          ><button id="tools-pool">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <ellipse cx="12" cy="5" rx="8" ry="3" />
+              <path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0" />
+            </svg>
+            双方棋池
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
+          ><button id="tools-settings">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 3 6 0 1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            玩法与难度
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
+          ><button id="tools-room" hidden>
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m2 11 10-9 10 9M5 9v12h14V9M9 21v-8h6v8" />
+            </svg>
+            房间与邀请
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
+          ><button id="challenge-select" hidden>
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="13" r="8" />
+              <circle cx="11" cy="13" r="4" />
+              <path d="m11 13 9-9M17 4h3v3" />
+            </svg>
+            选择战术练习
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
+          ><button id="challenge-exit" hidden>
+            返回原来的棋局
+            <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 5 7 7-7 7" />
+            </svg></button
+          ><button id="new-game">
+            重新开局
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 8V3l-4 4M20 8a8 8 0 1 0 0 8" />
+            </svg>
+          </button>
         </div>
         <div class="zoom-controls" role="group" aria-label="棋盘缩放">
-          <button id="zoom-out" class="icon-button" aria-label="缩小棋盘">−</button
+          <button id="zoom-out" class="icon-button" aria-label="缩小棋盘">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14" />
+            </svg></button
           ><output id="zoom-value">100%</output
-          ><button id="zoom-board" class="icon-button" aria-label="放大棋盘">＋</button
+          ><button id="zoom-board" class="icon-button" aria-label="放大棋盘">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M12 5v14" />
+            </svg></button
           ><button id="zoom-reset" class="text-button">恢复大小</button>
         </div>
         <p class="small-note">棋盘也可以双指缩放、拖动查看。</p>
@@ -228,29 +351,35 @@
         aria-labelledby="rules-title"
       >
         <header class="screen-header">
-          <button id="rules-close" class="icon-button" data-back aria-label="返回">←</button
+          <button id="rules-close" class="icon-button" data-back aria-label="返回">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
           ><span class="eyebrow">三步就会玩</span><span></span>
         </header>
-        <h1 id="rules-title">玩法小课堂</h1>
+        <h1 id="rules-title">玩法说明</h1>
+        <p class="page-subtitle">抽取、移动、连五，三步学会。</p>
         <div class="lesson-list">
           <article class="lesson">
             <div class="lesson-heading">
               <span>1</span>
-              <h2>抽一枚，放上场</h2>
+              <h2>抽取棋子，放到空位</h2>
             </div>
-            <p>点「抽一枚」，再点任意空位。<br />也可以直接点空位，随机落子。</p>
+            <p>点「抽取棋子」查看棋子，再点空位放置。也可直接点空位随机落子。</p>
             <div class="deploy-art" aria-hidden="true">
               <span class="mini-token">兵</span><span class="dotted-target"></span
-              ><span class="art-arrow">↓</span>
+              ><svg class="art-arrow ui-icon" viewBox="0 0 24 24">
+                <path d="M12 3v18m-6-6 6 6 6-6" />
+              </svg>
             </div>
-            <small>抽到的棋子要放完，不能重抽。</small>
+            <small>抽出的棋子必须放置，不能重抽。</small>
           </article>
           <article class="lesson">
             <div class="lesson-heading">
               <span>2</span>
               <h2>点棋子，再点落点</h2>
             </div>
-            <p>点自己的棋子，看它能去哪儿。<br />绿点能走，红圈能吃对方的子。</p>
+            <p>点自己的棋子，再点标出的落点。绿点可以移动，红圈可以吃子。</p>
             <div class="move-art" aria-hidden="true">
               <i></i><span class="mini-token">帅</span><i></i>
             </div>
@@ -260,25 +389,36 @@
               <span>3</span>
               <h2>同色连五就赢</h2>
             </div>
-            <p>横着、竖着、斜着都可以。<br />吃掉将帅，也要连五才算赢哦。</p>
+            <p>同色棋子横、竖或斜向连成五子即可获胜。吃掉将帅后仍须连五。</p>
             <div class="five-art" aria-hidden="true">
               <span>兵</span><span>车</span><span>帅</span><span>炮</span><span>马</span>
             </div>
           </article>
         </div>
-        <button id="pieces-open" class="mint-button">看看棋子怎么走 <span>›</span></button
-        ><button id="rules-play" class="primary-button jumbo">去试一局 <span>›</span></button>
+        <button id="pieces-open" class="mint-button">
+          棋子走法
+          <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 5 7 7-7 7" />
+          </svg></button
+        ><button id="rules-play" class="primary-button jumbo">
+          开始对弈
+          <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 5 7 7-7 7" />
+          </svg>
+        </button>
       </section>
       <section class="screen" data-screen="pieces" hidden aria-labelledby="pieces-title">
         <header class="screen-header">
-          <button id="pieces-close" class="icon-button" data-back aria-label="返回玩法小课堂">
-            ←</button
-          ><span class="eyebrow">认识七位小伙伴</span><span></span>
+          <button id="pieces-close" class="icon-button" data-back aria-label="返回玩法说明">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">七种棋子，各有走法</span><span></span>
         </header>
-        <h1 id="pieces-title">棋子怎么走？</h1>
+        <h1 id="pieces-title">棋子走法</h1>
         <div id="piece-guide" class="piece-guide"></div>
         <details class="fine-rules">
-          <summary>还有这些小规则</summary>
+          <summary>补充规则</summary>
           <p>
             河界和九宫不限制活动；没有将军、将死或飞将。被吃的棋子退出本局，不返回棋池。棋池用完仍能移动。无合法行动时和棋，不自动判重复局面。
           </p>
@@ -295,16 +435,22 @@
         aria-labelledby="history-title"
       >
         <header class="screen-header">
-          <button id="history-close" class="icon-button" data-back aria-label="返回对局">←</button
-          ><span class="eyebrow">每一步都记得</span><span></span>
+          <button id="history-close" class="icon-button" data-back aria-label="返回对局">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">回看每一步</span><span></span>
         </header>
         <h1 id="history-title">对局记录</h1>
         <ol id="full-history" class="full-history"></ol>
       </section>
       <section class="screen" data-screen="pool" hidden aria-labelledby="pool-title">
         <header class="screen-header">
-          <button id="pool-close" class="icon-button" data-back aria-label="返回对局">←</button
-          ><span class="eyebrow">等待上场的小伙伴</span><span></span>
+          <button id="pool-close" class="icon-button" data-back aria-label="返回对局">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">还可以抽到哪些棋子</span><span></span>
         </header>
         <h1 id="pool-title">双方棋池</h1>
         <section class="player-card black" id="black-player" aria-label="黑方棋池"></section>
@@ -319,16 +465,19 @@
         aria-labelledby="challenge-dialog-title"
       >
         <header class="screen-header">
-          <button id="challenge-close" class="icon-button" data-back aria-label="返回">←</button
-          ><span class="eyebrow">一点点变厉害</span><span></span>
+          <button id="challenge-close" class="icon-button" data-back aria-label="返回">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">把握关键的一手</span><span></span>
         </header>
-        <h1 id="challenge-dialog-title">战术小冒险</h1>
-        <p class="page-subtitle">六题入门，两题连招。一起找出妙手！</p>
+        <h1 id="challenge-dialog-title">战术练习</h1>
+        <p class="page-subtitle">从一手连五到两手连招。</p>
         <p id="challenge-summary" class="progress-pill"></p>
         <button id="challenge-start-next" class="primary-button"></button>
         <div id="challenge-list" class="challenge-list"></div>
         <details class="fine-rules">
-          <summary>练习与星星</summary>
+          <summary>星级说明</summary>
           <p>
             独立完成得两星，用提示得一星。两手题中黑方会认真应对。原棋局会保留，练习不计入好友排位。
           </p>
@@ -341,14 +490,17 @@
         aria-labelledby="challenge-help-title"
       >
         <header class="screen-header">
-          <button class="icon-button" data-back aria-label="返回练习">←</button
-          ><span class="eyebrow">来一点灵感</span><span></span>
+          <button class="icon-button" data-back aria-label="返回练习">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">寻找关键落点</span><span></span>
         </header>
-        <h1 id="challenge-help-title">妙手小锦囊</h1>
+        <h1 id="challenge-help-title">战术提示</h1>
         <p id="challenge-help-objective" class="page-subtitle"></p>
-        <button id="challenge-hint" class="mint-button">打开提示</button>
+        <button id="challenge-hint" class="mint-button">查看提示</button>
         <p id="challenge-hint-text" class="hint-card" hidden></p>
-        <p id="challenge-hint-cost" class="small-note">打开提示后，本题最高获得一颗星。</p>
+        <p id="challenge-hint-cost" class="small-note">查看提示后，本题最高获得一星。</p>
         <button id="challenge-share" class="primary-button">邀朋友解同一道题</button>
         <p id="challenge-share-message" role="status"></p>
         <div id="challenge-share-fallback" hidden>
@@ -364,10 +516,13 @@
         aria-labelledby="room-title"
       >
         <header class="screen-header">
-          <button id="room-close" class="icon-button" data-back aria-label="返回">←</button
-          ><span class="eyebrow">快乐一起分享</span><span></span>
+          <button id="room-close" class="icon-button" data-back aria-label="返回">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">邀请朋友一起对弈</span><span></span>
         </header>
-        <h1 id="room-title">邀朋友下一局</h1>
+        <h1 id="room-title">好友房间</h1>
         <p class="page-subtitle">房主执红，朋友执黑。</p>
         <div class="settings-card">
           <label class="room-label" for="room-code">朋友的房间码</label
@@ -387,11 +542,11 @@
           <label for="room-invite">发给朋友的邀请链接</label
           ><input id="room-invite" readonly /><button class="mint-button" id="room-copy">
             复制邀请链接</button
-          ><button id="room-play" class="primary-button">去棋盘等朋友</button
+          ><button id="room-play" class="primary-button">进入棋盘</button
           ><button class="text-button" id="room-leave">离开房间，返回本机棋局</button>
         </div>
         <p id="room-message" role="status" aria-live="polite"></p>
-        <button class="mint-button" id="room-local">和身边朋友双人同屏</button>
+        <button class="mint-button" id="room-local">改为双人同屏</button>
         <details class="fine-rules room-advanced">
           <summary>房间设置与说明</summary>
           <label for="room-server">房间服务地址</label
@@ -415,21 +570,26 @@
       >
         <header class="screen-header">
           <button id="restart-cancel" class="icon-button" data-back aria-label="继续当前棋局">
-            ←</button
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
           ><span></span><span></span>
         </header>
         <div class="setup-mascot">
           <span class="mascot red" aria-hidden="true"><b>帅</b><i>•ᴗ•</i></span>
         </div>
-        <h1 id="restart-title">重新摆一局？</h1>
+        <h1 id="restart-title">重新开局？</h1>
         <p id="restart-description" class="page-subtitle"></p>
-        <button class="primary-button jumbo" id="restart-confirm">好呀，重新开始</button
-        ><button id="restart-keep" class="mint-button" data-back>继续原来的棋局</button>
+        <button class="primary-button jumbo" id="restart-confirm">重新开局</button
+        ><button id="restart-keep" class="mint-button" data-back>继续当前棋局</button>
       </section>
       <section class="screen result-screen" data-screen="result" hidden aria-label="对局结算">
         <header class="screen-header">
-          <button class="icon-button" id="result-home" aria-label="返回首页">←</button
-          ><span class="eyebrow">每一局都很精彩</span><span></span>
+          <button class="icon-button" id="result-home" aria-label="返回首页">
+            <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14 5-7 7 7 7" />
+            </svg></button
+          ><span class="eyebrow">本局结束</span><span></span>
         </header>
         <section
           id="result-banner"
@@ -451,7 +611,7 @@
             <p id="challenge-result-message" role="status"></p>
           </div>
           <button class="primary-button jumbo" id="result-restart">再来一局</button
-          ><button id="result-board" class="mint-button">看看刚才的棋盘</button>
+          ><button id="result-board" class="mint-button">查看本局棋盘</button>
         </section>
       </section>
       <div hidden aria-hidden="true">

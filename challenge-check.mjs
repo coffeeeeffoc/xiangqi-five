@@ -190,7 +190,7 @@ try {
   await play(page, 46, 47);
   assert.equal(
     await page.locator('#result-title').textContent(),
-    '这手还差一点',
+    '未达成目标',
     'capturing the king does not pass without five',
   );
   assert.equal(await page.locator('.cell.winning').count(), 0);
@@ -228,7 +228,7 @@ try {
   await play(page, 67, 49);
   assert.equal(
     await page.locator('#result-title').textContent(),
-    '这手还差一点',
+    '未达成目标',
     'blocking the endpoint still loses to a capture',
   );
   await page.locator('#training-next').tap();
@@ -276,10 +276,7 @@ try {
   assert.match(await page.evaluate(() => window.shared.text), /这题我解开了.*两手成五/);
   await challengeTools(page);
   await page.locator('#challenge-select').tap();
-  assert.match(
-    await page.locator('#challenge-summary').textContent(),
-    /已完成 8\/8 题.*16\/16/,
-  );
+  assert.match(await page.locator('#challenge-summary').textContent(), /已完成 8\/8 题.*16\/16/);
   await page.locator('#challenge-close').tap();
   await page.goto(base + '?challenge=crossroads');
   await play(page, 43, 44);
@@ -287,7 +284,7 @@ try {
   await play(page, 50, 51);
   assert.equal(
     await page.locator('#result-title').textContent(),
-    '这手还差一点',
+    '未达成目标',
     'a refuted plan gets two genuine turns rather than a fake success',
   );
   await page.locator('#training-next').tap();

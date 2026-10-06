@@ -18,9 +18,11 @@ for (const file of [
   await copyFile(new URL(file, import.meta.url), new URL(`dist/${file}`, import.meta.url));
 }
 await mkdir(new URL('./dist/assets/', import.meta.url), { recursive: true });
-await copyFile(
-  new URL('./assets/hero-paper.webp', import.meta.url),
-  new URL('./dist/assets/hero-paper.webp', import.meta.url),
-);
+for (const asset of ['hero-paper.webp', 'chess-glyphs.woff2', 'chess-glyphs-LICENSE.txt']) {
+  await copyFile(
+    new URL(`./assets/${asset}`, import.meta.url),
+    new URL(`./dist/assets/${asset}`, import.meta.url),
+  );
+}
 await writeFile(new URL('dist/.nojekyll', import.meta.url), '');
 console.log('静态前端已生成到 dist/；联机仍需运行房间服务。');
