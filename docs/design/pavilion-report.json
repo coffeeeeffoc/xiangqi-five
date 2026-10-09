@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-09T15:45:58.219Z",
+  "checkedAt": "2026-10-09T15:50:31.570Z",
   "safeAreaSimulation": "CSS env() replacement: top 20px, bottom 24px; not a physical-device claim.",
   "checks": [
     "pages-305x568",
@@ -65,6 +65,15 @@
           "right": 202
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 277,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -116,11 +125,112 @@
           "right": 291
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
         "bottom": 0
       }
+    },
+    {
+      "label": "pages-305x568-modes-online-entry-simulated",
+      "width": 305,
+      "height": 568,
+      "documentWidth": 305,
+      "documentHeight": 569,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 14,
+          "y": 133.390625,
+          "width": 277,
+          "height": 68,
+          "bottom": 201.390625,
+          "right": 291
+        },
+        {
+          "selector": "#mode-local",
+          "x": 14,
+          "y": 209.390625,
+          "width": 277,
+          "height": 68,
+          "bottom": 277.390625,
+          "right": 291
+        },
+        {
+          "selector": "#mode-online",
+          "x": 14,
+          "y": 285.390625,
+          "width": 277,
+          "height": 68,
+          "bottom": 353.390625,
+          "right": 291
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 14,
+          "y": 361.390625,
+          "width": 277,
+          "height": 68,
+          "bottom": 429.390625,
+          "right": 291
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 27,
+          "y": 442.390625,
+          "width": 251,
+          "height": 44,
+          "bottom": 486.390625,
+          "right": 278
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 14,
+          "y": 501.390625,
+          "width": 277,
+          "height": 17.59375,
+          "bottom": 518.984375,
+          "right": 291
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-305x568-modes-online-expanded-#room-open",
+      "blocked": [],
+      "top": 486.390625,
+      "bottom": 530.390625,
+      "height": 568
+    },
+    {
+      "label": "pages-305x568-modes-online-expanded-.bottom-note",
+      "blocked": [],
+      "top": 545.390625,
+      "bottom": 562.984375,
+      "height": 568
     },
     {
       "label": "pages-305x568-setup-computer",
@@ -141,12 +251,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 16,
-          "y": 125.84375,
-          "width": 273,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 289
+          "x": 14,
+          "y": 113.84375,
+          "width": 277,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 291
         },
         {
           "selector": ".draw-method-note",
@@ -177,21 +287,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 16,
-          "y": 227.671875,
-          "width": 273,
-          "height": 88.71875,
-          "bottom": 316.390625,
-          "right": 289
+          "x": 14,
+          "y": 200.03125,
+          "width": 277,
+          "height": 73.078125,
+          "bottom": 273.109375,
+          "right": 291
         },
         {
           "selector": "#difficulty-hint",
           "x": 14,
-          "y": 322.390625,
+          "y": 279.109375,
           "width": 277,
           "height": 15.390625,
-          "bottom": 337.78125,
+          "bottom": 294.5,
           "right": 291
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 87,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 87,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 87,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 277,
+          "height": 46
         }
       ],
       "scrolling": [],
@@ -219,12 +380,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 16,
-          "y": 125.84375,
-          "width": 273,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 289
+          "x": 14,
+          "y": 113.84375,
+          "width": 277,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 291
         },
         {
           "selector": ".draw-method-note",
@@ -252,6 +413,36 @@
           "height": 46,
           "bottom": 554,
           "right": 291
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 277,
+          "height": 46
         }
       ],
       "scrolling": [],
@@ -305,6 +496,43 @@
           "right": 286
         }
       ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 139,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 80,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -322,18 +550,18 @@
         {
           "selector": "#home-start",
           "x": 14,
-          "y": 328.015625,
+          "y": 308.40625,
           "width": 277,
           "height": 52,
-          "bottom": 380.015625,
+          "bottom": 360.40625,
           "right": 291
         },
         {
           "selector": "#home-continue",
           "x": 14,
-          "y": 388.015625,
+          "y": 368.40625,
           "width": 277,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 416.40625,
           "right": 291
         },
@@ -354,6 +582,22 @@
           "height": 17.59375,
           "bottom": 552,
           "right": 202
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 277,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 277,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -398,6 +642,36 @@
           "right": 291
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 277,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -414,21 +688,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 60.5,
+          "x": 14,
           "y": 296.1875,
-          "width": 84,
+          "width": 277,
           "height": 52,
           "bottom": 348.1875,
-          "right": 144.5
+          "right": 291
         },
         {
           "selector": "#restart-keep",
-          "x": 144.5,
-          "y": 308.59375,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 336.984375,
-          "right": 244.5
+          "x": 14,
+          "y": 360.1875,
+          "width": 277,
+          "height": 48,
+          "bottom": 408.1875,
+          "right": 291
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 277,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 277,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -482,6 +779,43 @@
           "right": 286
         }
       ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 139,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 80,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -518,10 +852,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 14,
           "y": 403.078125,
-          "width": 72,
+          "width": 277,
           "height": 44,
           "bottom": 447.078125,
-          "right": 86
+          "right": 291
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 277,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -575,6 +939,15 @@
           "right": 237
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -626,6 +999,93 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-375x650-modes-online-entry-simulated",
+      "width": 375,
+      "height": 650,
+      "documentWidth": 375,
+      "documentHeight": 651,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 135.984375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 207.484375,
+          "right": 355
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 215.484375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 286.984375,
+          "right": 355
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 294.984375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 366.484375,
+          "right": 355
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 374.484375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 445.984375,
+          "right": 355
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 458.984375,
+          "width": 309,
+          "height": 44,
+          "bottom": 502.984375,
+          "right": 342
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 517.984375,
+          "width": 335,
+          "height": 17.59375,
+          "bottom": 535.578125,
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -651,12 +1111,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 125.84375,
-          "width": 331,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 353
+          "x": 20,
+          "y": 113.84375,
+          "width": 335,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 355
         },
         {
           "selector": ".draw-method-note",
@@ -687,21 +1147,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 227.671875,
-          "width": 331,
-          "height": 88.71875,
-          "bottom": 316.390625,
-          "right": 353
+          "x": 20,
+          "y": 200.03125,
+          "width": 335,
+          "height": 73.078125,
+          "bottom": 273.109375,
+          "right": 355
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 322.390625,
+          "y": 279.109375,
           "width": 335,
           "height": 15.390625,
-          "bottom": 337.78125,
+          "bottom": 294.5,
           "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 106.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 106.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 106.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 46
         }
       ],
       "scrolling": [],
@@ -729,12 +1240,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 125.84375,
-          "width": 331,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 353
+          "x": 20,
+          "y": 113.84375,
+          "width": 335,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 355
         },
         {
           "selector": ".draw-method-note",
@@ -764,6 +1275,36 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -790,19 +1331,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 556.75,
+          "y": 557.5,
           "width": 189,
-          "height": 48.75,
+          "height": 48,
           "bottom": 605.5,
           "right": 258
         },
         {
           "selector": "#move-button",
           "x": 264,
-          "y": 557.125,
+          "y": 557.5,
           "width": 90,
           "height": 48,
-          "bottom": 605.125,
+          "bottom": 605.5,
           "right": 354
         },
         {
@@ -813,6 +1354,43 @@
           "height": 16.5,
           "bottom": 629,
           "right": 354
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 189,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -832,18 +1410,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 409.625,
+          "y": 390.015625,
           "width": 335,
           "height": 52,
-          "bottom": 461.625,
+          "bottom": 442.015625,
           "right": 355
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 469.625,
+          "y": 450.015625,
           "width": 335,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 498.015625,
           "right": 355
         },
@@ -864,6 +1442,22 @@
           "height": 17.59375,
           "bottom": 634,
           "right": 237
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 335,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -908,6 +1502,36 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 335,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -924,21 +1548,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 95.5,
+          "x": 20,
           "y": 275.390625,
-          "width": 84,
+          "width": 335,
           "height": 52,
           "bottom": 327.390625,
-          "right": 179.5
+          "right": 355
         },
         {
           "selector": "#restart-keep",
-          "x": 179.5,
-          "y": 287.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 316.1875,
-          "right": 279.5
+          "x": 20,
+          "y": 339.390625,
+          "width": 335,
+          "height": 48,
+          "bottom": 387.390625,
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 335,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 335,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -967,19 +1614,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 556.75,
+          "y": 557.5,
           "width": 189,
-          "height": 48.75,
+          "height": 48,
           "bottom": 605.5,
           "right": 258
         },
         {
           "selector": "#move-button",
           "x": 264,
-          "y": 557.125,
+          "y": 557.5,
           "width": 90,
           "height": 48,
-          "bottom": 605.125,
+          "bottom": 605.5,
           "right": 354
         },
         {
@@ -990,6 +1637,43 @@
           "height": 16.5,
           "bottom": 629,
           "right": 354
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 189,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1028,10 +1712,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 403.078125,
-          "width": 72,
+          "width": 335,
           "height": 44,
           "bottom": 447.078125,
-          "right": 92
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 335,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -1085,6 +1799,15 @@
           "right": 237
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1136,6 +1859,93 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-375x651-modes-online-entry-simulated",
+      "width": 375,
+      "height": 651,
+      "documentWidth": 375,
+      "documentHeight": 652,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 135.984375,
+          "width": 335,
+          "height": 71.609375,
+          "bottom": 207.59375,
+          "right": 355
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 215.59375,
+          "width": 335,
+          "height": 71.609375,
+          "bottom": 287.203125,
+          "right": 355
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 295.203125,
+          "width": 335,
+          "height": 71.609375,
+          "bottom": 366.8125,
+          "right": 355
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 374.8125,
+          "width": 335,
+          "height": 71.609375,
+          "bottom": 446.421875,
+          "right": 355
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 459.421875,
+          "width": 309,
+          "height": 44,
+          "bottom": 503.421875,
+          "right": 342
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 518.421875,
+          "width": 335,
+          "height": 17.59375,
+          "bottom": 536.015625,
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1161,12 +1971,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 125.84375,
-          "width": 331,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 353
+          "x": 20,
+          "y": 113.84375,
+          "width": 335,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 355
         },
         {
           "selector": ".draw-method-note",
@@ -1197,21 +2007,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 227.671875,
-          "width": 331,
-          "height": 88.71875,
-          "bottom": 316.390625,
-          "right": 353
+          "x": 20,
+          "y": 200.03125,
+          "width": 335,
+          "height": 73.078125,
+          "bottom": 273.109375,
+          "right": 355
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 322.390625,
+          "y": 279.109375,
           "width": 335,
           "height": 15.390625,
-          "bottom": 337.78125,
+          "bottom": 294.5,
           "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 106.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 106.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 106.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 46
         }
       ],
       "scrolling": [],
@@ -1239,12 +2100,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 125.84375,
-          "width": 331,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 353
+          "x": 20,
+          "y": 113.84375,
+          "width": 335,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 355
         },
         {
           "selector": ".draw-method-note",
@@ -1274,6 +2135,36 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1300,19 +2191,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 557.75,
+          "y": 558.5,
           "width": 189,
-          "height": 48.75,
+          "height": 48,
           "bottom": 606.5,
           "right": 258
         },
         {
           "selector": "#move-button",
           "x": 264,
-          "y": 558.125,
+          "y": 558.5,
           "width": 90,
           "height": 48,
-          "bottom": 606.125,
+          "bottom": 606.5,
           "right": 354
         },
         {
@@ -1323,6 +2214,43 @@
           "height": 16.5,
           "bottom": 630,
           "right": 354
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 189,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1342,18 +2270,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 410.625,
+          "y": 391.015625,
           "width": 335,
           "height": 52,
-          "bottom": 462.625,
+          "bottom": 443.015625,
           "right": 355
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 470.625,
+          "y": 451.015625,
           "width": 335,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 499.015625,
           "right": 355
         },
@@ -1374,6 +2302,22 @@
           "height": 17.59375,
           "bottom": 635,
           "right": 237
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 335,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1418,6 +2362,36 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 335,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1434,21 +2408,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 95.5,
+          "x": 20,
           "y": 275.390625,
-          "width": 84,
+          "width": 335,
           "height": 52,
           "bottom": 327.390625,
-          "right": 179.5
+          "right": 355
         },
         {
           "selector": "#restart-keep",
-          "x": 179.5,
-          "y": 287.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 316.1875,
-          "right": 279.5
+          "x": 20,
+          "y": 339.390625,
+          "width": 335,
+          "height": 48,
+          "bottom": 387.390625,
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 335,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 335,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1477,19 +2474,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 557.75,
+          "y": 558.5,
           "width": 189,
-          "height": 48.75,
+          "height": 48,
           "bottom": 606.5,
           "right": 258
         },
         {
           "selector": "#move-button",
           "x": 264,
-          "y": 558.125,
+          "y": 558.5,
           "width": 90,
           "height": 48,
-          "bottom": 606.125,
+          "bottom": 606.5,
           "right": 354
         },
         {
@@ -1500,6 +2497,43 @@
           "height": 16.5,
           "bottom": 630,
           "right": 354
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 189,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1538,10 +2572,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 403.078125,
-          "width": 72,
+          "width": 335,
           "height": 44,
           "bottom": 447.078125,
-          "right": 92
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 335,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -1595,6 +2659,15 @@
           "right": 244.5
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1646,6 +2719,93 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-390x700-modes-online-entry-simulated",
+      "width": 390,
+      "height": 700,
+      "documentWidth": 390,
+      "documentHeight": 701,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 137.234375,
+          "width": 350,
+          "height": 77,
+          "bottom": 214.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 222.234375,
+          "width": 350,
+          "height": 77,
+          "bottom": 299.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 307.234375,
+          "width": 350,
+          "height": 77,
+          "bottom": 384.234375,
+          "right": 370
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 392.234375,
+          "width": 350,
+          "height": 77,
+          "bottom": 469.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 482.234375,
+          "width": 324,
+          "height": 44,
+          "bottom": 526.234375,
+          "right": 357
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 541.234375,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 558.828125,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1671,12 +2831,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 125.84375,
-          "width": 346,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 368
+          "x": 20,
+          "y": 113.84375,
+          "width": 350,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -1707,21 +2867,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 227.671875,
-          "width": 346,
-          "height": 88.71875,
-          "bottom": 316.390625,
-          "right": 368
+          "x": 20,
+          "y": 200.03125,
+          "width": 350,
+          "height": 73.078125,
+          "bottom": 273.109375,
+          "right": 370
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 322.390625,
+          "y": 279.109375,
           "width": 350,
           "height": 15.390625,
-          "bottom": 337.78125,
+          "bottom": 294.5,
           "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 111.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 46
         }
       ],
       "scrolling": [],
@@ -1749,12 +2960,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 125.84375,
-          "width": 346,
-          "height": 93.828125,
-          "bottom": 219.671875,
-          "right": 368
+          "x": 20,
+          "y": 113.84375,
+          "width": 350,
+          "height": 78.1875,
+          "bottom": 192.03125,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -1784,6 +2995,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1810,19 +3051,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 606.75,
+          "y": 607.5,
           "width": 204,
-          "height": 48.75,
+          "height": 48,
           "bottom": 655.5,
           "right": 273
         },
         {
           "selector": "#move-button",
           "x": 279,
-          "y": 607.125,
+          "y": 607.5,
           "width": 90,
           "height": 48,
-          "bottom": 655.125,
+          "bottom": 655.5,
           "right": 369
         },
         {
@@ -1833,6 +3074,43 @@
           "height": 16.5,
           "bottom": 679,
           "right": 369
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 204,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1852,18 +3130,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 459.625,
+          "y": 440.015625,
           "width": 350,
           "height": 52,
-          "bottom": 511.625,
+          "bottom": 492.015625,
           "right": 370
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 519.625,
+          "y": 500.015625,
           "width": 350,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 548.015625,
           "right": 370
         },
@@ -1884,6 +3162,22 @@
           "height": 17.59375,
           "bottom": 684,
           "right": 244.5
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1928,6 +3222,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 350,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -1944,21 +3268,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 103,
+          "x": 20,
           "y": 275.390625,
-          "width": 84,
+          "width": 350,
           "height": 52,
           "bottom": 327.390625,
-          "right": 187
+          "right": 370
         },
         {
           "selector": "#restart-keep",
-          "x": 187,
-          "y": 287.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 316.1875,
-          "right": 287
+          "x": 20,
+          "y": 339.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 387.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -1987,19 +3334,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 606.75,
+          "y": 607.5,
           "width": 204,
-          "height": 48.75,
+          "height": 48,
           "bottom": 655.5,
           "right": 273
         },
         {
           "selector": "#move-button",
           "x": 279,
-          "y": 607.125,
+          "y": 607.5,
           "width": 90,
           "height": 48,
-          "bottom": 655.125,
+          "bottom": 655.5,
           "right": 369
         },
         {
@@ -2010,6 +3357,43 @@
           "height": 16.5,
           "bottom": 679,
           "right": 369
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 204,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2048,10 +3432,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 403.078125,
-          "width": 72,
+          "width": 350,
           "height": 44,
           "bottom": 447.078125,
-          "right": 92
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 350,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -2105,6 +3519,15 @@
           "right": 244.5
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2156,6 +3579,93 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-390x701-modes-online-entry-simulated",
+      "width": 390,
+      "height": 701,
+      "documentWidth": 390,
+      "documentHeight": 702,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 137.234375,
+          "width": 350,
+          "height": 77.109375,
+          "bottom": 214.34375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 222.34375,
+          "width": 350,
+          "height": 77.109375,
+          "bottom": 299.453125,
+          "right": 370
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 307.453125,
+          "width": 350,
+          "height": 77.109375,
+          "bottom": 384.5625,
+          "right": 370
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 392.5625,
+          "width": 350,
+          "height": 77.109375,
+          "bottom": 469.671875,
+          "right": 370
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 482.671875,
+          "width": 324,
+          "height": 44,
+          "bottom": 526.671875,
+          "right": 357
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 541.671875,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 559.265625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2181,12 +3691,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 135.1875,
-          "width": 346,
-          "height": 95.234375,
-          "bottom": 230.421875,
-          "right": 368
+          "x": 20,
+          "y": 123.1875,
+          "width": 350,
+          "height": 79.59375,
+          "bottom": 202.78125,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -2217,21 +3727,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 254.421875,
-          "width": 346,
-          "height": 90.125,
-          "bottom": 344.546875,
-          "right": 368
+          "x": 20,
+          "y": 214.78125,
+          "width": 350,
+          "height": 74.484375,
+          "bottom": 289.265625,
+          "right": 370
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 350.546875,
+          "y": 295.265625,
           "width": 350,
           "height": 15.390625,
-          "bottom": 365.9375,
+          "bottom": 310.65625,
           "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 111.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2259,12 +3820,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 135.1875,
-          "width": 346,
-          "height": 95.234375,
-          "bottom": 230.421875,
-          "right": 368
+          "x": 20,
+          "y": 123.1875,
+          "width": 350,
+          "height": 79.59375,
+          "bottom": 202.78125,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -2294,6 +3855,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2320,19 +3911,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 607.75,
+          "y": 608.5,
           "width": 204,
-          "height": 48.75,
+          "height": 48,
           "bottom": 656.5,
           "right": 273
         },
         {
           "selector": "#move-button",
           "x": 279,
-          "y": 608.125,
+          "y": 608.5,
           "width": 90,
           "height": 48,
-          "bottom": 656.125,
+          "bottom": 656.5,
           "right": 369
         },
         {
@@ -2343,6 +3934,43 @@
           "height": 16.5,
           "bottom": 680,
           "right": 369
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 204,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2362,18 +3990,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 457.015625,
+          "y": 437.40625,
           "width": 350,
           "height": 52,
-          "bottom": 509.015625,
+          "bottom": 489.40625,
           "right": 370
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 517.015625,
+          "y": 497.40625,
           "width": 350,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 545.40625,
           "right": 370
         },
@@ -2394,6 +4022,22 @@
           "height": 17.59375,
           "bottom": 685,
           "right": 244.5
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2438,6 +4082,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2454,21 +4128,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 103,
+          "x": 20,
           "y": 287.390625,
-          "width": 84,
+          "width": 350,
           "height": 52,
           "bottom": 339.390625,
-          "right": 187
+          "right": 370
         },
         {
           "selector": "#restart-keep",
-          "x": 187,
-          "y": 299.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 328.1875,
-          "right": 287
+          "x": 20,
+          "y": 351.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 399.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2497,19 +4194,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 607.75,
+          "y": 608.5,
           "width": 204,
-          "height": 48.75,
+          "height": 48,
           "bottom": 656.5,
           "right": 273
         },
         {
           "selector": "#move-button",
           "x": 279,
-          "y": 608.125,
+          "y": 608.5,
           "width": 90,
           "height": 48,
-          "bottom": 656.125,
+          "bottom": 656.5,
           "right": 369
         },
         {
@@ -2520,6 +4217,43 @@
           "height": 16.5,
           "bottom": 680,
           "right": 369
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 204,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2558,10 +4292,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 513.78125,
-          "width": 72,
+          "width": 350,
           "height": 44,
           "bottom": 557.78125,
-          "right": 92
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 350,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -2615,6 +4379,15 @@
           "right": 244.5
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2666,6 +4439,93 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-390x740-modes-online-entry-simulated",
+      "width": 390,
+      "height": 740,
+      "documentWidth": 390,
+      "documentHeight": 741,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 137.234375,
+          "width": 350,
+          "height": 81.390625,
+          "bottom": 218.625,
+          "right": 370
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 226.625,
+          "width": 350,
+          "height": 81.390625,
+          "bottom": 308.015625,
+          "right": 370
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 316.015625,
+          "width": 350,
+          "height": 81.390625,
+          "bottom": 397.40625,
+          "right": 370
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 405.40625,
+          "width": 350,
+          "height": 81.390625,
+          "bottom": 486.796875,
+          "right": 370
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 499.796875,
+          "width": 324,
+          "height": 44,
+          "bottom": 543.796875,
+          "right": 357
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 558.796875,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 576.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2691,12 +4551,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 135.1875,
-          "width": 346,
-          "height": 95.234375,
-          "bottom": 230.421875,
-          "right": 368
+          "x": 20,
+          "y": 123.1875,
+          "width": 350,
+          "height": 79.59375,
+          "bottom": 202.78125,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -2727,21 +4587,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 254.421875,
-          "width": 346,
-          "height": 90.125,
-          "bottom": 344.546875,
-          "right": 368
+          "x": 20,
+          "y": 214.78125,
+          "width": 350,
+          "height": 74.484375,
+          "bottom": 289.265625,
+          "right": 370
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 350.546875,
+          "y": 295.265625,
           "width": 350,
           "height": 15.390625,
-          "bottom": 365.9375,
+          "bottom": 310.65625,
           "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 111.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2769,12 +4680,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 135.1875,
-          "width": 346,
-          "height": 95.234375,
-          "bottom": 230.421875,
-          "right": 368
+          "x": 20,
+          "y": 123.1875,
+          "width": 350,
+          "height": 79.59375,
+          "bottom": 202.78125,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -2804,6 +4715,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2830,19 +4771,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 646.75,
+          "y": 647.5,
           "width": 204,
-          "height": 48.75,
+          "height": 48,
           "bottom": 695.5,
           "right": 273
         },
         {
           "selector": "#move-button",
           "x": 279,
-          "y": 647.125,
+          "y": 647.5,
           "width": 90,
           "height": 48,
-          "bottom": 695.125,
+          "bottom": 695.5,
           "right": 369
         },
         {
@@ -2853,6 +4794,43 @@
           "height": 16.5,
           "bottom": 719,
           "right": 369
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 204,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2872,18 +4850,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 496.015625,
+          "y": 476.40625,
           "width": 350,
           "height": 52,
-          "bottom": 548.015625,
+          "bottom": 528.40625,
           "right": 370
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 556.015625,
+          "y": 536.40625,
           "width": 350,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 584.40625,
           "right": 370
         },
@@ -2904,6 +4882,22 @@
           "height": 17.59375,
           "bottom": 724,
           "right": 244.5
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -2948,6 +4942,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -2964,21 +4988,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 103,
+          "x": 20,
           "y": 287.390625,
-          "width": 84,
+          "width": 350,
           "height": 52,
           "bottom": 339.390625,
-          "right": 187
+          "right": 370
         },
         {
           "selector": "#restart-keep",
-          "x": 187,
-          "y": 299.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 328.1875,
-          "right": 287
+          "x": 20,
+          "y": 351.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 399.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3007,19 +5054,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 646.75,
+          "y": 647.5,
           "width": 204,
-          "height": 48.75,
+          "height": 48,
           "bottom": 695.5,
           "right": 273
         },
         {
           "selector": "#move-button",
           "x": 279,
-          "y": 647.125,
+          "y": 647.5,
           "width": 90,
           "height": 48,
-          "bottom": 695.125,
+          "bottom": 695.5,
           "right": 369
         },
         {
@@ -3030,6 +5077,43 @@
           "height": 16.5,
           "bottom": 719,
           "right": 369
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 204,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3068,10 +5152,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 513.78125,
-          "width": 72,
+          "width": 350,
           "height": 44,
           "bottom": 557.78125,
-          "right": 92
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 350,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -3125,6 +5239,15 @@
           "right": 244.5
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3176,6 +5299,93 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-390x780-modes-online-entry-simulated",
+      "width": 390,
+      "height": 780,
+      "documentWidth": 390,
+      "documentHeight": 781,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 137.234375,
+          "width": 350,
+          "height": 85.796875,
+          "bottom": 223.03125,
+          "right": 370
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 231.03125,
+          "width": 350,
+          "height": 85.796875,
+          "bottom": 316.828125,
+          "right": 370
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 324.828125,
+          "width": 350,
+          "height": 85.796875,
+          "bottom": 410.625,
+          "right": 370
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 418.625,
+          "width": 350,
+          "height": 85.796875,
+          "bottom": 504.421875,
+          "right": 370
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 517.421875,
+          "width": 324,
+          "height": 44,
+          "bottom": 561.421875,
+          "right": 357
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 576.421875,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 594.015625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3201,12 +5411,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 135.1875,
-          "width": 346,
-          "height": 170.3125,
-          "bottom": 305.5,
-          "right": 368
+          "x": 20,
+          "y": 123.1875,
+          "width": 350,
+          "height": 154.671875,
+          "bottom": 277.859375,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -3237,21 +5447,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 329.5,
-          "width": 346,
-          "height": 90.125,
-          "bottom": 419.625,
-          "right": 368
+          "x": 20,
+          "y": 289.859375,
+          "width": 350,
+          "height": 74.484375,
+          "bottom": 364.34375,
+          "right": 370
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 425.625,
+          "y": 370.34375,
           "width": 350,
           "height": 15.390625,
-          "bottom": 441.015625,
+          "bottom": 385.734375,
           "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 129.078125
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 129.078125
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 111.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3279,12 +5540,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 135.1875,
-          "width": 346,
-          "height": 170.3125,
-          "bottom": 305.5,
-          "right": 368
+          "x": 20,
+          "y": 123.1875,
+          "width": 350,
+          "height": 154.671875,
+          "bottom": 277.859375,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -3314,6 +5575,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 129.078125
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 129.078125
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3340,19 +5631,19 @@
         {
           "selector": "#draw-button",
           "x": 23,
-          "y": 683.75,
+          "y": 684.5,
           "width": 228,
-          "height": 48.75,
+          "height": 48,
           "bottom": 732.5,
           "right": 251
         },
         {
           "selector": "#move-button",
           "x": 259,
-          "y": 684.125,
+          "y": 684.5,
           "width": 108,
           "height": 48,
-          "bottom": 732.125,
+          "bottom": 732.5,
           "right": 367
         },
         {
@@ -3363,6 +5654,43 @@
           "height": 16.5,
           "bottom": 757,
           "right": 367
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 228,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 108,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3382,18 +5710,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 536.015625,
+          "y": 516.40625,
           "width": 350,
           "height": 52,
-          "bottom": 588.015625,
+          "bottom": 568.40625,
           "right": 370
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 596.015625,
+          "y": 576.40625,
           "width": 350,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 624.40625,
           "right": 370
         },
@@ -3414,6 +5742,22 @@
           "height": 17.59375,
           "bottom": 764,
           "right": 244.5
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3458,6 +5802,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 129.078125
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 129.078125
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3474,21 +5848,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 103,
+          "x": 20,
           "y": 287.390625,
-          "width": 84,
+          "width": 350,
           "height": 52,
           "bottom": 339.390625,
-          "right": 187
+          "right": 370
         },
         {
           "selector": "#restart-keep",
-          "x": 187,
-          "y": 299.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 328.1875,
-          "right": 287
+          "x": 20,
+          "y": 351.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 399.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3517,19 +5914,19 @@
         {
           "selector": "#draw-button",
           "x": 23,
-          "y": 683.75,
+          "y": 684.5,
           "width": 228,
-          "height": 48.75,
+          "height": 48,
           "bottom": 732.5,
           "right": 251
         },
         {
           "selector": "#move-button",
           "x": 259,
-          "y": 684.125,
+          "y": 684.5,
           "width": 108,
           "height": 48,
-          "bottom": 732.125,
+          "bottom": 732.5,
           "right": 367
         },
         {
@@ -3540,6 +5937,43 @@
           "height": 16.5,
           "bottom": 757,
           "right": 367
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 228,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 108,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3578,10 +6012,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 513.78125,
-          "width": 72,
+          "width": 350,
           "height": 44,
           "bottom": 557.78125,
-          "right": 92
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 350,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -3635,6 +6099,15 @@
           "right": 244.5
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3686,6 +6159,144 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-390x844-modes-online-entry-simulated",
+      "width": 390,
+      "height": 844,
+      "documentWidth": 390,
+      "documentHeight": 845,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 137.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 223.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 231.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 317.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 325.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 411.234375,
+          "right": 370
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 419.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 505.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 518.234375,
+          "width": 324,
+          "height": 44,
+          "bottom": 562.234375,
+          "right": 357
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 577.234375,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 594.828125,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 0,
+        "bottom": 0
+      }
+    },
+    {
+      "label": "pages-390x844-modes-online-expanded",
+      "width": 390,
+      "height": 844,
+      "documentWidth": 390,
+      "documentHeight": 845,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 325.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 411.234375,
+          "right": 370
+        },
+        {
+          "selector": "#room-open",
+          "x": 33,
+          "y": 562.234375,
+          "width": 105.34375,
+          "height": 44,
+          "bottom": 606.234375,
+          "right": 138.34375
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 621.234375,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 638.828125,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3711,12 +6322,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 197.1875,
-          "width": 346,
-          "height": 176.078125,
-          "bottom": 373.265625,
-          "right": 368
+          "x": 20,
+          "y": 185.1875,
+          "width": 350,
+          "height": 160.4375,
+          "bottom": 345.625,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -3747,21 +6358,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 397.265625,
-          "width": 346,
-          "height": 90.125,
-          "bottom": 487.390625,
-          "right": 368
+          "x": 20,
+          "y": 357.625,
+          "width": 350,
+          "height": 74.484375,
+          "bottom": 432.109375,
+          "right": 370
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 493.390625,
+          "y": 438.109375,
           "width": 350,
           "height": 15.390625,
-          "bottom": 508.78125,
+          "bottom": 453.5,
           "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 111.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3789,12 +6451,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 197.1875,
-          "width": 346,
-          "height": 176.078125,
-          "bottom": 373.265625,
-          "right": 368
+          "x": 20,
+          "y": 185.1875,
+          "width": 350,
+          "height": 160.4375,
+          "bottom": 345.625,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -3824,6 +6486,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3850,19 +6542,19 @@
         {
           "selector": "#draw-button",
           "x": 23,
-          "y": 747.75,
+          "y": 748.5,
           "width": 228,
-          "height": 48.75,
+          "height": 48,
           "bottom": 796.5,
           "right": 251
         },
         {
           "selector": "#move-button",
           "x": 259,
-          "y": 748.125,
+          "y": 748.5,
           "width": 108,
           "height": 48,
-          "bottom": 796.125,
+          "bottom": 796.5,
           "right": 367
         },
         {
@@ -3873,6 +6565,43 @@
           "height": 16.5,
           "bottom": 821,
           "right": 367
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 228,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 108,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3892,18 +6621,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 600.015625,
+          "y": 580.40625,
           "width": 350,
           "height": 52,
-          "bottom": 652.015625,
+          "bottom": 632.40625,
           "right": 370
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 660.015625,
+          "y": 640.40625,
           "width": 350,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 688.40625,
           "right": 370
         },
@@ -3924,6 +6653,22 @@
           "height": 17.59375,
           "bottom": 828,
           "right": 244.5
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -3968,6 +6713,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -3984,21 +6759,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 103,
+          "x": 20,
           "y": 287.390625,
-          "width": 84,
+          "width": 350,
           "height": 52,
           "bottom": 339.390625,
-          "right": 187
+          "right": 370
         },
         {
           "selector": "#restart-keep",
-          "x": 187,
-          "y": 299.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 328.1875,
-          "right": 287
+          "x": 20,
+          "y": 351.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 399.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4027,19 +6825,19 @@
         {
           "selector": "#draw-button",
           "x": 23,
-          "y": 747.75,
+          "y": 748.5,
           "width": 228,
-          "height": 48.75,
+          "height": 48,
           "bottom": 796.5,
           "right": 251
         },
         {
           "selector": "#move-button",
           "x": 259,
-          "y": 748.125,
+          "y": 748.5,
           "width": 108,
           "height": 48,
-          "bottom": 796.125,
+          "bottom": 796.5,
           "right": 367
         },
         {
@@ -4050,6 +6848,43 @@
           "height": 16.5,
           "bottom": 821,
           "right": 367
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 228,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 108,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4088,10 +6923,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 513.78125,
-          "width": 72,
+          "width": 350,
           "height": 44,
           "bottom": 557.78125,
-          "right": 92
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 350,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -4145,6 +7010,15 @@
           "right": 237
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -4196,6 +7070,93 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 20,
+        "bottom": 24
+      }
+    },
+    {
+      "label": "pages-375x650-safe-area-modes-online-entry-simulated",
+      "width": 375,
+      "height": 650,
+      "documentWidth": 375,
+      "documentHeight": 651,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 147.984375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 219.484375,
+          "right": 355
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 227.484375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 298.984375,
+          "right": 355
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 306.984375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 378.484375,
+          "right": 355
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 386.484375,
+          "width": 335,
+          "height": 71.5,
+          "bottom": 457.984375,
+          "right": 355
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 470.984375,
+          "width": 309,
+          "height": 44,
+          "bottom": 514.984375,
+          "right": 342
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 529.984375,
+          "width": 335,
+          "height": 17.59375,
+          "bottom": 547.578125,
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -4221,12 +7182,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 139.84375,
-          "width": 331,
-          "height": 93.828125,
-          "bottom": 233.671875,
-          "right": 353
+          "x": 20,
+          "y": 127.84375,
+          "width": 335,
+          "height": 78.1875,
+          "bottom": 206.03125,
+          "right": 355
         },
         {
           "selector": ".draw-method-note",
@@ -4257,21 +7218,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 241.671875,
-          "width": 331,
-          "height": 88.71875,
-          "bottom": 330.390625,
-          "right": 353
+          "x": 20,
+          "y": 214.03125,
+          "width": 335,
+          "height": 73.078125,
+          "bottom": 287.109375,
+          "right": 355
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 336.390625,
+          "y": 293.109375,
           "width": 335,
           "height": 15.390625,
-          "bottom": 351.78125,
+          "bottom": 308.5,
           "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 106.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 106.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 106.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 46
         }
       ],
       "scrolling": [],
@@ -4299,12 +7311,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 139.84375,
-          "width": 331,
-          "height": 93.828125,
-          "bottom": 233.671875,
-          "right": 353
+          "x": 20,
+          "y": 127.84375,
+          "width": 335,
+          "height": 78.1875,
+          "bottom": 206.03125,
+          "right": 355
         },
         {
           "selector": ".draw-method-note",
@@ -4334,6 +7346,36 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -4360,19 +7402,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 544.75,
+          "y": 545.5,
           "width": 189,
-          "height": 48.75,
+          "height": 48,
           "bottom": 593.5,
           "right": 258
         },
         {
           "selector": "#move-button",
           "x": 264,
-          "y": 545.125,
+          "y": 545.5,
           "width": 90,
           "height": 48,
-          "bottom": 593.125,
+          "bottom": 593.5,
           "right": 354
         },
         {
@@ -4383,6 +7425,43 @@
           "height": 16.5,
           "bottom": 617,
           "right": 354
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 189,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4402,18 +7481,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 401.625,
+          "y": 382.015625,
           "width": 335,
           "height": 52,
-          "bottom": 453.625,
+          "bottom": 434.015625,
           "right": 355
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 461.625,
+          "y": 442.015625,
           "width": 335,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 490.015625,
           "right": 355
         },
@@ -4434,6 +7513,22 @@
           "height": 17.59375,
           "bottom": 626,
           "right": 237
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 335,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 335,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4478,6 +7573,36 @@
           "right": 355
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 163.5,
+          "height": 54
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 335,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -4494,21 +7619,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 95.5,
+          "x": 20,
           "y": 287.390625,
-          "width": 84,
+          "width": 335,
           "height": 52,
           "bottom": 339.390625,
-          "right": 179.5
+          "right": 355
         },
         {
           "selector": "#restart-keep",
-          "x": 179.5,
-          "y": 299.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 328.1875,
-          "right": 279.5
+          "x": 20,
+          "y": 351.390625,
+          "width": 335,
+          "height": 48,
+          "bottom": 399.390625,
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 335,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 335,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4537,19 +7685,19 @@
         {
           "selector": "#draw-button",
           "x": 69,
-          "y": 544.75,
+          "y": 545.5,
           "width": 189,
-          "height": 48.75,
+          "height": 48,
           "bottom": 593.5,
           "right": 258
         },
         {
           "selector": "#move-button",
           "x": 264,
-          "y": 545.125,
+          "y": 545.5,
           "width": 90,
           "height": 48,
-          "bottom": 593.125,
+          "bottom": 593.5,
           "right": 354
         },
         {
@@ -4560,6 +7708,43 @@
           "height": 16.5,
           "bottom": 617,
           "right": 354
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 189,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 90,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4598,10 +7783,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 415.078125,
-          "width": 72,
+          "width": 335,
           "height": 44,
           "bottom": 459.078125,
-          "right": 92
+          "right": 355
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 335,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -4655,6 +7870,15 @@
           "right": 244.5
         }
       ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -4706,6 +7930,144 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 20,
+        "bottom": 24
+      }
+    },
+    {
+      "label": "pages-390x844-safe-area-modes-online-entry-simulated",
+      "width": 390,
+      "height": 844,
+      "documentWidth": 390,
+      "documentHeight": 845,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-computer",
+          "x": 20,
+          "y": 149.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 235.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-local",
+          "x": 20,
+          "y": 243.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 329.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 337.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 423.234375,
+          "right": 370
+        },
+        {
+          "selector": "#challenge-open",
+          "x": 20,
+          "y": 431.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 517.234375,
+          "right": 370
+        },
+        {
+          "selector": "#mode-extras summary",
+          "x": 33,
+          "y": 530.234375,
+          "width": 324,
+          "height": 44,
+          "bottom": 574.234375,
+          "right": 357
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 589.234375,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 606.828125,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
+      "scrolling": [],
+      "limits": {
+        "top": 20,
+        "bottom": 24
+      }
+    },
+    {
+      "label": "pages-390x844-safe-area-modes-online-expanded",
+      "width": 390,
+      "height": 844,
+      "documentWidth": 390,
+      "documentHeight": 845,
+      "scrollY": 0,
+      "boxes": [
+        {
+          "selector": "#mode-online",
+          "x": 20,
+          "y": 337.234375,
+          "width": 350,
+          "height": 86,
+          "bottom": 423.234375,
+          "right": 370
+        },
+        {
+          "selector": "#room-open",
+          "x": 33,
+          "y": 574.234375,
+          "width": 105.34375,
+          "height": 44,
+          "bottom": 618.234375,
+          "right": 138.34375
+        },
+        {
+          "selector": ".bottom-note",
+          "x": 20,
+          "y": 633.234375,
+          "width": 350,
+          "height": 17.59375,
+          "bottom": 650.828125,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -4731,12 +8093,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 209.1875,
-          "width": 346,
-          "height": 176.078125,
-          "bottom": 385.265625,
-          "right": 368
+          "x": 20,
+          "y": 197.1875,
+          "width": 350,
+          "height": 160.4375,
+          "bottom": 357.625,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -4767,21 +8129,72 @@
         },
         {
           "selector": "#difficulty",
-          "x": 22,
-          "y": 409.265625,
-          "width": 346,
-          "height": 90.125,
-          "bottom": 499.390625,
-          "right": 368
+          "x": 20,
+          "y": 369.625,
+          "width": 350,
+          "height": 74.484375,
+          "bottom": 444.109375,
+          "right": 370
         },
         {
           "selector": "#difficulty-hint",
           "x": 20,
-          "y": 505.390625,
+          "y": 450.109375,
           "width": 350,
           "height": 15.390625,
-          "bottom": 520.78125,
+          "bottom": 465.5,
           "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 111.328125,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 111.34375,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4809,12 +8222,12 @@
         },
         {
           "selector": "#board-mode",
-          "x": 22,
-          "y": 209.1875,
-          "width": 346,
-          "height": 176.078125,
-          "bottom": 385.265625,
-          "right": 368
+          "x": 20,
+          "y": 197.1875,
+          "width": 350,
+          "height": 160.4375,
+          "bottom": 357.625,
+          "right": 370
         },
         {
           "selector": ".draw-method-note",
@@ -4844,6 +8257,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -4870,19 +8313,19 @@
         {
           "selector": "#draw-button",
           "x": 23,
-          "y": 735.75,
+          "y": 736.5,
           "width": 228,
-          "height": 48.75,
+          "height": 48,
           "bottom": 784.5,
           "right": 251
         },
         {
           "selector": "#move-button",
           "x": 259,
-          "y": 736.125,
+          "y": 736.5,
           "width": 108,
           "height": 48,
-          "bottom": 784.125,
+          "bottom": 784.5,
           "right": 367
         },
         {
@@ -4893,6 +8336,43 @@
           "height": 16.5,
           "bottom": 809,
           "right": 367
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 228,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 108,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4912,18 +8392,18 @@
         {
           "selector": "#home-start",
           "x": 20,
-          "y": 592.015625,
+          "y": 572.40625,
           "width": 350,
           "height": 52,
-          "bottom": 644.015625,
+          "bottom": 624.40625,
           "right": 370
         },
         {
           "selector": "#home-continue",
           "x": 20,
-          "y": 652.015625,
+          "y": 632.40625,
           "width": 350,
-          "height": 28.390625,
+          "height": 48,
           "bottom": 680.40625,
           "right": 370
         },
@@ -4944,6 +8424,22 @@
           "height": 17.59375,
           "bottom": 820,
           "right": 244.5
+        }
+      ],
+      "controls": [
+        {
+          "id": "home-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "home-continue",
+          "className": "mint-button",
+          "label": "继续棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -4988,6 +8484,36 @@
           "right": 370
         }
       ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 171,
+          "height": 134.84375
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "继续这一局",
+          "width": 350,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 20,
@@ -5004,21 +8530,44 @@
       "boxes": [
         {
           "selector": "#restart-confirm",
-          "x": 103,
+          "x": 20,
           "y": 299.390625,
-          "width": 84,
+          "width": 350,
           "height": 52,
           "bottom": 351.390625,
-          "right": 187
+          "right": 370
         },
         {
           "selector": "#restart-keep",
-          "x": 187,
-          "y": 311.796875,
-          "width": 100,
-          "height": 28.390625,
-          "bottom": 340.1875,
-          "right": 287
+          "x": 20,
+          "y": 363.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 411.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "restart-cancel",
+          "className": "icon-button",
+          "label": "继续当前棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "restart-confirm",
+          "className": "primary-button jumbo",
+          "label": "重新开局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "restart-keep",
+          "className": "mint-button",
+          "label": "继续当前棋局",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -5047,19 +8596,19 @@
         {
           "selector": "#draw-button",
           "x": 23,
-          "y": 735.75,
+          "y": 736.5,
           "width": 228,
-          "height": 48.75,
+          "height": 48,
           "bottom": 784.5,
           "right": 251
         },
         {
           "selector": "#move-button",
           "x": 259,
-          "y": 736.125,
+          "y": 736.5,
           "width": 108,
           "height": 48,
-          "bottom": 784.125,
+          "bottom": 784.5,
           "right": 367
         },
         {
@@ -5070,6 +8619,43 @@
           "height": 16.5,
           "bottom": 809,
           "right": 367
+        }
+      ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "先抽子，看清棋子后再选择空位放置",
+          "width": 228,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 108,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -5108,10 +8694,40 @@
           "selector": "[data-game-fullscreen]",
           "x": 20,
           "y": 525.78125,
-          "width": 72,
+          "width": 350,
           "height": 44,
           "bottom": 569.78125,
-          "right": 92
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "tools-close",
+          "className": "icon-button",
+          "label": "返回对局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "zoom-out",
+          "className": "icon-button",
+          "label": "缩小棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "zoom-board",
+          "className": "icon-button",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "mint-button",
+          "label": "全屏",
+          "width": 350,
+          "height": 44
         }
       ],
       "scrolling": [],
@@ -5154,6 +8770,57 @@
           "height": 44.78125,
           "bottom": 502,
           "right": 291
+        }
+      ],
+      "controls": [
+        {
+          "id": "",
+          "className": "icon-button",
+          "label": "返回",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "楚河　汉界\n            经典棋盘9 × 10 · 紧凑对弈",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "大棋盘15 × 15 · 自由布阵",
+          "width": 134.5,
+          "height": 54
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "简易轻松试试",
+          "width": 87,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "标准认真过招",
+          "width": 87,
+          "height": 48.890625
+        },
+        {
+          "id": "",
+          "className": "",
+          "label": "困难挑战妙手",
+          "width": 87,
+          "height": 48.890625
+        },
+        {
+          "id": "setup-start",
+          "className": "primary-button jumbo",
+          "label": "开始对弈",
+          "width": 277,
+          "height": 46
         }
       ],
       "scrolling": [],
@@ -5207,6 +8874,43 @@
           "right": 286
         }
       ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "已抽到「车」，点棋盘空位放置，不能重抽或改为移动",
+          "width": 139,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 80,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -5258,6 +8962,43 @@
           "right": 286
         }
       ],
+      "controls": [
+        {
+          "id": "game-back",
+          "className": "icon-button",
+          "label": "返回首页，保留棋局",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "game-more",
+          "className": "icon-button more-icon",
+          "label": "更多对局选项",
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "game-zoom",
+          "className": "icon-button zoom-icon",
+          "label": "放大棋盘",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "id": "draw-button",
+          "className": "primary-button",
+          "label": "已抽到「车」，点棋盘空位放置，不能重抽或改为移动",
+          "width": 139,
+          "height": 48
+        },
+        {
+          "id": "move-button",
+          "className": "mint-button",
+          "label": "移动棋子",
+          "width": 80,
+          "height": 48
+        }
+      ],
       "scrolling": [],
       "limits": {
         "top": 0,
@@ -5292,21 +9033,44 @@
         },
         {
           "selector": "#result-restart",
-          "x": 117,
-          "y": 313.390625,
-          "width": 84,
+          "x": 20,
+          "y": 299.390625,
+          "width": 350,
           "height": 52,
-          "bottom": 365.390625,
-          "right": 201
+          "bottom": 351.390625,
+          "right": 370
         },
         {
           "selector": "#result-board",
-          "x": 201,
-          "y": 325.796875,
-          "width": 72,
-          "height": 28.390625,
-          "bottom": 354.1875,
-          "right": 273
+          "x": 20,
+          "y": 363.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 411.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "result-home",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "result-restart",
+          "className": "primary-button jumbo",
+          "label": "再来一局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "result-board",
+          "className": "mint-button",
+          "label": "查看棋盘",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -5343,21 +9107,44 @@
         },
         {
           "selector": "#result-restart",
-          "x": 117,
-          "y": 313.390625,
-          "width": 84,
+          "x": 20,
+          "y": 299.390625,
+          "width": 350,
           "height": 52,
-          "bottom": 365.390625,
-          "right": 201
+          "bottom": 351.390625,
+          "right": 370
         },
         {
           "selector": "#result-board",
-          "x": 201,
-          "y": 325.796875,
-          "width": 72,
-          "height": 28.390625,
-          "bottom": 354.1875,
-          "right": 273
+          "x": 20,
+          "y": 363.390625,
+          "width": 350,
+          "height": 48,
+          "bottom": 411.390625,
+          "right": 370
+        }
+      ],
+      "controls": [
+        {
+          "id": "result-home",
+          "className": "icon-button",
+          "label": "返回首页",
+          "width": 44,
+          "height": 46
+        },
+        {
+          "id": "result-restart",
+          "className": "primary-button jumbo",
+          "label": "再来一局",
+          "width": 350,
+          "height": 52
+        },
+        {
+          "id": "result-board",
+          "className": "mint-button",
+          "label": "查看棋盘",
+          "width": 350,
+          "height": 48
         }
       ],
       "scrolling": [],
@@ -5370,6 +9157,8 @@
   "screenshots": [
     "pages-305x568-home.png",
     "pages-305x568-modes.png",
+    "pages-305x568-modes-online-entry.png",
+    "pages-305x568-modes-online-entry-expanded.png",
     "pages-305x568-setup-computer.png",
     "pages-305x568-setup-local.png",
     "pages-305x568-game-xiangqi.png",
@@ -5377,6 +9166,7 @@
     "pages-305x568-tools.png",
     "pages-375x650-home.png",
     "pages-375x650-modes.png",
+    "pages-375x650-modes-online-entry.png",
     "pages-375x650-setup-computer.png",
     "pages-375x650-setup-local.png",
     "pages-375x650-game-xiangqi.png",
@@ -5384,6 +9174,7 @@
     "pages-375x650-tools.png",
     "pages-375x651-home.png",
     "pages-375x651-modes.png",
+    "pages-375x651-modes-online-entry.png",
     "pages-375x651-setup-computer.png",
     "pages-375x651-setup-local.png",
     "pages-375x651-game-xiangqi.png",
@@ -5391,6 +9182,7 @@
     "pages-375x651-tools.png",
     "pages-390x700-home.png",
     "pages-390x700-modes.png",
+    "pages-390x700-modes-online-entry.png",
     "pages-390x700-setup-computer.png",
     "pages-390x700-setup-local.png",
     "pages-390x700-game-xiangqi.png",
@@ -5398,6 +9190,7 @@
     "pages-390x700-tools.png",
     "pages-390x701-home.png",
     "pages-390x701-modes.png",
+    "pages-390x701-modes-online-entry.png",
     "pages-390x701-setup-computer.png",
     "pages-390x701-setup-local.png",
     "pages-390x701-game-xiangqi.png",
@@ -5405,6 +9198,7 @@
     "pages-390x701-tools.png",
     "pages-390x740-home.png",
     "pages-390x740-modes.png",
+    "pages-390x740-modes-online-entry.png",
     "pages-390x740-setup-computer.png",
     "pages-390x740-setup-local.png",
     "pages-390x740-game-xiangqi.png",
@@ -5412,6 +9206,7 @@
     "pages-390x740-tools.png",
     "pages-390x780-home.png",
     "pages-390x780-modes.png",
+    "pages-390x780-modes-online-entry.png",
     "pages-390x780-setup-computer.png",
     "pages-390x780-setup-local.png",
     "pages-390x780-game-xiangqi.png",
@@ -5419,6 +9214,8 @@
     "pages-390x780-tools.png",
     "pages-390x844-home.png",
     "pages-390x844-modes.png",
+    "pages-390x844-modes-online-entry.png",
+    "pages-390x844-modes-online-entry-expanded.png",
     "pages-390x844-setup-computer.png",
     "pages-390x844-setup-local.png",
     "pages-390x844-game-xiangqi.png",
@@ -5426,6 +9223,7 @@
     "pages-390x844-tools.png",
     "pages-375x650-safe-area-home.png",
     "pages-375x650-safe-area-modes.png",
+    "pages-375x650-safe-area-modes-online-entry.png",
     "pages-375x650-safe-area-setup-computer.png",
     "pages-375x650-safe-area-setup-local.png",
     "pages-375x650-safe-area-game-xiangqi.png",
@@ -5433,6 +9231,8 @@
     "pages-375x650-safe-area-tools.png",
     "pages-390x844-safe-area-home.png",
     "pages-390x844-safe-area-modes.png",
+    "pages-390x844-safe-area-modes-online-entry.png",
+    "pages-390x844-safe-area-modes-online-entry-expanded.png",
     "pages-390x844-safe-area-setup-computer.png",
     "pages-390x844-safe-area-setup-local.png",
     "pages-390x844-safe-area-game-xiangqi.png",
