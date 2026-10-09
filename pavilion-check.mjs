@@ -185,7 +185,7 @@ async function main() {
       }, { selectors, limits });
       evidence.layouts.push({ label, ...layout });
       assert.ok(layout.documentWidth <= layout.width + 1, label + ': no horizontal page overflow');
-      assert.ok(layout.documentHeight <= layout.height + 1,
+      assert.ok(layout.documentHeight <= layout.height,
         label + ': no page scrolling needed: ' + JSON.stringify(layout));
       assert.equal(layout.scrollY, 0, label + ': page starts without scrolling');
       assert.deepEqual(layout.scrolling, [], label + ': no nested scrolling or clipped content');
