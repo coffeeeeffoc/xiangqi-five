@@ -1,9 +1,10 @@
-import { newGame, draw, deploy, move } from './game.js';
+import { newGame, draw, deploy, move, resign } from './game.js';
+import { isForcedLoss } from './computer.js';
 
 export const SAVE_KEY = 'xiangqi-five-local-v1';
 
 export function encodeGame(state, opponent, difficulty) {
-  return JSON.stringify({ version: 1, mode: state.mode, history: state.history, pending: state.pending, opponent, difficulty });
+  return JSON.stringify({ version: 1, mode: state.mode, history: state.history, pending: state.pending, resigned: state.resigned, opponent, difficulty });
 }
 
 // Replaying through the real rules rejects malformed boards, impossible moves and duplicated pieces.
@@ -26,6 +27,11 @@ export function decodeGame(text) {
       if (JSON.stringify(state.history.at(-1)) !== JSON.stringify(event)) return null;
     }
     if (saved.pending) drawPiece(saved.pending);
+    if (saved.resigned != null) {
+      // Only the computer can auto-resign, and the replayed board must prove the loss.
+      if (saved.opponent !== 'computer' || saved.resigned !== 'black' || state.turn !== 'black' || !isForcedLoss(state)) return null;
+      resign(state);
+    }
     return { state, opponent: saved.opponent, difficulty: saved.difficulty };
   } catch { return null; }
 }

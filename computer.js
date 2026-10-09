@@ -1,4 +1,4 @@
-import { canMove, deploy, move, deployDirectly, hasAction } from './game.js';
+import { canMove, deploy, move, deployDirectly, hasAction, resign } from './game.js';
 
 const layouts = new Map();
 function linesFor(state) {
@@ -62,6 +62,18 @@ export function winningActions(state, side = state.turn) {
     });
   }
   return wins;
+}
+
+// A forced loss is proved across every legal reply, never inferred from a search score.
+// The deployed type cannot change whether the opponent can make five next turn.
+export function isForcedLoss(state) {
+  if (state.result || winningActions(state).length) return false;
+  const side = state.turn, enemy = opposite(side);
+  const enemyView = { ...state, turn: enemy, pending: null };
+  if (!winningActions(enemyView, enemy).length) return false;
+  const actions = legalActions(state);
+  return actions.length > 0 && actions.every((action) => withAction(state, action, side,
+    () => winningActions(enemyView, enemy).length > 0));
 }
 
 const opposite = (side) => side === 'red' ? 'black' : 'red';
@@ -220,8 +232,9 @@ export function searchPosition(input, difficulty = 'standard', limits = {}) {
   if (wins.length) { stats.action = wins[0]; stats.score = WIN; return stats; }
   const root = candidates(state, config.rootWidth);
   if (!root.ranked.length) {
-    stats.action = legalActions(state)[0] || null;
-    stats.score = root.threatened ? -WIN : 0;
+    const forcedLoss = root.threatened && root.hasActions;
+    stats.action = forcedLoss ? { type: 'resign', reason: 'forced-loss' } : null;
+    stats.score = forcedLoss ? -WIN : 0;
     stats.elapsedMs = performance.now() - started;
     return stats;
   }
@@ -305,6 +318,10 @@ export function chooseAction(state, difficulty = 'standard') {
 
 export function applyComputerAction(state, action, random = Math.random) {
   if (!action) return;
+  if (action.type === 'resign') {
+    if (!isForcedLoss(state)) throw new Error('当前仍有应对，不能自动认输');
+    return resign(state);
+  }
   if (action.type === 'move') move(state, action.from, action.to);
   else if (state.pending) deploy(state, action.to);
   else deployDirectly(state, action.to, random);

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { newGame, canMove, findFive, draw, deploy, move, hasAction, canDeployDirectly, deployDirectly } from './game.js';
+import { newGame, canMove, findFive, draw, deploy, move, hasAction, canDeployDirectly, deployDirectly, resign } from './game.js';
 import { chooseAction, applyComputerAction, winningActions } from './computer.js';
 import { encodeGame, decodeGame } from './local-game.js';
 
@@ -273,8 +273,10 @@ test('computer wins, blocks a single-ended five, and only makes legal moves on b
     const game = newGame(mode);
     for (let turn = 0; turn < 45 && !game.result; turn++) {
       const previousPly = game.ply;
-      applyComputerAction(game, chooseAction(game, turn % 2 ? 'standard' : 'practice'), () => .5);
-      assert.equal(game.ply, previousPly + 1);
+      const action = chooseAction(game, turn % 2 ? 'standard' : 'practice');
+      applyComputerAction(game, action, () => .5);
+      assert.equal(game.ply, previousPly + Number(action.type !== 'resign'));
+      if (action.type === 'resign') assert.equal(game.result, game.resigned === 'red' ? 'black' : 'red');
       assert.ok(game.board.filter(Boolean).length + game.pools.red.length + game.pools.black.length <= 32);
     }
   }
@@ -294,4 +296,45 @@ test('local saves replay exact legal history and pending draws, rejecting imposs
   assert.equal(decodeGame(JSON.stringify(corrupted)), null);
   corrupted.history = []; corrupted.pending.side = 'black';
   assert.equal(decodeGame(JSON.stringify(corrupted)), null);
+});
+
+test('resignation finishes without a fake move and locks all later actions', () => {
+  const s = newGame();
+  draw(s, () => 0);
+  const before = structuredClone(s);
+  resign(s);
+  assert.equal(s.result, 'black');
+  assert.equal(s.resigned, 'red');
+  assert.equal(s.turn, 'red');
+  assert.equal(s.ply, before.ply);
+  for (const key of ['board', 'pools', 'pending', 'history', 'winningLine']) assert.deepEqual(s[key], before[key]);
+  const ended = structuredClone(s);
+  assert.throws(() => draw(s));
+  assert.throws(() => deploy(s, 0));
+  assert.throws(() => move(s, 0, 1));
+  assert.throws(() => resign(s));
+  assert.deepEqual(s, ended);
+});
+
+test('saved computer resignations replay and verify the loss, including pending draws', () => {
+  for (const mode of ['xiangqi', 'gomoku']) for (const pending of [false, true]) {
+    const s = newGame(mode), back = (s.rows - 1) * s.cols;
+    for (const to of [1, back + 1, 2, back + 3, 3, back + 5, 4]) deployDirectly(s, to, () => .99);
+    if (pending) draw(s, () => .99);
+    const before = structuredClone(s);
+    applyComputerAction(s, chooseAction(s));
+    assert.equal(s.resigned, 'black');
+    const saved = JSON.parse(encodeGame(s, 'computer', 'standard'));
+    assert.deepEqual(decodeGame(JSON.stringify(saved)), { state: s, opponent: 'computer', difficulty: 'standard' });
+    assert.deepEqual(s.history, before.history);
+    const corrupt = (changes) => decodeGame(JSON.stringify({ ...saved, ...changes }));
+    assert.equal(corrupt({ resigned: 'red' }), null);
+    assert.equal(corrupt({ resigned: true }), null);
+    assert.equal(corrupt({ opponent: 'local' }), null);
+    const legacy = { ...saved }; delete legacy.resigned;
+    assert.deepEqual(decodeGame(JSON.stringify(legacy)), { state: before, opponent: 'computer', difficulty: 'standard' });
+  }
+  const safe = newGame(); deployDirectly(safe, 0, () => .99);
+  const forged = JSON.parse(encodeGame(safe, 'computer', 'standard')); forged.resigned = 'black';
+  assert.equal(decodeGame(JSON.stringify(forged)), null, 'a fabricated result without a forced loss must be rejected');
 });

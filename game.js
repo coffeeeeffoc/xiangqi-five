@@ -18,7 +18,7 @@ export function newGame(mode = 'xiangqi') {
   return {
     mode, cols, rows, board: Array(cols * rows).fill(null),
     pools: { red: pool(), black: pool() },
-    turn: 'red', ply: 0, pending: null, result: null, winningLine: [], history: [],
+    turn: 'red', ply: 0, pending: null, result: null, resigned: null, winningLine: [], history: [],
   };
 }
 
@@ -129,4 +129,13 @@ export function move(state, from, to) {
   state.board[to] = piece;
   state.board[from] = null;
   return finishTurn(state, { action: 'move', piece, from, to, captured });
+}
+
+// Resignation ends the game without inventing a move or consuming a pending draw.
+export function resign(state) {
+  if (state.result) throw new Error('本局已经结束');
+  state.resigned = state.turn;
+  state.result = state.turn === 'red' ? 'black' : 'red';
+  state.winningLine = [];
+  return state;
 }
