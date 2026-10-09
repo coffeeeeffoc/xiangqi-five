@@ -331,6 +331,93 @@ async function main() {
       }, safeArea);
     }
 
+    await runCase('landscape-844x390', { width: 844, height: 390 }, async (page, name) => {
+      for (const mode of ['xiangqi', 'gomoku']) {
+        if (mode === 'gomoku') {
+          await page.evaluate(() => localStorage.clear());
+          await page.goto(url);
+        }
+        await screen(page, 'home');
+        await fits(page, name + '-home-' + mode,
+          ['#home-title', '#home-start', '#home-settings', '#rules-open', '#challenge-quick-start']);
+        await screenshot(page, name + '-home-' + mode);
+        await startLocal(page, mode);
+        await fits(page, name + '-game-' + mode,
+          ['#board', '#draw-button', '#move-button', '#action-hint']);
+        await screenshot(page, name + '-game-' + mode);
+        await page.locator('.cell').first().tap();
+        await history(page, 1);
+        await page.reload();
+        await screen(page, 'home');
+        await fits(page, name + '-home-saved-' + mode,
+          ['#home-start', '#home-continue', '#home-settings', '#rules-open', '#challenge-quick-start']);
+        await screenshot(page, name + '-home-saved-' + mode);
+        await page.locator('#home-continue').tap();
+        await screen(page, 'game');
+        await page.locator('#game-more').tap();
+        await screen(page, 'tools');
+        // The landscape tools list may scroll; its last action must remain reachable.
+        const lastAction = page.locator('[data-game-fullscreen]');
+        await lastAction.scrollIntoViewIfNeeded();
+        const layout = await lastAction.evaluate((element) => {
+          const blocked = [];
+          for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+            if (/hidden|clip/.test(getComputedStyle(parent).overflowY) &&
+                parent.scrollHeight > parent.clientHeight + 2)
+              blocked.push(parent.id || parent.className || parent.tagName);
+          }
+          const rect = element.getBoundingClientRect();
+          return { blocked, top: rect.top, bottom: rect.bottom, left: rect.left,
+            right: rect.right, width: rect.width, height: rect.height,
+            viewportWidth: innerWidth, viewportHeight: innerHeight };
+        });
+        evidence.layouts.push({ label: name + '-tools-' + mode, ...layout });
+        assert.deepEqual(layout.blocked, [], 'landscape tools must not clip the final action');
+        assert.ok(layout.top >= -1 && layout.bottom <= layout.viewportHeight + 1 &&
+          layout.left >= -1 && layout.right <= layout.viewportWidth + 1,
+          'landscape tools final action is reachable: ' + JSON.stringify(layout));
+        assert.ok(layout.width >= 43.99 && layout.height >= 43.99,
+          'landscape final action retains its touch target');
+        await screenshot(page, name + '-tools-' + mode, true);
+      }
+    });
+
+    await runCase('desktop-1280x800', { width: 1280, height: 800 }, async (page, name) => {
+      await screen(page, 'home');
+      await fits(page, name + '-home',
+        ['#home-title', '#home-start', '#home-settings', '.home-note']);
+      await screenshot(page, name + '-home');
+      await page.locator('#home-start').tap();
+      await screen(page, 'modes');
+      await fits(page, name + '-modes',
+        ['#mode-computer', '#mode-local', '#challenge-open', '.bottom-note']);
+      await screenshot(page, name + '-modes');
+      for (const opponent of ['computer', 'local']) {
+        await page.locator('#mode-' + opponent).tap();
+        await screen(page, 'setup');
+        await fits(page, name + '-setup-' + opponent,
+          ['#board-mode', '.draw-method-note', '#save-status', '#setup-start',
+            ...(opponent === 'computer' ? ['#difficulty', '#difficulty-hint'] : [])]);
+        await screenshot(page, name + '-setup-' + opponent);
+        if (opponent === 'computer') {
+          await page.locator('.setup-screen [data-back]').tap();
+          await screen(page, 'modes');
+        }
+      }
+      await page.locator('#setup-start').tap();
+      await screen(page, 'game');
+      await fits(page, name + '-game',
+        ['#board', '#draw-button', '#move-button', '#action-hint']);
+      await screenshot(page, name + '-game');
+      await page.locator('.cell').first().tap();
+      await history(page, 1);
+      await page.locator('#game-back').tap();
+      await screen(page, 'home');
+      await fits(page, name + '-home-saved',
+        ['#home-start', '#home-continue', '#home-settings', '.home-note']);
+      await screenshot(page, name + '-home-saved');
+    });
+
     await runCase('unavailable-storage-message', { width: 305, height: 568 }, async (page, name) => {
       await page.addInitScript(() => {
         Object.defineProperty(Storage.prototype, 'getItem', {

@@ -1847,8 +1847,12 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
     display: none;
   }
   .game-screen {
-    --game-chrome: 326px;
+    --game-chrome: 286px;
     gap: 5px;
+  }
+  .game-screen:has(#coach-hint:not(:empty)),
+  .game-screen:has(#room-strip:not([hidden])) {
+    --game-chrome: 326px;
   }
   .action-panel {
     grid-template-columns: 42px minmax(0, 1fr) 90px;
@@ -2058,43 +2062,63 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
   }
   .home-screen {
     max-width: 740px;
-    display: flex;
-    align-items: flex-start;
-    padding: max(20px, env(safe-area-inset-top)) 24px max(16px, env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'tag actions'
+      'title actions'
+      'subtitle utilities'
+      'links utilities';
+    align-content: center;
+    align-items: center;
+    gap: 6px 24px;
+    padding: max(20px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
   }
   .home-screen > * {
-    width: min(46%, 310px);
+    width: 100%;
+    min-width: 0;
   }
   .home-tag {
+    grid-area: tag;
+    justify-self: center;
     width: auto;
-    margin: 0 0 6px 6px;
+    margin: 0;
   }
   .home-screen h1 {
+    grid-area: title;
     font-size: 32px;
   }
   .home-subtitle {
+    grid-area: subtitle;
     font-size: 12px;
-    margin: 4px 0 12px;
+    margin: 0;
   }
   .home-actions {
-    gap: 7px;
+    grid-area: actions;
+    gap: 8px;
+    margin: 0;
   }
   .home-screen .jumbo {
     min-height: 46px;
     font-size: 16px;
   }
   .home-utilities {
+    grid-area: utilities;
     gap: 8px;
-    margin-top: 8px;
+    margin: 0;
   }
   .home-utilities button {
-    min-height: 54px;
+    min-height: 58px;
     font-size: 12px;
     padding: 8px;
   }
   .home-utilities button > svg {
     width: 22px;
     height: 22px;
+  }
+  .home-links {
+    grid-area: links;
+    margin: 0;
   }
   .home-note {
     display: none;
