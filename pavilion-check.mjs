@@ -157,6 +157,15 @@ async function main() {
           return { selector, x: rect.x, y: rect.y, width: rect.width, height: rect.height,
             bottom: rect.bottom, right: rect.right };
         });
+        const controls = [...active.querySelectorAll(
+          '.primary-button, .mint-button, .icon-button, .board-choices button, .difficulty-choices button',
+        )].filter((element) => element.getClientRects().length &&
+          getComputedStyle(element).visibility !== 'hidden').map((element) => {
+          const rect = element.getBoundingClientRect();
+          return { id: element.id, className: element.className,
+            label: element.getAttribute('aria-label') || element.textContent.trim(),
+            width: rect.width, height: rect.height };
+        });
         const scrolling = [document.documentElement, document.body, active, ...active.querySelectorAll('*')]
           .filter((element) => {
             if (!element.getClientRects().length) return false;
@@ -171,7 +180,7 @@ async function main() {
           width: innerWidth, height: innerHeight,
           documentWidth: document.documentElement.scrollWidth,
           documentHeight: document.documentElement.scrollHeight,
-          scrollY, boxes, scrolling, limits,
+          scrollY, boxes, controls, scrolling, limits,
         };
       }, { selectors, limits });
       evidence.layouts.push({ label, ...layout });
@@ -180,6 +189,10 @@ async function main() {
         label + ': no page scrolling needed: ' + JSON.stringify(layout));
       assert.equal(layout.scrollY, 0, label + ': page starts without scrolling');
       assert.deepEqual(layout.scrolling, [], label + ': no nested scrolling or clipped content');
+      for (const control of layout.controls) {
+        assert.ok(control.width >= 43.99 && control.height >= 43.99,
+          label + ': visible control is at least 44×44: ' + JSON.stringify(control));
+      }
       for (const box of layout.boxes) {
         assert.ok(!box.missing && box.y >= limits.top - 1 && box.bottom <= layout.height - limits.bottom + 1 &&
           box.x >= -1 && box.right <= layout.width + 1,
@@ -224,6 +237,48 @@ async function main() {
         await screen(page, 'modes');
         await fits(page, name + '-modes', ['#mode-computer', '#mode-local', '#challenge-open', '.bottom-note'], safeArea);
         await screenshot(page, name + '-modes');
+        // The embedded Shell reveals this existing button. Simulate only that visibility
+        // signal; app.js's real MutationObserver moves the legacy room into "More modes".
+        await page.locator('#mode-online').evaluate((button) => { button.hidden = false; });
+        await page.waitForFunction(() =>
+          !document.querySelector('#mode-extras').hidden &&
+          document.querySelector('#room-open').parentElement.id === 'mode-extras');
+        await screen(page, 'modes');
+        assert.equal(await page.locator('#mode-extras').evaluate((details) => details.open), false);
+        await fits(page, name + '-modes-online-entry-simulated',
+          ['#mode-computer', '#mode-local', '#mode-online', '#challenge-open',
+            '#mode-extras summary', '.bottom-note'], safeArea);
+        await screenshot(page, name + '-modes-online-entry');
+        if ((width === 305 && height === 568) || (width === 390 && height === 844)) {
+          await page.locator('#mode-extras summary').tap();
+          if (height === 844) {
+            await fits(page, name + '-modes-online-expanded',
+              ['#mode-online', '#room-open', '.bottom-note'], safeArea);
+          } else {
+            for (const selector of ['#room-open', '.bottom-note']) {
+              const target = page.locator(selector);
+              await target.scrollIntoViewIfNeeded();
+              const layout = await target.evaluate((element) => {
+                const blocked = [];
+                for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+                  if (/hidden|clip/.test(getComputedStyle(parent).overflowY) &&
+                      parent.scrollHeight > parent.clientHeight + 2)
+                    blocked.push(parent.id || parent.className || parent.tagName);
+                }
+                const rect = element.getBoundingClientRect();
+                return { blocked, top: rect.top, bottom: rect.bottom, height: innerHeight };
+              });
+              evidence.layouts.push({ label: name + '-modes-online-expanded-' + selector, ...layout });
+              assert.deepEqual(layout.blocked, [], 'expanded modes content must not be clipped');
+              assert.ok(layout.top >= -1 && layout.bottom <= layout.height + 1,
+                'expanded modes final control is reachable: ' + selector + JSON.stringify(layout));
+            }
+          }
+          await screenshot(page, name + '-modes-online-entry-expanded', true);
+          await page.locator('#mode-extras summary').tap();
+          await page.evaluate(() => window.scrollTo(0, 0));
+        }
+
         for (const opponent of ['computer', 'local']) {
           await page.locator('#mode-' + opponent).tap();
           await screen(page, 'setup');

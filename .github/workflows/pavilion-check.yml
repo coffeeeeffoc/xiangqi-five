@@ -59,9 +59,9 @@ jobs:
           const output = 'docs/design';
           await mkdir(output, { recursive: true });
           const groups = [
-            ['pavilion-390x844.png', 'pages-390x844', ['home', 'modes', 'setup-computer', 'game-xiangqi']],
-            ['pavilion-305x568.png', 'pages-305x568', ['home', 'modes', 'setup-computer', 'game-xiangqi']],
-            ['pavilion-safe-area.png', 'pages-375x650-safe-area', ['modes', 'setup-computer', 'game-xiangqi']],
+            ['pavilion-390x844.jpg', 'pages-390x844', ['home', 'modes', 'setup-computer', 'game-xiangqi']],
+            ['pavilion-305x568.jpg', 'pages-305x568', ['home', 'modes', 'setup-computer', 'game-xiangqi']],
+            ['pavilion-safe-area.jpg', 'pages-375x650-safe-area', ['modes', 'setup-computer', 'game-xiangqi']],
           ];
           for (const [filename, prefix, screens] of groups) {
             const images = [];
@@ -77,13 +77,13 @@ jobs:
             if (images.length) {
               await sharp({
                 create: { width, height, channels: 3, background: '#eee9df' },
-              }).composite(images).png().toFile(output + '/' + filename);
+              }).composite(images).jpeg({ quality: 82, mozjpeg: true }).toFile(output + '/' + filename);
             }
           }
           await copyFile('artifacts/pavilion/report.json', output + '/pavilion-report.json');
           NODE
           git add -- docs/design/pavilion-report.json
-          for preview in docs/design/pavilion-*.png; do
+          for preview in docs/design/pavilion-*.jpg; do
             if [ -f "$preview" ]; then
               git add -- "$preview"
             fi
