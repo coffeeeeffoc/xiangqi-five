@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-09T15:55:25.101Z",
+  "checkedAt": "2026-10-09T15:58:34.171Z",
   "safeAreaSimulation": "CSS env() replacement: top 20px, bottom 24px; not a physical-device claim.",
   "checks": [
     "pages-305x568",
@@ -27,7 +27,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -87,7 +87,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -147,7 +147,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -239,7 +239,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -368,7 +368,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -458,7 +458,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -546,7 +546,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -613,7 +613,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -685,7 +685,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -741,7 +741,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -829,7 +829,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -901,7 +901,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -961,7 +961,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1021,7 +1021,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1099,7 +1099,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1228,7 +1228,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1318,7 +1318,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1406,7 +1406,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1473,7 +1473,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1545,7 +1545,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1601,7 +1601,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1689,7 +1689,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -1761,7 +1761,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -1821,7 +1821,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -1881,7 +1881,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -1959,7 +1959,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2088,7 +2088,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2178,7 +2178,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2266,7 +2266,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2333,7 +2333,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2405,7 +2405,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2461,7 +2461,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2549,7 +2549,7 @@
       "width": 375,
       "height": 651,
       "documentWidth": 375,
-      "documentHeight": 652,
+      "documentHeight": 651,
       "scrollY": 0,
       "boxes": [
         {
@@ -2621,7 +2621,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -2681,7 +2681,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -2741,7 +2741,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -2819,7 +2819,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -2948,7 +2948,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -3038,7 +3038,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -3126,7 +3126,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -3193,7 +3193,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -3265,7 +3265,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -3321,7 +3321,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -3409,7 +3409,7 @@
       "width": 390,
       "height": 700,
       "documentWidth": 390,
-      "documentHeight": 701,
+      "documentHeight": 700,
       "scrollY": 0,
       "boxes": [
         {
@@ -3481,7 +3481,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -3541,7 +3541,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -3601,7 +3601,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -3679,7 +3679,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -3808,7 +3808,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -3898,7 +3898,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -3986,7 +3986,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -4053,7 +4053,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -4125,7 +4125,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -4181,7 +4181,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -4269,7 +4269,7 @@
       "width": 390,
       "height": 701,
       "documentWidth": 390,
-      "documentHeight": 702,
+      "documentHeight": 701,
       "scrollY": 0,
       "boxes": [
         {
@@ -4341,7 +4341,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4401,7 +4401,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4461,7 +4461,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4539,7 +4539,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4668,7 +4668,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4758,7 +4758,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4846,7 +4846,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4913,7 +4913,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -4985,7 +4985,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -5041,7 +5041,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -5129,7 +5129,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -5201,7 +5201,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5261,7 +5261,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5321,7 +5321,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5399,7 +5399,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5528,7 +5528,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5618,7 +5618,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5706,7 +5706,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5773,7 +5773,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5845,7 +5845,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5901,7 +5901,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -5989,7 +5989,7 @@
       "width": 390,
       "height": 780,
       "documentWidth": 390,
-      "documentHeight": 781,
+      "documentHeight": 780,
       "scrollY": 0,
       "boxes": [
         {
@@ -6061,7 +6061,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6121,7 +6121,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6181,7 +6181,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6259,7 +6259,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6310,7 +6310,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6439,7 +6439,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6529,7 +6529,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6617,7 +6617,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6684,7 +6684,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6756,7 +6756,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6812,7 +6812,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6900,7 +6900,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -6972,7 +6972,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7032,7 +7032,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7092,7 +7092,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7170,7 +7170,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7299,7 +7299,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7389,7 +7389,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7477,7 +7477,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7544,7 +7544,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7616,7 +7616,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7672,7 +7672,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7760,7 +7760,7 @@
       "width": 375,
       "height": 650,
       "documentWidth": 375,
-      "documentHeight": 651,
+      "documentHeight": 650,
       "scrollY": 0,
       "boxes": [
         {
@@ -7832,7 +7832,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -7892,7 +7892,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -7952,7 +7952,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8030,7 +8030,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8081,7 +8081,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8210,7 +8210,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8300,7 +8300,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8388,7 +8388,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8455,7 +8455,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8527,7 +8527,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8583,7 +8583,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8671,7 +8671,7 @@
       "width": 390,
       "height": 844,
       "documentWidth": 390,
-      "documentHeight": 845,
+      "documentHeight": 844,
       "scrollY": 0,
       "boxes": [
         {
@@ -8743,7 +8743,7 @@
       "width": 844,
       "height": 390,
       "documentWidth": 844,
-      "documentHeight": 391,
+      "documentHeight": 390,
       "scrollY": 0,
       "boxes": [
         {
@@ -8812,7 +8812,7 @@
       "width": 844,
       "height": 390,
       "documentWidth": 844,
-      "documentHeight": 391,
+      "documentHeight": 390,
       "scrollY": 0,
       "boxes": [
         {
@@ -8900,7 +8900,7 @@
       "width": 844,
       "height": 390,
       "documentWidth": 844,
-      "documentHeight": 391,
+      "documentHeight": 390,
       "scrollY": 0,
       "boxes": [
         {
@@ -8974,8 +8974,8 @@
     {
       "label": "landscape-844x390-tools-xiangqi",
       "blocked": [],
-      "top": 328.78125,
-      "bottom": 372.78125,
+      "top": 329.78125,
+      "bottom": 373.78125,
       "left": 212,
       "right": 632,
       "width": 420,
@@ -8988,7 +8988,7 @@
       "width": 844,
       "height": 390,
       "documentWidth": 844,
-      "documentHeight": 391,
+      "documentHeight": 390,
       "scrollY": 0,
       "boxes": [
         {
@@ -9057,7 +9057,7 @@
       "width": 844,
       "height": 390,
       "documentWidth": 844,
-      "documentHeight": 391,
+      "documentHeight": 390,
       "scrollY": 0,
       "boxes": [
         {
@@ -9145,7 +9145,7 @@
       "width": 844,
       "height": 390,
       "documentWidth": 844,
-      "documentHeight": 391,
+      "documentHeight": 390,
       "scrollY": 0,
       "boxes": [
         {
@@ -9219,8 +9219,8 @@
     {
       "label": "landscape-844x390-tools-gomoku",
       "blocked": [],
-      "top": 328.78125,
-      "bottom": 372.78125,
+      "top": 329.78125,
+      "bottom": 373.78125,
       "left": 212,
       "right": 632,
       "width": 420,
@@ -9233,7 +9233,7 @@
       "width": 1280,
       "height": 800,
       "documentWidth": 1280,
-      "documentHeight": 801,
+      "documentHeight": 800,
       "scrollY": 0,
       "boxes": [
         {
@@ -9293,7 +9293,7 @@
       "width": 1280,
       "height": 800,
       "documentWidth": 1280,
-      "documentHeight": 801,
+      "documentHeight": 800,
       "scrollY": 0,
       "boxes": [
         {
@@ -9353,7 +9353,7 @@
       "width": 1280,
       "height": 800,
       "documentWidth": 1280,
-      "documentHeight": 801,
+      "documentHeight": 800,
       "scrollY": 0,
       "boxes": [
         {
@@ -9473,7 +9473,7 @@
       "width": 1280,
       "height": 800,
       "documentWidth": 1280,
-      "documentHeight": 801,
+      "documentHeight": 800,
       "scrollY": 0,
       "boxes": [
         {
@@ -9554,7 +9554,7 @@
       "width": 1280,
       "height": 800,
       "documentWidth": 1280,
-      "documentHeight": 801,
+      "documentHeight": 800,
       "scrollY": 0,
       "boxes": [
         {
@@ -9642,7 +9642,7 @@
       "width": 1280,
       "height": 800,
       "documentWidth": 1280,
-      "documentHeight": 801,
+      "documentHeight": 800,
       "scrollY": 0,
       "boxes": [
         {
@@ -9709,7 +9709,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -9802,7 +9802,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -9890,7 +9890,7 @@
       "width": 305,
       "height": 568,
       "documentWidth": 305,
-      "documentHeight": 569,
+      "documentHeight": 568,
       "scrollY": 0,
       "boxes": [
         {
@@ -9978,7 +9978,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
@@ -10052,7 +10052,7 @@
       "width": 390,
       "height": 740,
       "documentWidth": 390,
-      "documentHeight": 741,
+      "documentHeight": 740,
       "scrollY": 0,
       "boxes": [
         {
