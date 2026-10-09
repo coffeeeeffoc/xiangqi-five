@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f7f3ea" />
+    <meta name="theme-color" content="#f5f0e4" />
     <meta
       name="description"
       content="象棋走法，同色连五。抽取棋子落在空位，或移动场上棋子，率先连成五子获胜。"
@@ -28,7 +28,7 @@
   <body data-screen="home">
     <main class="app-shell">
       <section class="screen home-screen" data-screen="home" aria-labelledby="home-title">
-        <span class="home-tag">象棋 × 五子棋</span>
+        <span class="home-tag">山间棋亭 · 象棋 × 五子棋</span>
         <h1 id="home-title">象五子棋</h1>
         <p class="home-subtitle">象棋走法，同色连五</p>
         <img
@@ -84,7 +84,7 @@
             </svg></button
           ><span class="eyebrow">选择玩法</span><span></span>
         </header>
-        <h1 id="modes-title">今天怎么玩？</h1>
+        <h1 id="modes-title">山间一局，闲来对弈</h1>
         <p class="page-subtitle">各有乐趣，选一种开始。</p>
         <div class="mode-list">
           <button id="mode-computer" class="mode-card coral-card">
@@ -187,6 +187,10 @@
         </fieldset>
         <p id="difficulty-hint" class="small-note"></p>
         <p class="small-note" id="save-status" role="status"></p>
+        <div class="draw-method-note">
+          <p><strong>先抽再放</strong>：看清棋子，再选落点。</p>
+          <p><strong>直接落子</strong>：先选落点，落下后揭晓。</p>
+        </div>
         <button id="setup-start" class="primary-button jumbo">
           开始对弈
           <svg class="button-chevron" viewBox="0 0 24 24" aria-hidden="true">
@@ -242,7 +246,7 @@
         <button id="computer-retry" class="mint-button" hidden>重试小棋友回合</button>
         <section class="action-panel">
           <div class="draw-preview" id="draw-preview"></div>
-          <button class="primary-button" id="draw-button"><span>抽取棋子</span></button
+          <button class="primary-button" id="draw-button"><span>先抽子</span><small class="draw-button-note" aria-hidden="true">看清后再放</small></button
           ><button class="mint-button" id="move-button">移动棋子</button>
           <p class="action-hint" id="action-hint" role="status" aria-live="polite"></p>
         </section>
@@ -365,7 +369,8 @@
               <span>1</span>
               <h2>抽取棋子，放到空位</h2>
             </div>
-            <p>点「抽取棋子」查看棋子，再点空位放置。也可直接点空位随机落子。</p>
+            <p><strong>先抽再放：</strong>点「先抽子」，看清是什么棋子，再选择空位放置。</p>
+            <p><strong>直接落子：</strong>直接点棋盘空位，棋子落下后才揭晓种类。</p>
             <div class="deploy-art" aria-hidden="true">
               <span class="mini-token">兵</span><span class="dotted-target"></span
               ><svg class="art-arrow ui-icon" viewBox="0 0 24 24">
@@ -423,7 +428,7 @@
             河界和九宫不限制活动；没有将军、将死或飞将。被吃的棋子退出本局，不返回棋池。棋池用完仍能移动。无合法行动时和棋，不自动判重复局面。
           </p>
           <p>
-            单人和同屏自动保存在本机。金圈表示对方下一手可能连五；堵住落点或吃掉连线棋子都能防守。
+            单人和同屏自动保存在本机。金圈表示对方下一手可能连五；堵住落点或吃掉连线棋子都能防守。单人对局中，电脑若无法通过任何合法行动阻止你下一手连五，会直接认输。
           </p>
         </details>
       </section>

@@ -18,7 +18,7 @@ for (const file of [
   await copyFile(new URL(file, import.meta.url), new URL(`dist/${file}`, import.meta.url));
 }
 await mkdir(new URL('./dist/assets/', import.meta.url), { recursive: true });
-for (const asset of ['hero-paper.webp', 'chess-glyphs.woff2', 'chess-glyphs-LICENSE.txt']) {
+for (const asset of ['hero-paper.webp', 'pavilion-background.png', 'chess-glyphs.woff2', 'chess-glyphs-LICENSE.txt']) {
   await copyFile(
     new URL(`./assets/${asset}`, import.meta.url),
     new URL(`./dist/assets/${asset}`, import.meta.url),

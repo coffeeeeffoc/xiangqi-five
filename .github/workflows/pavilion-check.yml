@@ -1,0 +1,95 @@
+name: Mountain pavilion checks
+
+on:
+  push:
+    branches:
+      - codex/mountain-pavilion
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pavilion-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.6.0
+          run_install: false
+      - name: Install portable browser dependencies
+        run: npm install --no-save --package-lock=false playwright sharp
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Test game rules and persistence
+        run: pnpm test
+      - name: Build static site
+        run: node build.js
+      - name: Check responsive pages and game behavior
+        run: node pavilion-check.mjs
+      - name: Upload screenshots and browser report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mountain-pavilion-${{ github.sha }}
+          path: artifacts/pavilion/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Save review previews on the feature branch
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/codex/mountain-pavilion'
+        run: |
+          if [ ! -f artifacts/pavilion/report.json ]; then
+            exit 0
+          fi
+          node --input-type=module <<'NODE'
+          import { access, copyFile, mkdir } from 'node:fs/promises';
+          import sharp from 'sharp';
+          const output = 'docs/design';
+          await mkdir(output, { recursive: true });
+          const groups = [
+            ['pavilion-390x844.png', 'pages-390x844', ['home', 'modes', 'setup-computer', 'game-xiangqi']],
+            ['pavilion-305x568.png', 'pages-305x568', ['home', 'modes', 'setup-computer', 'game-xiangqi']],
+            ['pavilion-safe-area.png', 'pages-375x650-safe-area', ['modes', 'setup-computer', 'game-xiangqi']],
+          ];
+          for (const [filename, prefix, screens] of groups) {
+            const images = [];
+            let width = 0, height = 0;
+            for (const screen of screens) {
+              const input = 'artifacts/pavilion/' + prefix + '-' + screen + '.png';
+              try { await access(input); } catch { continue; }
+              const metadata = await sharp(input).metadata();
+              images.push({ input, left: width, top: 0 });
+              width += metadata.width;
+              height = Math.max(height, metadata.height);
+            }
+            if (images.length) {
+              await sharp({
+                create: { width, height, channels: 3, background: '#eee9df' },
+              }).composite(images).png().toFile(output + '/' + filename);
+            }
+          }
+          await copyFile('artifacts/pavilion/report.json', output + '/pavilion-report.json');
+          NODE
+          git add -- docs/design/pavilion-report.json
+          for preview in docs/design/pavilion-*.png; do
+            if [ -f "$preview" ]; then
+              git add -- "$preview"
+            fi
+          done
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'docs: record mountain pavilion browser evidence [skip ci]'
+          git push origin HEAD:codex/mountain-pavilion

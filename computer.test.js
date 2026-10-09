@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame, canMove, move } from './game.js';
-import { chooseAction, applyComputerAction, searchPosition, winningActions, legalActions } from './computer.js';
+import { chooseAction, applyComputerAction, searchPosition, winningActions, legalActions, isForcedLoss } from './computer.js';
 import { encodeGame, decodeGame } from './local-game.js';
 
 const deterministic = { timeMs: Infinity };
@@ -132,4 +132,82 @@ test('budget interruption retains a legal safe move; ended/no-action states and 
     assert.equal(decodeGame(encodeGame(game, 'computer', difficulty)).difficulty, difficulty);
   }
   assert.equal(decodeGame(encodeGame(newGame(), 'computer', 'unknown')), null);
+});
+
+test('computer resigns only when every legal reply loses to an immediate five', () => {
+  for (const mode of ['xiangqi', 'gomoku']) for (const difficulty of ['practice', 'standard', 'hard']) {
+    const s = newGame(mode); s.turn = 'black';
+    for (let i = 1; i <= 4; i++) s.board[i] = { side: 'red', type: 'pawn' };
+    const before = structuredClone(s);
+    assert.ok(isForcedLoss(s));
+    const result = searchPosition(s, difficulty, { timeMs: 0, nodes: 0 });
+    assert.deepEqual(result.action, { type: 'resign', reason: 'forced-loss' });
+    assert.equal(result.depth, 0, 'a proved loss must not wait for the search budget');
+    assert.deepEqual(s, before, 'proof and search must leave the real game unchanged');
+    // Independent check using actual rule transitions and every possible drawn type.
+    for (const action of legalActions(s)) for (const type of new Set(s.pools.black)) {
+      const next = structuredClone(s);
+      applyComputerAction(next, action, () => (next.pools.black.indexOf(type) + .5) / next.pools.black.length);
+      assert.equal(next.result, null);
+      assert.ok(winningActions(next).length > 0);
+    }
+    applyComputerAction(s, result.action);
+    assert.equal(s.result, 'red');
+    assert.equal(s.resigned, 'black');
+    assert.equal(s.ply, before.ply);
+    assert.deepEqual(s.history, before.history);
+    assert.deepEqual(s.board, before.board);
+    assert.deepEqual(s.pools, before.pools);
+    assert.deepEqual(s.winningLine, []);
+  }
+});
+
+test('auto-resignation preserves a pending draw and never replaces a win, defense or draw', () => {
+  for (const mode of ['xiangqi', 'gomoku']) {
+    const lost = newGame(mode); lost.turn = 'black';
+    for (let i = 1; i <= 4; i++) lost.board[i] = { side: 'red', type: 'pawn' };
+    lost.pending = { side: 'black', type: lost.pools.black.pop() };
+    const pending = structuredClone(lost.pending);
+    applyComputerAction(lost, chooseAction(lost));
+    assert.deepEqual(lost.pending, pending);
+    assert.equal(lost.resigned, 'black');
+
+    const win = newGame(mode); win.turn = 'black';
+    for (let i = 1; i <= 4; i++) win.board[i] = { side: 'red', type: 'pawn' };
+    for (let i = 0; i < 4; i++) win.board[mode === 'xiangqi' ? 36 + i : 60 + i] = { side: 'black', type: 'pawn' };
+    assert.equal(isForcedLoss(win), false, 'winning this turn has priority over an enemy threat');
+    applyComputerAction(win, chooseAction(win));
+    assert.equal(win.result, 'black');
+    assert.equal(win.resigned, null);
+
+    const blocked = newGame(mode); blocked.turn = 'black';
+    for (let i = 0; i < 4; i++) blocked.board[i] = { side: 'red', type: 'pawn' };
+    assert.equal(isForcedLoss(blocked), false);
+    assert.equal(chooseAction(blocked).type, 'deploy');
+    const before = structuredClone(blocked);
+    assert.throws(() => applyComputerAction(blocked, { type: 'resign', reason: 'forced-loss' }));
+    assert.deepEqual(blocked, before, 'an unproved resignation must not change the game');
+
+    const captured = newGame(mode); captured.turn = 'black'; captured.pools.black = [];
+    for (let i = 1; i <= 4; i++) captured.board[i] = { side: 'red', type: 'pawn' };
+    captured.board[2 * captured.cols + 2] = { side: 'black', type: 'rook' };
+    assert.equal(isForcedLoss(captured), false, 'a capture can dismantle both threats');
+    applyComputerAction(captured, chooseAction(captured));
+    assert.equal(captured.result, null);
+    assert.equal(winningActions(captured).length, 0);
+
+    const exhausted = newGame(mode); exhausted.turn = 'black'; exhausted.pools.black = [];
+    for (let i = 1; i <= 4; i++) exhausted.board[i] = { side: 'red', type: 'pawn' };
+    assert.equal(isForcedLoss(exhausted), false, 'no legal action is a draw under the game rules');
+    assert.equal(chooseAction(exhausted), null);
+    exhausted.result = 'draw';
+    assert.equal(isForcedLoss(exhausted), false);
+    assert.equal(chooseAction(exhausted), null);
+
+    const materialLoss = newGame(mode); materialLoss.turn = 'black'; materialLoss.pools.black = [];
+    materialLoss.board[materialLoss.board.length - 1] = { side: 'black', type: 'pawn' };
+    materialLoss.board[0] = { side: 'red', type: 'rook' };
+    assert.equal(isForcedLoss(materialLoss), false, 'too few pieces to win is not proof of losing');
+    assert.equal(chooseAction(materialLoss, 'practice').type, 'move');
+  }
 });

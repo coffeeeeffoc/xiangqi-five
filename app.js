@@ -449,7 +449,8 @@ function scheduleComputer() {
           saveLocal();
           busy = true;
           render();
-          await animateTurn($('board'), cells, state.history.at(-1), pieceMarkup);
+          if (data.action.type !== 'resign')
+            await animateTurn($('board'), cells, state.history.at(-1), pieceMarkup);
         } catch {
           computerError = '电脑暂时未能落子，点击重试继续，棋局已保留。';
         } finally {
@@ -582,9 +583,11 @@ function render() {
   $('challenge-select').hidden = $('challenge-exit').hidden = !challenge;
   $('draw-button').setAttribute(
     'aria-label',
-    state.pending
-      ? `已抽到「${label(state.pending)}」，点棋盘空位放置，不能重抽或改为移动`
-      : '抽取棋子，随机获得一枚，再点空位放置',
+    ended
+      ? '本局结束'
+      : state.pending
+        ? `已抽到「${label(state.pending)}」，点棋盘空位放置，不能重抽或改为移动`
+      : '先抽子，看清棋子后再选择空位放置',
   );
   $('save-status').textContent = challenge
     ? challengeStorageAvailable
@@ -596,7 +599,7 @@ function render() {
         ? '浏览器未允许保存，请勿关闭本页'
         : `${restored ? '已恢复棋局 · ' : ''}本机自动保存`;
   $('computer-retry').hidden = !computerError;
-  if (threatPly !== state.ply) {
+  if (ended || threatPly !== state.ply) {
     threatPly = state.ply;
     const enemy = side === 'red' ? 'black' : 'red';
     threats = ended ? [] : winningActions({ ...state, pending: null, turn: enemy }, enemy);
@@ -628,7 +631,7 @@ function render() {
       last?.to === i ? 'last-play' : '',
       state.winningLine.includes(i) ? 'winning' : '',
       threat ? 'threat-target' : '',
-      (state.pending || direct) && !p ? 'deploy-target' : '',
+      !ended && (state.pending || direct) && !p ? 'deploy-target' : '',
     ]
       .filter(Boolean)
       .join(' ');
@@ -688,7 +691,9 @@ function render() {
         : '未达成目标'
       : state.result === 'draw'
         ? '本局和棋'
-        : `${sideName(side)}连五获胜`;
+        : state.resigned
+          ? '电脑认输，你获胜'
+          : `${sideName(state.result)}连五获胜`;
   const computerTurn = !room && !challenge && opponent === 'computer' && side === 'black';
   $('turn-label').textContent = ended
     ? outcome
@@ -725,30 +730,36 @@ function render() {
   $('action-description').textContent = ended
     ? state.result === 'draw'
       ? '当前玩家无合法行动，本局和棋。'
-      : '同色五子连成一线，本局结束。'
+      : state.resigned
+        ? '所有合法防守都无法阻止你下一手连五，电脑认输。'
+        : '同色五子连成一线，本局结束。'
     : state.pending
       ? '点棋盘空位放置，不能重抽或改为移动。'
       : selected !== null
         ? '实心圆点可移动，红圈位置可吃子。'
         : direct
-          ? '可先抽取棋子再放置，也可点空位随机落子，或点己方棋子移动。'
+          ? '先抽子可以看清棋子后再选落点；直接点空位，则落下后才揭晓棋子。也可点己方棋子移动。'
           : '选择己方棋子，再点标记位置移动。';
-  $('draw-preview').innerHTML = state.pending
+  $('draw-preview').innerHTML = state.pending && !ended
     ? `${pieceMarkup(state.pending, 'drawn')}<div><strong>已抽到「${label(state.pending)}」</strong><small>点棋盘空位放置</small></div>`
     : ended
       ? `<span class="mystery-piece result-symbol">${state.result === 'draw' ? '和' : '胜'}</span><div><strong>${outcome}</strong><small>共 ${state.ply} 手 · 本局结束</small></div>`
-      : '<span class="mystery-piece">?</span><div><strong>落子或移动</strong><small>也可直接点空位随机落子</small></div>';
+      : '<span class="mystery-piece">?</span><div><strong>先抽子，看清再放</strong><small>直接点空位，落下后揭晓</small></div>';
   $('draw-button').disabled =
     inputLocked() ||
     ended ||
     Boolean(state.pending) ||
     !state.pools[side].length ||
     !state.board.some((p) => !p);
-  $('draw-button').firstElementChild.textContent = state.pending
+  $('draw-button').firstElementChild.textContent = ended
+    ? '本局结束'
+    : state.pending
     ? `已抽到「${label(state.pending)}」`
     : !state.pools[side].length
       ? '无剩余棋子'
-      : '抽取棋子';
+      : '先抽子';
+  $('draw-button').querySelector('.draw-button-note').hidden =
+    $('draw-button').disabled || moving || selected !== null;
   $('move-button').disabled = inputLocked() || ended || Boolean(state.pending) || !hasMove(state);
   $('move-button').classList.toggle('is-active', moving);
   $('move-button').textContent = moving ? '取消移动' : '移动棋子';
@@ -763,7 +774,7 @@ function render() {
           : moving
             ? '点击自己的棋子，查看可走的位置。'
             : direct
-              ? '随机获得一枚，再点空位放置。'
+              ? '先抽可看清棋子；直接点空位，落下后揭晓。'
               : '点己方棋子，再点标记位置移动。',
   );
   const movement = {
@@ -826,10 +837,14 @@ function render() {
     ? outcome
     : state.result === 'draw'
       ? '本局和棋'
-      : `${sideName(side)}获胜！`;
+      : state.resigned
+        ? '电脑认输，你获胜！'
+        : `${sideName(state.result)}获胜！`;
   $('result-description').textContent = room?.restartVotes.length
     ? `${sideName(room.restartVotes[0])}已申请重开，等待另一方同意。`
-    : `共 ${state.ply} 手${state.result === 'draw' ? '，当前无合法行动。' : '，同色五子连成一线。'}${room ? '双方同意后开始下一局。' : ''}`;
+    : state.resigned
+      ? `共 ${state.ply} 手。所有合法防守都无法阻止你下一手连五，电脑认输。`
+      : `共 ${state.ply} 手${state.result === 'draw' ? '，当前无合法行动。' : '，同色五子连成一线。'}${room ? '双方同意后开始下一局。' : ''}`;
   $('result-restart').disabled =
     busy ||
     networkBusy ||
