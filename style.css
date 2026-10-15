@@ -90,7 +90,7 @@ h1:focus {
   box-shadow: 0 12px 48px #3746311c;
 }
 .screen {
-  padding: max(8px, env(safe-area-inset-top)) 20px max(16px, env(safe-area-inset-bottom));
+  padding: max(8px, var(--game-safe-area-top, env(safe-area-inset-top))) 20px max(16px, var(--game-safe-area-bottom, env(safe-area-inset-bottom)));
   min-height: var(--screen-height);
   background: linear-gradient(180deg, #fffaf0a8, #fffaf0bd 48%, #f8f1e3a3);
   animation: page-in 0.18s ease-out;
@@ -215,7 +215,7 @@ h1:focus {
 .home-screen {
   position: relative;
   text-align: center;
-  padding-top: max(40px, env(safe-area-inset-top));
+  padding-top: max(40px, var(--game-safe-area-top, env(safe-area-inset-top)));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -627,8 +627,8 @@ input {
 }
 .game-screen {
   --game-chrome: 386px;
-  --game-safe-extra: calc(max(8px, env(safe-area-inset-top)) + max(12px, env(safe-area-inset-bottom)) - 20px);
-  padding: max(8px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+  --game-safe-extra: calc(max(8px, var(--game-safe-area-top, env(safe-area-inset-top))) + max(12px, var(--game-safe-area-bottom, env(safe-area-inset-bottom))) - 20px);
+  padding: max(8px, var(--game-safe-area-top, env(safe-area-inset-top))) 12px max(12px, var(--game-safe-area-bottom, env(safe-area-inset-bottom)));
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -1898,7 +1898,7 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
 }
 @media (max-height: 700px) and (orientation: portrait) {
   .home-screen {
-    padding-top: max(32px, env(safe-area-inset-top));
+    padding-top: max(32px, var(--game-safe-area-top, env(safe-area-inset-top)));
   }
   .home-subtitle {
     margin-bottom: 36px;
@@ -1907,8 +1907,8 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
     min-height: 60px;
   }
   .setup-screen {
-    padding-top: max(6px, env(safe-area-inset-top));
-    padding-bottom: max(14px, env(safe-area-inset-bottom));
+    padding-top: max(6px, var(--game-safe-area-top, env(safe-area-inset-top)));
+    padding-bottom: max(14px, var(--game-safe-area-bottom, env(safe-area-inset-bottom)));
   }
   .setup-screen .screen-header {
     margin-bottom: 6px;
@@ -1943,7 +1943,7 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
     font-size: 16px;
   }
   .screen[data-screen='tools'] {
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    padding-bottom: max(12px, var(--game-safe-area-bottom, env(safe-area-inset-bottom)));
   }
   .screen[data-screen='tools'] .screen-header {
     margin-bottom: 6px;
@@ -1990,11 +1990,11 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
   }
   .game-screen {
     display: grid;
-    grid-template-columns: minmax(180px, 1fr) minmax(0, calc((100dvh - 24px) * 0.9));
+    grid-template-columns: minmax(180px, 1fr) minmax(0, calc((100dvh - var(--game-safe-area-top, 0px) - 24px) * 0.9));
     grid-template-rows: 44px 48px 1fr auto auto;
     gap: 6px 20px;
     max-width: 900px;
-    padding: max(10px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+    padding: max(10px, var(--game-safe-area-top, env(safe-area-inset-top))) max(20px, var(--game-safe-area-right, env(safe-area-inset-right))) max(10px, var(--game-safe-area-bottom, env(safe-area-inset-bottom))) max(20px, var(--game-safe-area-left, env(safe-area-inset-left)));
   }
   .game-screen > * {
     grid-column: 1;
@@ -2050,7 +2050,7 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
     grid-row: 4;
   }
   .game-screen:has([data-mode='gomoku']) {
-    grid-template-columns: minmax(180px, 1fr) minmax(0, calc(100dvh - 24px));
+    grid-template-columns: minmax(180px, 1fr) minmax(0, calc(100dvh - var(--game-safe-area-top, 0px) - 24px));
   }
   .room-strip {
     grid-row: 3;
@@ -2074,7 +2074,7 @@ body.challenge-active .board-scroll:has([data-mode='gomoku']) {
     align-content: center;
     align-items: center;
     gap: 6px 24px;
-    padding: max(20px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+    padding: max(20px, var(--game-safe-area-top, env(safe-area-inset-top))) max(24px, var(--game-safe-area-right, env(safe-area-inset-right))) max(16px, var(--game-safe-area-bottom, env(safe-area-inset-bottom))) max(24px, var(--game-safe-area-left, env(safe-area-inset-left)));
   }
   .home-screen > * {
     width: 100%;
