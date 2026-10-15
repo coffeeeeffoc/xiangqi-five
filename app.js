@@ -16,6 +16,13 @@ import {
 
 import { animateTurn } from './pieces.js';
 import { setupBoardZoom } from './board-view.js';
+import { createHintAccess } from './rewarded-hints.js';
+const hintAccess = createHintAccess();
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) hintAccess.cancel();
+  else renderChallenge();
+});
+addEventListener('pagehide', () => hintAccess.cancel());
 import { applyComputerAction, winningActions } from './computer.js';
 import { SAVE_KEY, encodeGame, decodeGame } from './local-game.js';
 import {
@@ -122,6 +129,7 @@ function notifyDisplayState(name = currentScreen) {
 
 // Navigation changes the visible page only; game state stays in memory.
 function showScreen(name, { replace = false, push = true } = {}) {
+  if (name !== currentScreen) hintAccess.cancel();
   if (name === 'result' && challenge) name = 'game';
   if (name === 'result' && !state.result && (!challenge || challenge.status === 'playing'))
     name = 'game';
@@ -587,7 +595,7 @@ function render() {
       ? '本局结束'
       : state.pending
         ? `已抽到「${label(state.pending)}」，点棋盘空位放置，不能重抽或改为移动`
-      : '先抽子，看清棋子后再选择空位放置',
+        : '先抽子，看清棋子后再选择空位放置',
   );
   $('save-status').textContent = challenge
     ? challengeStorageAvailable
@@ -740,11 +748,12 @@ function render() {
         : direct
           ? '先抽子可以看清棋子后再选落点；直接点空位，则落下后才揭晓棋子。也可点己方棋子移动。'
           : '选择己方棋子，再点标记位置移动。';
-  $('draw-preview').innerHTML = state.pending && !ended
-    ? `${pieceMarkup(state.pending, 'drawn')}<div><strong>已抽到「${label(state.pending)}」</strong><small>点棋盘空位放置</small></div>`
-    : ended
-      ? `<span class="mystery-piece result-symbol">${state.result === 'draw' ? '和' : '胜'}</span><div><strong>${outcome}</strong><small>共 ${state.ply} 手 · 本局结束</small></div>`
-      : '<span class="mystery-piece">?</span><div><strong>先抽子，看清再放</strong><small>直接点空位，落下后揭晓</small></div>';
+  $('draw-preview').innerHTML =
+    state.pending && !ended
+      ? `${pieceMarkup(state.pending, 'drawn')}<div><strong>已抽到「${label(state.pending)}」</strong><small>点棋盘空位放置</small></div>`
+      : ended
+        ? `<span class="mystery-piece result-symbol">${state.result === 'draw' ? '和' : '胜'}</span><div><strong>${outcome}</strong><small>共 ${state.ply} 手 · 本局结束</small></div>`
+        : '<span class="mystery-piece">?</span><div><strong>先抽子，看清再放</strong><small>直接点空位，落下后揭晓</small></div>';
   $('draw-button').disabled =
     inputLocked() ||
     ended ||
@@ -754,10 +763,10 @@ function render() {
   $('draw-button').firstElementChild.textContent = ended
     ? '本局结束'
     : state.pending
-    ? `已抽到「${label(state.pending)}」`
-    : !state.pools[side].length
-      ? '无剩余棋子'
-      : '先抽子';
+      ? `已抽到「${label(state.pending)}」`
+      : !state.pools[side].length
+        ? '无剩余棋子'
+        : '先抽子';
   $('draw-button').querySelector('.draw-button-note').hidden =
     $('draw-button').disabled || moving || selected !== null;
   $('move-button').disabled = inputLocked() || ended || Boolean(state.pending) || !hasMove(state);
@@ -925,8 +934,15 @@ function renderChallenge() {
     : reply
       ? definition.replyHint
       : definition.hint;
-  $('challenge-hint').textContent = challenge.hintShown ? '提示已展开' : '提示';
-  $('challenge-hint').disabled = busy || challenge.hintShown || challenge.status === 'solved';
+  $('challenge-hint').textContent = challenge.hintShown
+    ? '提示已展开'
+    : hintAccess.pending
+      ? '观看中…'
+      : hintAccess.adsEnabled
+        ? '看广告获取提示'
+        : '提示';
+  $('challenge-hint').disabled =
+    busy || hintAccess.pending || challenge.hintShown || challenge.status === 'solved';
   $('challenge-share').disabled = busy || networkBusy || challengeSharing;
   $('challenge-result-share').disabled = busy || networkBusy || challengeSharing;
   for (const id of ['challenge-select', 'challenge-exit']) $(id).disabled = busy || networkBusy;
@@ -1032,11 +1048,27 @@ $('challenge-start-next').addEventListener('click', () =>
 );
 $('challenge-select').addEventListener('click', openChallenges);
 $('challenge-exit').addEventListener('click', exitChallenge);
-$('challenge-hint').addEventListener('click', () => {
-  if (challenge && !busy && challenge.status !== 'solved') {
-    challenge.hintShown = true;
-    render();
-  }
+$('challenge-hint').addEventListener('click', async () => {
+  if (
+    !challenge ||
+    busy ||
+    hintAccess.pending ||
+    challenge.hintShown ||
+    challenge.status === 'solved'
+  )
+    return;
+  const active = challenge;
+  const result = hintAccess.request();
+  renderChallenge();
+  const outcome = await result;
+  if (challenge !== active || currentScreen !== 'challenge-help' || document.hidden) return;
+  if (outcome.status === 'free' || outcome.status === 'completed') active.hintShown = true;
+  render();
+  $('challenge-hint-status').textContent = active.hintShown
+    ? ''
+    : outcome.status === 'dismissed'
+      ? '广告未看完，本次未获取提示。'
+      : '广告暂不可用，本次未获取提示。';
 });
 async function shareChallenge() {
   if (!challenge || busy || networkBusy || challengeSharing) return;
