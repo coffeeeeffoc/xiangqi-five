@@ -22,6 +22,7 @@ const files = {
   '/local-game.js': ['local-game.js', 'text/javascript; charset=utf-8'],
   '/challenges.js': ['challenges.js', 'text/javascript; charset=utf-8'],
   '/fullscreen.js': ['fullscreen.js', 'text/javascript; charset=utf-8'],
+  '/safe-area.js': ['safe-area.js', 'text/javascript; charset=utf-8'],
 };
 const host = process.env.HOST || '127.0.0.1';
 const port = Number(process.env.PORT || 4173);
