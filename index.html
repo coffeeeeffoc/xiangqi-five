@@ -22,22 +22,30 @@
       crossorigin
     />
     <link rel="stylesheet" href="./style.css" />
+    <link rel="preload" href="./assets/five-piece-logo.webp" as="image" type="image/webp" />
     <script defer src="./dev-mode.js"></script>
+    <script defer src="./loading.js"></script>
     <script type="module" src="./app.js"></script>
   </head>
   <body data-screen="home">
-    <main class="app-shell">
+    <section id="loading-screen" class="loading-screen" aria-label="加载象五子棋">
+      <img class="loading-logo" src="./assets/five-piece-logo.webp" width="512" height="512" alt="五枚象棋子在棋盘上连成一线" fetchpriority="high" />
+      <strong class="loading-title">象五子棋</strong>
+      <p id="loading-message" role="status">正在准备棋局…</p>
+      <button id="loading-retry" class="primary-button" hidden>重新加载</button>
+      <noscript>请启用 JavaScript 后重新加载游戏。</noscript>
+    </section>
+    <main class="app-shell" inert>
       <section class="screen home-screen" data-screen="home" aria-labelledby="home-title">
-        <img class="home-icon" src="./assets/five-piece-logo.webp" alt="象五子棋" width="44" height="44" />
         <span class="home-tag">山间棋亭 · 象棋 × 五子棋</span>
         <h1 id="home-title">象五子棋</h1>
         <p class="home-subtitle">象棋走法，同色连五</p>
         <img
-          class="home-hero"
-          src="./assets/hero-paper.webp"
-          alt="笑眯眯的帅和将，正在小棋盘上一起玩耍"
-          width="360"
-          height="300"
+          class="home-brand"
+          src="./assets/five-piece-logo.webp"
+          alt="五枚象棋子在棋盘上连成一线"
+          width="512"
+          height="512"
         />
         <div class="home-actions">
           <button class="primary-button jumbo" id="home-start">

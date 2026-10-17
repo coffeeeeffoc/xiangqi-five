@@ -4,6 +4,7 @@ import { createRoomService } from './rooms.js';
 
 const files = {
   '/assets/five-piece-logo.webp': ['assets/five-piece-logo.webp', 'image/webp'],
+  '/assets/pavilion-background.png': ['assets/pavilion-background.png', 'image/png'],
   '/assets/hero-paper.webp': ['assets/hero-paper.webp', 'image/webp'],
   '/assets/chess-glyphs.woff2': ['assets/chess-glyphs.woff2', 'font/woff2'],
   '/assets/chess-glyphs-LICENSE.txt': [
@@ -15,6 +16,8 @@ const files = {
   '/index.html': ['index.html', 'text/html; charset=utf-8'],
   '/style.css': ['style.css', 'text/css; charset=utf-8'],
   '/app.js': ['app.js', 'text/javascript; charset=utf-8'],
+  '/loading.js': ['loading.js', 'text/javascript; charset=utf-8'],
+  '/rewarded-hints.js': ['rewarded-hints.js', 'text/javascript; charset=utf-8'],
   '/board-view.js': ['board-view.js', 'text/javascript; charset=utf-8'],
   '/pieces.js': ['pieces.js', 'text/javascript; charset=utf-8'],
   '/game.js': ['game.js', 'text/javascript; charset=utf-8'],

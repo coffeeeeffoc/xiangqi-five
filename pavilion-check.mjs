@@ -302,6 +302,70 @@ async function main() {
       await screen(page, 'game');
     }
 
+    for (const [width, height] of [[305, 568], [390, 844]]) {
+      await runCase('logo-loading-' + width, { width, height }, async (page, name) => {
+        let release;
+        const ready = new Promise((resolveReady) => { release = resolveReady; });
+        await page.route('**/app.js', async (route) => {
+          await ready;
+          await route.continue();
+        });
+        try {
+          await page.reload({ waitUntil: 'commit' });
+          await page.locator('#loading-screen').waitFor({ state: 'visible' });
+          await page.waitForFunction(() => document.querySelector('.loading-logo').naturalWidth === 512);
+          assert.equal(await page.locator('.app-shell').evaluate((node) => node.inert), true);
+          const logo = await page.locator('.loading-logo').boundingBox();
+          assert.ok(logo.width >= 110 && logo.width <= 144, 'loading logo remains readable and compact');
+          assert.ok(logo.y > 0 && logo.y + logo.height < height);
+          // A deliberately pending module also holds document.fonts.ready until startup finishes.
+          const previous = process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY;
+          process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY = '1';
+          try {
+            await screenshot(page, name);
+          } finally {
+            if (previous === undefined) delete process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY;
+            else process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY = previous;
+          }
+        } finally {
+          release();
+        }
+        await page.locator('#loading-screen').waitFor({ state: 'hidden' });
+        assert.equal(await page.locator('.app-shell').evaluate((node) => node.inert), false);
+        await fits(page, name + '-home', ['.home-brand', '#home-title', '#home-start', '#home-settings']);
+        assert.equal(await page.locator('.home-brand').evaluate((node) => node.naturalWidth), 512);
+        const logo = await page.locator('.home-brand').boundingBox();
+        const actions = await page.locator('.home-actions').boundingBox();
+        assert.ok(logo.width >= 110 && logo.width <= 184, 'home logo scales to phone height');
+        assert.ok(logo.y + logo.height + 12 <= actions.y, 'logo leaves room for play controls');
+        await page.locator('#home-start').tap();
+        await screen(page, 'modes');
+      });
+    }
+
+    await runCase('logo-loading-retry', { width: 390, height: 844 }, async (page, name) => {
+      await page.route('**/app.js', (route) => route.abort());
+      await page.reload();
+      await page.locator('#loading-retry').waitFor({ state: 'visible' });
+      assert.match(await page.locator('#loading-message').innerText(), /加载失败/);
+      assert.equal(await page.locator('.app-shell').evaluate((node) => node.inert), true);
+      await screenshot(page, name);
+      await page.unroute('**/app.js');
+      await page.locator('#loading-retry').tap();
+      await page.locator('#loading-screen').waitFor({ state: 'hidden' });
+      await page.locator('#home-start').tap();
+      await screen(page, 'modes');
+    });
+
+    await runCase('logo-unavailable-keeps-game-playable', { width: 305, height: 568 }, async (page) => {
+      await page.route('**/five-piece-logo.webp', (route) => route.abort());
+      await page.reload();
+      await page.locator('#loading-screen').waitFor({ state: 'hidden' });
+      await startLocal(page);
+      await page.locator('.cell').first().tap();
+      await history(page, 1);
+    });
+
     const viewports = [
       [305, 568],
       [375, 650],
@@ -328,7 +392,7 @@ async function main() {
           await fits(
             page,
             name + '-home',
-            ['#home-title', '#home-start', '#home-settings', '.home-note'],
+            ['.home-brand', '#home-title', '#home-start', '#home-settings', '.home-note'],
             safeArea,
           );
           await screenshot(page, name + '-home');
@@ -457,7 +521,7 @@ async function main() {
           await fits(
             page,
             name + '-home-saved',
-            ['#home-start', '#home-continue', '#home-settings', '.home-note'],
+            ['.home-brand', '#home-start', '#home-continue', '#home-settings', '.home-note'],
             safeArea,
           );
           await page.locator('#home-settings').tap();
@@ -504,6 +568,7 @@ async function main() {
         }
         await screen(page, 'home');
         await fits(page, name + '-home-' + mode, [
+          '.home-brand',
           '#home-title',
           '#home-start',
           '#home-settings',

@@ -1,0 +1,9 @@
+# 五子连线 Logo · 棋盘版
+
+根据用户反馈，在第一版五枚象棋子斜向连线的基础上，增加圆角木质五子棋盘，强化休闲游戏图标的立体感。棋盘外透明，保留紅方車、馬、相、仕、帥五枚棋子与红色连线。
+
+文件：`five-piece-logo-v2.png`。内置 image_gen 编辑生成。已目视核对棋子数量、棋盘和文字；已接入 Web/H5 加载页与首页，小尺寸截图和验证记录见 [接入说明](logo-integration.md)。
+
+## 提示词
+
+Use case: logo-brand, precise-object-edit. Edit the supplied xiangqi-five logo into a polished playful mobile board-game icon. Retain EXACTLY FIVE red-side Chinese chess pieces with the characters 車 馬 相 仕 帥 in that order from lower-left to upper-right, each character upright, each circular piece fully visible. Add a small beautiful rounded-square wooden GOMOKU BOARD behind the pieces as the main icon background. A simple continuous regular square lattice, no river, no palace diagonals. The five piece centers must lie on five consecutive diagonal grid intersections in ONE straight ascending diagonal winning row. Use a 5-by-5 or 7-by-7 intersection board with enough edge margins, and all five pieces fit inside the board. Thin bright warm-red victory connector behind the pieces visible in the four gaps. Transform the rendering to charming premium casual mobile game art: chunky round cream-colored chess pieces, bold vermilion engraved Chinese glyphs, smooth honey wood board, thick rounded beveled walnut frame, soft toy-like 3D volumes, warm highlights, clean confident silhouettes and restrained saturated color. Slight near-front top-down perspective only so grid and letters remain readable. Compact balanced square app-icon composition, board occupies approximately 90 percent of canvas. The board is opaque and acts as the logo background; outside its rounded silhouette is true transparent alpha. No surrounding scene, no text title, no additional pieces, no Go stones, no UI, no loading text, no contact sheet, no watermark. Optimize for homepage branding and small loading icon readability. Make this distinctly game-like rather than realistic product photography.

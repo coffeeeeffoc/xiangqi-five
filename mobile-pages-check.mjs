@@ -736,7 +736,7 @@ try {
       'game pages use themed touch controls',
     );
     assert.equal(
-      await page.locator('.home-hero').evaluate((img) => img.complete && img.naturalWidth > 0),
+      await page.locator('.home-brand').evaluate((img) => img.complete && img.naturalWidth > 0),
       true,
     );
     await page.locator('#home-start').tap();

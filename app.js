@@ -1608,6 +1608,9 @@ if (invitation.has('room') && !room) {
 }
 const initialChallenge = challengeFromUrl(location.href);
 if (initialChallenge && !room && !invitation.has('room')) startChallenge(initialChallenge);
+document.getElementById('loading-screen').hidden = true;
+document.querySelector('.app-shell').inert = false;
+document.dispatchEvent(new Event('xiangqi-ready'));
 
 // The host resets its display state when the iframe finishes loading.
 // Notify again on the next task so deep links retain the immersive game view.

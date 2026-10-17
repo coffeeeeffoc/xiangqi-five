@@ -9,6 +9,7 @@ for (const file of [
   'dev-mode.js',
   'style.css',
   'app.js',
+  'loading.js',
   'rewarded-hints.js',
   'game.js',
   'pieces.js',
