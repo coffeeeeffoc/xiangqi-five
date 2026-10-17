@@ -1,0 +1,37 @@
+[
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "passed": true,
+    "checks": "HEAD HTML excluding unrelated edits; service-off candidate; preview ratios; touch board choice/deploy; home and saved-game restore",
+    "landscapeSetupScroll": false
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "passed": true,
+    "checks": "HEAD HTML excluding unrelated edits; service-off candidate; preview ratios; touch board choice/deploy; home and saved-game restore",
+    "landscapeSetupScroll": false
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "passed": true,
+    "checks": "HEAD HTML excluding unrelated edits; service-off candidate; preview ratios; touch board choice/deploy; home and saved-game restore",
+    "landscapeSetupScroll": true
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "passed": true,
+    "checks": "same-origin sandboxed iframe; both board preview ratios and touch choices; 90/225 actual intersections and deployment"
+  }
+]

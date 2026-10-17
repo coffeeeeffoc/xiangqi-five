@@ -1,0 +1,117 @@
+{
+  "checkedAt": "2026-10-17T18:40:08.469Z",
+  "browser": "140.0.7339.186",
+  "environment": "Chromium desktop/mobile touch emulation; CSS safe-area simulation; not physical-device validation",
+  "build": "node build.js --with-service",
+  "checks": [
+    "logo-loading-305",
+    "logo-loading-390",
+    "logo-loading-retry",
+    "logo-unavailable-keeps-game-playable",
+    "pages-305x568",
+    "pages-375x650",
+    "pages-375x651",
+    "pages-390x700",
+    "pages-390x701",
+    "pages-390x740",
+    "pages-390x780",
+    "pages-390x844",
+    "pages-375x650-safe-area",
+    "pages-390x844-safe-area",
+    "landscape-844x390",
+    "desktop-1280x800",
+    "unavailable-storage-message",
+    "draw-and-reload-xiangqi",
+    "draw-and-reload-gomoku",
+    "long-content-remains-scrollable",
+    "forced-loss-resignation-xiangqi",
+    "forced-loss-resignation-gomoku"
+  ],
+  "failures": [],
+  "boardPreviewLayouts": [
+    {
+      "label": "pages-390x780-setup-computer.classic-mini",
+      "x": 70.40625,
+      "y": 156.78125,
+      "width": 70.1875,
+      "height": 77.984375
+    },
+    {
+      "label": "pages-390x780-setup-computer.wide-mini",
+      "x": 249.40625,
+      "y": 160.671875,
+      "width": 70.1875,
+      "height": 70.1875
+    },
+    {
+      "label": "pages-390x780-setup-local.classic-mini",
+      "x": 70.40625,
+      "y": 156.78125,
+      "width": 70.1875,
+      "height": 77.984375
+    },
+    {
+      "label": "pages-390x780-setup-local.wide-mini",
+      "x": 249.40625,
+      "y": 160.671875,
+      "width": 70.1875,
+      "height": 70.1875
+    },
+    {
+      "label": "pages-390x844-setup-computer.classic-mini",
+      "x": 67.515625,
+      "y": 218.78125,
+      "width": 75.953125,
+      "height": 84.390625
+    },
+    {
+      "label": "pages-390x844-setup-computer.wide-mini",
+      "x": 246.515625,
+      "y": 223,
+      "width": 75.953125,
+      "height": 75.953125
+    },
+    {
+      "label": "pages-390x844-setup-local.classic-mini",
+      "x": 67.515625,
+      "y": 218.78125,
+      "width": 75.953125,
+      "height": 84.390625
+    },
+    {
+      "label": "pages-390x844-setup-local.wide-mini",
+      "x": 246.515625,
+      "y": 223,
+      "width": 75.953125,
+      "height": 75.953125
+    },
+    {
+      "label": "pages-390x844-safe-area-setup-computer.classic-mini",
+      "x": 67.515625,
+      "y": 234.78125,
+      "width": 75.953125,
+      "height": 84.390625
+    },
+    {
+      "label": "pages-390x844-safe-area-setup-computer.wide-mini",
+      "x": 246.515625,
+      "y": 239,
+      "width": 75.953125,
+      "height": 75.953125
+    },
+    {
+      "label": "pages-390x844-safe-area-setup-local.classic-mini",
+      "x": 67.515625,
+      "y": 234.78125,
+      "width": 75.953125,
+      "height": 84.390625
+    },
+    {
+      "label": "pages-390x844-safe-area-setup-local.wide-mini",
+      "x": 246.515625,
+      "y": 239,
+      "width": 75.953125,
+      "height": 75.953125
+    }
+  ]
+}

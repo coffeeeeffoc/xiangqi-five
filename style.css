@@ -524,9 +524,10 @@ h1:focus {
 .board-mini {
   display: block;
   position: relative;
-  width: 100%;
-  height: clamp(44px, 9dvh, 78px);
-  margin-bottom: 7px;
+  width: min(100%, clamp(44px, 9dvh, 78px));
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0 auto 7px;
   border: 4px solid #b99261;
   border-radius: 5px;
   background:
@@ -543,8 +544,13 @@ h1:focus {
   font: normal 9px var(--serif);
   color: #7d6749;
 }
+.classic-mini {
+  aspect-ratio: 9 / 10;
+}
 .wide-mini {
-  background-size: 57.14% 57.14%;
+  background:
+    repeating-linear-gradient(90deg, #997d5570 0 1px, transparent 1px 7.142857%),
+    repeating-linear-gradient(#997d5570 0 1px, transparent 1px 7.142857%), #ead6b1;
 }
 .board-choices strong {
   display: block;

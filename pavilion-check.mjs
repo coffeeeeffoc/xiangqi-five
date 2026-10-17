@@ -478,6 +478,17 @@ async function main() {
           for (const opponent of ['computer', 'local']) {
             await page.locator('#mode-' + opponent).tap();
             await screen(page, 'setup');
+            for (const [selector, ratio, cols, rows] of [
+              ['.classic-mini', 0.9, 9, 10],
+              ['.wide-mini', 1, 15, 15],
+            ]) {
+              if (!(await page.locator(selector).isVisible())) continue;
+              const box = await page.locator(selector).boundingBox();
+              assert.ok(Math.abs(box.width / box.height - ratio) < 0.01, selector + ': board proportions');
+              const cellRatio = ((box.width - 8) / (cols - 1)) / ((box.height - 8) / (rows - 1));
+              assert.ok(Math.abs(cellRatio - 1) < 0.02, selector + ': square grid cells');
+              evidence.layouts.push({ label: name + '-setup-' + opponent + selector, ...box });
+            }
             if (opponent === 'computer') await page.locator('[data-difficulty="hard"]').tap();
             assert.ok((await page.locator('#save-status').textContent()).trim());
             const explanation = await page.locator('.draw-method-note').innerText();
