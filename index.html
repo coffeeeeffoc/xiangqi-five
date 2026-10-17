@@ -22,13 +22,13 @@
       crossorigin
     />
     <link rel="stylesheet" href="./style.css" />
-    <script defer src="./fullscreen.js"></script>
     <script defer src="./dev-mode.js"></script>
     <script type="module" src="./app.js"></script>
   </head>
   <body data-screen="home">
     <main class="app-shell">
       <section class="screen home-screen" data-screen="home" aria-labelledby="home-title">
+        <img class="home-icon" src="./assets/five-piece-logo.webp" alt="象五子棋" width="44" height="44" />
         <span class="home-tag">山间棋亭 · 象棋 × 五子棋</span>
         <h1 id="home-title">象五子棋</h1>
         <p class="home-subtitle">象棋走法，同色连五</p>
@@ -68,6 +68,7 @@
           </button>
         </div>
         <div class="home-links">
+          <button id="home-share" class="text-button" data-share-game>分享游戏</button>
           <button id="home-settings" class="text-button">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="m9 3 6 0 1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1z" />
@@ -76,6 +77,10 @@
           </button>
         </div>
         <p class="home-note">自动保存，随时继续</p>
+        <p id="home-share-message" role="status"></p>
+        <div id="home-share-fallback" hidden>
+          <label for="home-share-link">长按复制游戏链接</label><input id="home-share-link" readonly />
+        </div>
       </section>
       <section class="screen" data-screen="modes" hidden aria-labelledby="modes-title">
         <header class="screen-header">
@@ -118,7 +123,7 @@
             <svg class="card-arrow button-chevron" viewBox="0 0 24 24" aria-hidden="true">
               <path d="m9 5 7 7-7 7" />
             </svg></button
-          ><button id="room-open" class="mode-card gold-card">
+          ><button id="room-open" class="mode-card gold-card" hidden>
             <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="m2 11 10-9 10 9M5 9v12h14V9M9 21v-8h6v8" />
             </svg>
@@ -269,6 +274,11 @@
         </header>
         <h1 id="tools-title">对局选项</h1>
         <p class="page-subtitle">查看棋局，调整你的对弈体验。</p>
+        <button id="tools-share" class="mint-button" data-share-game>分享游戏</button>
+        <p id="tools-share-message" role="status"></p>
+        <div id="tools-share-fallback" hidden>
+          <label for="tools-share-link">长按复制游戏链接</label><input id="tools-share-link" readonly />
+        </div>
         <div class="tool-list">
           <button id="tools-rules">
             <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -348,7 +358,6 @@
           ><button id="zoom-reset" class="text-button">恢复大小</button>
         </div>
         <p class="small-note">棋盘也可以双指缩放、拖动查看。</p>
-        <button class="mint-button" data-game-fullscreen>全屏</button>
       </section>
       <section
         class="screen"
@@ -510,10 +519,10 @@
         <p id="challenge-hint-status" class="small-note" role="status"></p>
         <p id="challenge-hint-text" class="hint-card" hidden></p>
         <p id="challenge-hint-cost" class="small-note">查看提示后，本题最高获得一星。</p>
-        <button id="challenge-share" class="primary-button">邀朋友解同一道题</button>
+        <button id="challenge-share" class="primary-button">分享当前关卡</button>
         <p id="challenge-share-message" role="status"></p>
         <div id="challenge-share-fallback" hidden>
-          <label for="challenge-share-link">长按复制同题链接</label
+          <label for="challenge-share-link">长按复制关卡链接</label
           ><input id="challenge-share-link" readonly />
         </div>
       </section>
@@ -616,11 +625,16 @@
           <p id="result-description" class="page-subtitle"></p>
           <div id="challenge-result-actions" hidden>
             <p id="challenge-next-goal" class="small-note"></p>
-            <button id="challenge-result-share" class="mint-button">邀朋友解这题</button>
+            <button id="challenge-result-share" class="mint-button">分享当前关卡</button>
             <p id="challenge-result-message" role="status"></p>
           </div>
           <button class="primary-button jumbo" id="result-restart">再来一局</button
           ><button id="result-board" class="mint-button">查看本局棋盘</button>
+          <button id="result-share" class="mint-button" data-share-game>分享游戏</button>
+          <p id="result-share-message" role="status"></p>
+          <div id="result-share-fallback" hidden>
+            <label for="result-share-link">长按复制游戏链接</label><input id="result-share-link" readonly />
+          </div>
         </section>
       </section>
       <div hidden aria-hidden="true">

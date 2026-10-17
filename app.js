@@ -72,6 +72,9 @@ let cells = [];
 let boardFocusIndex = 0;
 let resumeBoardFocus = false;
 let room = null;
+function roomServiceEnabled() {
+  return globalThis.__XIANGQI_ROOM_SERVICE__ !== false && !globalThis.__COMPETITION_CONFIG__?.serviceManaged;
+}
 let networkBusy = false;
 let networkHealthy = true;
 let roomError = '';
@@ -129,6 +132,7 @@ function notifyDisplayState(name = currentScreen) {
 
 // Navigation changes the visible page only; game state stays in memory.
 function showScreen(name, { replace = false, push = true } = {}) {
+  if (name === 'room' && !roomServiceEnabled()) name = 'modes';
   if (name !== currentScreen) hintAccess.cancel();
   if (name === 'result' && challenge) name = 'game';
   if (name === 'result' && !state.result && (!challenge || challenge.status === 'playing'))
@@ -241,6 +245,8 @@ $('home-settings').addEventListener('click', () => {
 $('mode-computer').addEventListener('click', () => openSetup('computer'));
 $('mode-local').addEventListener('click', () => openSetup('local'));
 function arrangeOnlineEntry() {
+  $('room-open').hidden = !roomServiceEnabled();
+  if (!roomServiceEnabled()) return;
   if ($('mode-online').hidden) return;
   $('mode-extras').hidden = false;
   const legacy = $('room-open');
@@ -587,7 +593,10 @@ function render() {
   setChevronLabel('home-continue', challenge ? '继续战术练习' : room ? '返回好友对弈' : '继续棋局');
   $('training-dock').hidden = !challenge;
   $('tools-settings').hidden = Boolean(room || challenge);
-  $('tools-room').hidden = !room;
+  $('room-open').hidden = !roomServiceEnabled();
+  $('tools-room').hidden = !roomServiceEnabled() || !room;
+  $('tools-share').textContent = challenge ? '分享当前关卡' : '分享游戏';
+  $('result-share').hidden = Boolean(challenge);
   $('challenge-select').hidden = $('challenge-exit').hidden = !challenge;
   $('draw-button').setAttribute(
     'aria-label',
@@ -612,7 +621,7 @@ function render() {
     const enemy = side === 'red' ? 'black' : 'red';
     threats = ended ? [] : winningActions({ ...state, pending: null, turn: enemy }, enemy);
   }
-  $('room-open').disabled = busy || networkBusy || Boolean(challenge);
+  $('room-open').disabled = !roomServiceEnabled() || busy || networkBusy || Boolean(challenge);
   $('challenge-open').disabled = busy || networkBusy || Boolean(room);
   $('challenge-quick-start').disabled = busy || networkBusy || Boolean(room);
   $('new-game').disabled =
@@ -876,8 +885,8 @@ function render() {
           : challenge.definition.goal === 'defend'
             ? '重试本题，消除黑方的全部连五威胁。'
             : '重试本题，找到连五的缺口。';
-    $('challenge-result-share').textContent = '分享';
-    $('challenge-result-share').setAttribute('aria-label', '邀请朋友解同一道题');
+    $('challenge-result-share').textContent = '分享当前关卡';
+    $('challenge-result-share').setAttribute('aria-label', '分享当前关卡');
     const lastRed = state.history.filter((event) => event.side === 'red').at(-1);
     $('result-description').textContent =
       challenge.status === 'solved'
@@ -901,6 +910,7 @@ function render() {
 }
 
 function renderChallenge() {
+  for (const button of document.querySelectorAll('[data-share-game]')) button.disabled = busy || networkBusy || challengeSharing;
   const milestones = challengeMilestones(challengeProgress);
   $('challenge-summary').textContent =
     `已完成 ${milestones.basics + milestones.combos}/8 题　·　★ ${milestones.stars}/16`;
@@ -1070,32 +1080,34 @@ $('challenge-hint').addEventListener('click', async () => {
       ? '广告未看完，本次未获取提示。'
       : '广告暂不可用，本次未获取提示。';
 });
-async function shareChallenge() {
-  if (!challenge || busy || networkBusy || challengeSharing) return;
-  const activeChallenge = challenge;
+async function shareChallenge(activeChallenge = challenge) {
+  if (busy || networkBusy || challengeSharing) return;
+  const sourceChallenge = challenge;
   const shareOrigin = currentScreen;
-  const isCurrent = () => challenge === activeChallenge;
+  const sharePrefix = activeChallenge ? 'challenge' : shareOrigin;
+  const isCurrent = () => challenge === sourceChallenge && (activeChallenge || currentScreen === shareOrigin);
   const feedback = (message) => {
     if (isCurrent()) {
-      $('challenge-share-message').textContent = message;
-      $('challenge-result-message').textContent = message;
+      $(`${sharePrefix}-share-message`).textContent = message;
+      if (activeChallenge) $('challenge-result-message').textContent = message;
     }
   };
   challengeSharing = true;
   renderChallenge();
   try {
-    const url = challengeLink(location.href, activeChallenge.definition.id);
+    const url = challengeLink(location.href, activeChallenge?.definition.id ?? null);
+    $(`${sharePrefix}-share-fallback`).hidden = true;
     if (typeof navigator.share === 'function') {
       try {
         await navigator.share({
-          title: `象五子棋 · ${activeChallenge.definition.title}`,
-          text: challengeInvitation(
+          title: activeChallenge ? `象五子棋 · ${activeChallenge.definition.title}` : '象五子棋',
+          text: activeChallenge ? challengeInvitation(
             activeChallenge.definition.id,
             activeChallenge.status === 'solved',
-          ),
+          ) : '象棋走法，同色连五。一起来下象五子棋。',
           url,
         });
-        feedback('已打开分享，邀请好友解同一道题。');
+        feedback(activeChallenge ? '已打开分享，邀请好友挑战当前关卡。' : '已打开游戏分享。');
         return;
       } catch (error) {
         if (error?.name === 'AbortError') {
@@ -1107,25 +1119,26 @@ async function shareChallenge() {
     if (!isCurrent()) return;
     try {
       await navigator.clipboard.writeText(url);
-      feedback('同题链接已复制。');
+      feedback(activeChallenge ? '关卡链接已复制。' : '游戏链接已复制。');
     } catch {
       if (!isCurrent()) return;
-      $('challenge-share-link').value = url;
-      $('challenge-share-fallback').hidden = false;
+      $(`${sharePrefix}-share-link`).value = url;
+      $(`${sharePrefix}-share-fallback`).hidden = false;
       if (currentScreen === shareOrigin) {
-        if (currentScreen !== 'challenge-help') showScreen('challenge-help');
-        $('challenge-share-link').focus();
-        $('challenge-share-link').select();
+        if (activeChallenge && currentScreen !== 'challenge-help') showScreen('challenge-help');
+        $(`${sharePrefix}-share-link`).focus();
+        $(`${sharePrefix}-share-link`).select();
         feedback('请长按或使用 Ctrl+C 复制下方链接。');
-      } else feedback('同题链接已准备好，可在战术提示页长按复制。');
+      } else feedback('关卡链接已准备好，可在战术提示页长按复制。');
     }
   } finally {
     challengeSharing = false;
     renderChallenge();
   }
 }
-$('challenge-share').addEventListener('click', shareChallenge);
-$('challenge-result-share').addEventListener('click', shareChallenge);
+$('challenge-share').addEventListener('click', () => shareChallenge());
+$('challenge-result-share').addEventListener('click', () => shareChallenge());
+document.querySelectorAll('[data-share-game]').forEach(button => button.addEventListener('click', () => shareChallenge(button.id === 'home-share' ? null : challenge)));
 
 $('draw-button').addEventListener('click', () => {
   if (inputLocked()) return;
@@ -1284,6 +1297,7 @@ function validSnapshot(data) {
   );
 }
 async function roomRequest(server, path, body, token) {
+  if (!roomServiceEnabled()) throw new Error('当前版本未开放好友房间。');
   const response = await fetch(`${server}/api/rooms${path}`, {
     method: body ? 'POST' : 'GET',
     headers: {
@@ -1384,6 +1398,7 @@ function endpoint() {
   return url.origin;
 }
 async function connectRoom(join) {
+  if (!roomServiceEnabled()) return;
   if (room || challenge || networkBusy || busy || !roomServiceReady) return;
   cancelComputer();
   roomError = '';
@@ -1441,12 +1456,13 @@ function prepareInvite() {
 }
 let roomServiceReady = false;
 $('room-server').value = new URLSearchParams(location.search).get('server') || location.origin;
-const invitation = new URLSearchParams(location.hash.slice(1));
+const invitation = new URLSearchParams(roomServiceEnabled() ? location.hash.slice(1) : '');
 if (invitation.has('room')) {
   $('room-code').value = invitation.get('room');
   $('room-server').value = invitation.get('server') || location.origin;
 }
 async function checkRoomService() {
+  if (!roomServiceEnabled()) return;
   if (room) return;
   roomServiceReady = false;
   renderRoom();
@@ -1466,6 +1482,7 @@ async function checkRoomService() {
   renderRoom();
 }
 function openRoom() {
+  if (!roomServiceEnabled()) return;
   showScreen('room');
   void checkRoomService();
 }
@@ -1524,6 +1541,7 @@ $('room-leave').addEventListener('click', () => {
   } else resetGame(state.mode);
 });
 async function pollRoom() {
+  if (!roomServiceEnabled()) return;
   if (!room || busy || networkBusy || pollTask) return;
   const currentRoom = room;
   pollTask = (async () => {
@@ -1559,11 +1577,12 @@ async function pollRoom() {
     pollTask = null;
   }
 }
-setInterval(pollRoom, 1000);
+if (roomServiceEnabled()) setInterval(pollRoom, 1000);
 try {
   const saved = JSON.parse(sessionStorage.getItem('xiangqi-room') || 'null');
   if (
     saved &&
+    roomServiceEnabled() &&
     /^[A-F0-9]{8}$/.test(saved.code) &&
     /^[a-f0-9]{48}$/.test(saved.token) &&
     ['red', 'black'].includes(saved.side) &&

@@ -111,6 +111,19 @@ const exitChallenge = async (page) => {
 };
 
 try {
+  const sharing = await browser.newPage({ hasTouch: true });
+  await sharing.addInitScript(() => {
+    Object.defineProperty(navigator, 'share', { configurable: true, value: undefined });
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('denied'); } } });
+  });
+  await sharing.goto(base + '?challenge=horse-leg&dev=1&token=secret&server=private&pk=abc');
+  await sharing.locator('#game-back').tap();
+  await sharing.locator('#home-share').tap();
+  assert.equal(await sharing.locator('#home-share-link').inputValue(), base);
+  assert.equal(await sharing.locator('#home-share-fallback').isVisible(), true);
+  assert.equal(await sharing.locator('body').getAttribute('data-screen'), 'home');
+  assert.equal(await sharing.evaluate(() => document.activeElement.id), 'home-share-link');
+  await sharing.close();
   await mkdir(new URL('.turbo/challenges/', import.meta.url), { recursive: true });
   const newcomer = await browser.newPage({ viewport: { width: 305, height: 568 }, hasTouch: true });
   await newcomer.goto(base);
@@ -365,7 +378,7 @@ try {
     await page.locator('#challenge-share').tap();
     assert.equal(
       await page.locator('#challenge-share-message').textContent(),
-      '同题链接已复制。',
+      '关卡链接已复制。',
       'empty share rejections still allow clipboard fallback',
     );
     assert.equal(await page.evaluate(() => window.copyCalls), 1);
@@ -420,7 +433,7 @@ try {
   await page.waitForFunction(() => !document.querySelector('#challenge-share').disabled);
   assert.equal(
     await page.locator('#challenge-share-message').textContent(),
-    '已打开分享，邀请好友解同一道题。',
+    '已打开分享，邀请好友挑战当前关卡。',
   );
   assert.equal(await page.evaluate(() => window.copyCalls), 0);
   await page.evaluate(() => {
@@ -447,7 +460,7 @@ try {
   );
   await page.evaluate(() => window.resolveCopy());
   await page.waitForFunction(() => !document.querySelector('#challenge-share').disabled);
-  assert.equal(await page.locator('#challenge-share-message').textContent(), '同题链接已复制。');
+  assert.equal(await page.locator('#challenge-share-message').textContent(), '关卡链接已复制。');
   await page.evaluate(() => {
     Object.defineProperty(navigator, 'share', {
       configurable: true,
@@ -508,13 +521,22 @@ try {
   );
   await pending.close();
   const invite = await browser.newPage();
+  const roomRequests = [];
+  invite.on('request', request => { if (request.url().includes('/api/rooms')) roomRequests.push(request.url()); });
+  await invite.addInitScript(() => sessionStorage.setItem('xiangqi-room', JSON.stringify({ code: 'ABCDEF12', token: 'a'.repeat(48), side: 'red', server: location.origin })));
   await invite.goto(base + '?challenge=horse-leg#room=ABCDEF12');
+  const roomsEnabled = await invite.evaluate(() => globalThis.__XIANGQI_ROOM_SERVICE__ !== false && !globalThis.__COMPETITION_CONFIG__?.serviceManaged);
   assert.equal(
     await invite.locator('#challenge-panel').isVisible(),
-    false,
-    'friend invitations take priority over training links',
+    !roomsEnabled,
+    'only service builds honor old room invitations and session restores',
   );
-  assert.equal(await invite.locator('#room-dialog').isVisible(), true);
+  assert.equal(await invite.locator('#room-dialog').isVisible(), roomsEnabled);
+  if (!roomsEnabled) {
+    assert.equal(await invite.locator('#room-open').isHidden(), true);
+    assert.equal(await invite.locator('#tools-room').isHidden(), true);
+    assert.deepEqual(roomRequests, []);
+  }
   await invite.close();
   const computer = await browser.newPage({ hasTouch: true });
   const originalComputer = newGame();

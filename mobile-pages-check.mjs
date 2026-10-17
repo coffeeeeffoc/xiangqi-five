@@ -50,7 +50,8 @@ const server = createServer(async (request, response) => {
   const filename = resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
   if (!filename.startsWith(`${root}${sep}`)) return response.writeHead(404).end();
   try {
-    const data = await readFile(filename);
+    let data = await readFile(filename);
+    if (pathname === '/') data = Buffer.from(data.toString().replace('__XIANGQI_ROOM_SERVICE__ = false', '__XIANGQI_ROOM_SERVICE__ = true'));
     response
       .writeHead(200, {
         'Content-Type': contentTypes[filename.split('.').at(-1)] || 'application/octet-stream',

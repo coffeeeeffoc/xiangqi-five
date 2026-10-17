@@ -142,12 +142,12 @@ export function challengeFromUrl(href) {
   return ids.length === 1 && getChallenge(ids[0]) ? ids[0] : null;
 }
 
-export function challengeLink(href, id) {
-  if (!getChallenge(id)) throw new Error('未知战术挑战');
+export function challengeLink(href, id = null) {
+  if (id !== null && !getChallenge(id)) throw new Error('未知战术挑战');
   const url = new URL(href);
   if (!['http:', 'https:'].includes(url.protocol)) throw new Error('请通过网页地址分享练习');
   url.username = ''; url.password = ''; url.search = ''; url.hash = '';
-  url.searchParams.set('challenge', id);
+  if (id !== null) url.searchParams.set('challenge', id);
   return url.href;
 }
 

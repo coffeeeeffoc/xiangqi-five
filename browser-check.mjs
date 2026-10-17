@@ -17,7 +17,8 @@ const server = createServer(async (request, response) => {
   const filename = new URL(request.url, 'http://localhost').pathname.slice(1) || 'index.html';
   if (!/^(?:assets\/)?[\w.-]+$/.test(filename)) return response.writeHead(404).end();
   try {
-    const data = await readFile(new URL(`./dist/${filename}`, import.meta.url));
+    let data = await readFile(new URL(`./dist/${filename}`, import.meta.url));
+    if (filename === 'index.html') data = Buffer.from(data.toString().replace('__XIANGQI_ROOM_SERVICE__ = false', '__XIANGQI_ROOM_SERVICE__ = true'));
     response
       .writeHead(200, {
         'Content-Type': mime[filename.split('.').at(-1)] || 'application/octet-stream',
@@ -290,14 +291,7 @@ try {
     await idle(page, 4);
     const beforeDisplay = await page.evaluate(() => localStorage.getItem('xiangqi-five-local-v1'));
     await tools(page, 'tap');
-    const fullscreen = page.locator('[data-game-fullscreen]');
-    await fullscreen.tap();
-    await page.waitForFunction(() => document.fullscreenElement === document.documentElement);
-    assert.equal(await fullscreen.getAttribute('aria-pressed'), 'true');
-    const button = await fullscreen.boundingBox();
-    assert.ok(
-      button.width >= 44 && button.height >= 44 && button.x >= 0 && button.x + button.width <= 305,
-    );
+    assert.equal(await page.locator('[data-game-fullscreen]').count(), 0);
     await page.locator('#tools-rules').tap();
     await screen(page, 'rules');
     assert.equal(
@@ -308,18 +302,12 @@ try {
     );
     await page.locator('#rules-close').tap();
     await screen(page, 'tools');
-    assert.equal(await page.evaluate(() => Boolean(document.fullscreenElement)), true);
-    await fullscreen.tap();
-    await page.waitForFunction(() => !document.fullscreenElement);
+    assert.equal(await page.evaluate(() => Boolean(document.fullscreenElement)), false);
     assert.equal(
       await page.evaluate(() => localStorage.getItem('xiangqi-five-local-v1')),
       beforeDisplay,
     );
-    await fullscreen.tap();
     await page.setViewportSize({ width: 844, height: 390 });
-    await page.waitForFunction(() => document.fullscreenElement);
-    await page.evaluate(() => document.exitFullscreen());
-    await expect(fullscreen).toHaveAttribute('aria-pressed', 'false');
     await closeTools(page, 'tap');
     await page.setViewportSize({ width: 305, height: 568 });
     await page.locator('#game-zoom').tap();
@@ -348,7 +336,7 @@ try {
     );
     await page.close();
     console.log(
-      `PASS 305px ${mode}: move intention, visible draw/reload, real fullscreen/page return, rotation, interrupted pinch, no overflow`,
+      `PASS 305px ${mode}: move intention, visible draw/reload, tools/page return, rotation, interrupted pinch, no overflow`,
     );
   }
   if (process.env.XIANGQI_SHELL_REVIEW_URL) {
@@ -389,39 +377,6 @@ try {
           `PASS actual review Shell/current assets: ${mode} mobile=${isMobile}/${input}, overview, stable 300%, touch cancel, rotate/reload`,
         );
       }
-  }
-  for (const failure of ['unsupported', 'rejected']) {
-    const page = await browser.newPage({
-      viewport: { width: 320, height: 568 },
-      hasTouch: true,
-      isMobile: true,
-      reducedMotion: 'reduce',
-    });
-    await page.addInitScript((failure) => {
-      Element.prototype.requestFullscreen =
-        failure === 'unsupported' ? undefined : () => Promise.reject(new Error('denied'));
-      Element.prototype.webkitRequestFullscreen = undefined;
-    }, failure);
-    await page.goto(url);
-    await startGame(page, { input: 'tap' });
-    await tools(page, 'tap');
-    await page.locator('[data-game-fullscreen]').tap();
-    await page.waitForFunction(() => !document.querySelector('#game-display-notice').hidden);
-    assert.match(
-      await page.locator('#game-display-notice').textContent(),
-      failure === 'unsupported' ? /不支持/ : /未允许/,
-    );
-    assert.equal(
-      await page.locator('[data-game-fullscreen]').getAttribute('aria-pressed'),
-      'false',
-    );
-    await closeTools(page, 'tap');
-    await page.locator('.cell').first().tap();
-    await idle(page, 1);
-    await page.close();
-    console.log(
-      `PASS fullscreen ${failure}: accurate feedback and playable fallback (API simulation)`,
-    );
   }
   for (const width of [320, 390, 1280])
     for (const mode of ['xiangqi', 'gomoku']) {
@@ -613,15 +568,14 @@ try {
   console.log(
     'PASS 390px static build: computer turn, reload, unavailable rooms, five-in-a-row, result/board pages, restart, 15x15 zoom/touch',
   );
-  // Black's visible winning result follows the same real input path, in fullscreen.
+  // Black's visible winning result follows the same real input path, without fullscreen controls.
   await tools(page, 'tap');
   await page.locator('#new-game').tap();
   await screen(page, 'restart');
   await page.locator('#restart-confirm').tap();
   await screen(page, 'game');
   await tools(page, 'tap');
-  await page.locator('[data-game-fullscreen]').tap();
-  await page.waitForFunction(() => document.fullscreenElement);
+  assert.equal(await page.locator('[data-game-fullscreen]').count(), 0);
   await closeTools(page, 'tap');
   for (const index of [224, 0, 210, 1, 194, 2, 180, 3, 164, 4]) {
     await cells.nth(index).tap();
@@ -633,9 +587,9 @@ try {
   await screen(page, 'game');
   assert.equal(await page.locator('#history-count').textContent(), '0');
   await tools(page, 'tap');
-  await page.locator('[data-game-fullscreen]').tap();
+  assert.equal(await page.locator('[data-game-fullscreen]').count(), 0);
   await page.waitForFunction(() => !document.fullscreenElement);
-  console.log('PASS 15x15 fullscreen: black wins, result retry resets, exit remains available');
+  console.log('PASS 15x15: black wins, result retry resets, no fullscreen entry');
   await page.close();
 
   const handleRoom = createRoomService();

@@ -1,8 +1,44 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { runInNewContext } from 'node:vm';
 import { canMove, move, findFive } from './game.js';
 import { legalActions, winningActions } from './computer.js';
 import { CHALLENGES, createChallengeState, challengeOutcome, challengeReply, challengeMilestones, recommendedChallenge, challengeInvitation, challengeFromUrl, challengeLink, decodeChallengeProgress } from './challenges.js';
+
+test('static builds default to no room service and explicitly opt in without changing source HTML', async () => {
+  const build = await readFile(new URL('./build.js', import.meta.url), 'utf8');
+  const html = await readFile(new URL('./index.html', import.meta.url), 'utf8');
+  const execute = new Function('mkdir', 'copyFile', 'readFile', 'writeFile', 'process', 'console', `return (async () => {${build.replace(/^import .*;\r?\n/, '').replaceAll('import.meta.url', JSON.stringify(import.meta.url))}})()`);
+  for (const withService of [false, true]) {
+    const output = new Map();
+    await execute(async () => {}, async () => {}, async () => html, async (path, text) => output.set(path.pathname, text), { argv: withService ? ['--with-service'] : [] }, { log() {} });
+    const built = [...output].find(([path]) => path.endsWith('/dist/index.html'))[1];
+    assert.ok(built.includes(`globalThis.__XIANGQI_ROOM_SERVICE__ = ${withService};`));
+    assert.ok(built.indexOf('__XIANGQI_ROOM_SERVICE__') < built.indexOf('src="./app.js"'));
+  }
+  assert.ok(!html.includes('__XIANGQI_ROOM_SERVICE__'));
+});
+
+test('disabled room service blocks requests and old restores while keeping packaging anchors', async () => {
+  const app = await readFile(new URL('./app.js', import.meta.url), 'utf8');
+  const extract = name => app.match(new RegExp(`(?:async )?function ${name}\\([^]*?\\n\\}`))[0];
+  for (const anchor of ['async function roomRequest(server, path, body, token) {', 'async function checkRoomService() {', '    saved &&', "if (invitation.has('room') && !room) {"]) assert.equal(app.split(anchor).length, 2);
+  for (const flags of [{ __XIANGQI_ROOM_SERVICE__: false }, { __XIANGQI_ROOM_SERVICE__: true, __COMPETITION_CONFIG__: { serviceManaged: true } }]) {
+    const context = { ...flags, URL, URLSearchParams, room: null, location: { hash: '#room=ABCDEF12' }, sessionStorage: { getItem: () => JSON.stringify({ code: 'ABCDEF12', token: 'a'.repeat(48), side: 'red', server: 'https://example.org' }) }, fetch: () => assert.fail('room request in disabled build'), setInterval: () => assert.fail('room polling in disabled build'), render() {} };
+    runInNewContext(['roomServiceEnabled', 'roomRequest', 'checkRoomService', 'openRoom', 'connectRoom', 'pollRoom'].map(extract).join('\n'), context);
+    await assert.rejects(context.roomRequest('https://example.org', '', null, 'secret'), /未开放/);
+    await context.checkRoomService();
+    await context.connectRoom(true);
+    await context.pollRoom();
+    context.openRoom();
+    const invitation = app.slice(app.indexOf('const invitation ='), app.indexOf('async function checkRoomService'));
+    const restore = app.slice(app.indexOf('if (roomServiceEnabled()) setInterval'), app.indexOf('const initialChallenge ='));
+    runInNewContext(invitation + restore, context);
+    assert.equal(context.room, null);
+  }
+  assert.equal(runInNewContext(`${extract('roomServiceEnabled')}\nroomServiceEnabled()`), true);
+});
 
 test('all curated positions are legal mixed-chess one-move exercises, independently enumerate every answer', () => {
   const recommended = { 'rook-bridge': [14, 41], 'horse-leg': [21, 40], 'elephant-eye': [55, 39], 'cannon-link': [11, 47], 'pawn-return': [11, 20], 'break-threat': [67, 13] };
@@ -113,6 +149,9 @@ test('public challenge links accept only one known ID and remove all unrelated d
   for (const query of ['challenge=unknown', 'challenge=../../x', 'challenge=horse-leg&challenge=cannon-link', 'challenge=%3Cscript%3E', 'state=%7B%7D']) assert.equal(challengeFromUrl(`https://example.org/?${query}`), null);
   assert.equal(challengeLink('https://user:pass@example.org/games/xiangqi/?server=secret&token=private#room=123', 'cannon-link'), 'https://example.org/games/xiangqi/?challenge=cannon-link');
   assert.throws(() => challengeLink('https://example.org/', '__proto__'));
+  assert.equal(challengeLink('https://user:pass@example.org/games/xiangqi/?dev=1&challenge=horse-leg&token=secret&server=private&pk=abc#room=123', null), 'https://example.org/games/xiangqi/');
+  assert.equal(challengeLink('https://example.org/games/xiangqi/?challenge=horse-leg'), 'https://example.org/games/xiangqi/');
+  assert.throws(() => challengeLink('javascript:alert(1)', null));
   assert.throws(() => challengeLink('javascript:alert(1)', 'horse-leg'));
   assert.deepEqual(decodeChallengeProgress('broken'), {});
   assert.deepEqual(decodeChallengeProgress(JSON.stringify({ version: 1, progress: { 'horse-leg': { stars: 2, attempts: 3 }, 'cannon-link': { stars: 99, attempts: 1 }, arbitrary: { stars: 2, attempts: 1 } } })), { 'horse-leg': { stars: 2, attempts: 3 } });

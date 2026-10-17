@@ -14,7 +14,10 @@
     const width = innerWidth;
     const height = innerHeight;
     const insets = { top: 0, right: 0, bottom: 0, left: 0 };
-    let host = /MicroMessenger|TapTap|Bytedance|Toutiao|miniProgram/i.test(navigator.userAgent);
+    let cutoutTop = 0,
+      measuredCapsule = false,
+      embeddedHost = false;
+    let host = /TapTap|Bytedance|Toutiao|miniProgram/i.test(navigator.userAgent);
     host ||= globalThis.SmallGamesPublishingConfig?.platform === 'taptap-h5';
     for (const name of ['tap', 'wx', 'tt', 'bl', 'ks', 'my', 'swan']) {
       const sdk = globalThis[name];
@@ -34,6 +37,7 @@
         !info ||
         ((!info.windowWidth || Math.abs(info.windowWidth - width) < 2) &&
           (!info.windowHeight || Math.abs(info.windowHeight - height) < 2));
+      embeddedHost ||= !sameWindow;
       // Host coordinates are CSS pixels, never physical pixels multiplied by DPR.
       // Do not project full-window host geometry into a smaller embedded document.
       if (info && sameWindow) {
@@ -52,12 +56,15 @@
           top < bottom
         ) {
           insets.top = Math.max(insets.top, top);
+          cutoutTop = Math.max(cutoutTop, top);
           insets.left = Math.max(insets.left, left);
           insets.right = Math.max(insets.right, width - right);
           insets.bottom = Math.max(insets.bottom, height - bottom);
         }
-        if (number(info.statusBarHeight) < height / 2)
+        if (number(info.statusBarHeight) < height / 2) {
           insets.top = Math.max(insets.top, number(info.statusBarHeight));
+          cutoutTop = Math.max(cutoutTop, number(info.statusBarHeight));
+        }
       }
       const capsule = call(sdk, 'getMenuButtonBoundingClientRect');
       if (
@@ -65,8 +72,10 @@
         number(capsule?.bottom) &&
         capsule.bottom < height / 2 &&
         (!capsule.top || capsule.bottom > capsule.top)
-      )
+      ) {
         insets.top = Math.max(insets.top, capsule.bottom);
+        measuredCapsule = true;
+      }
       if (typeof sdk.onWindowResize === 'function' && !subscribed.has(sdk)) {
         subscribed.add(sdk);
         try {
@@ -78,13 +87,20 @@
     }
     // H5 hosts can expose only ads and omit window/capsule geometry. The preview
     // banner and capsule still occupy the top band (about 85px in portrait).
-    if (host) insets.top = Math.max(insets.top, width <= height ? 92 : 64);
+    if (host && !measuredCapsule && !embeddedHost)
+      insets.top = Math.max(insets.top, width <= height ? 92 : 64);
+    // The home utility rail stays on the left, outside the host's right-hand capsule.
+    root.style.setProperty('--game-cutout-top', `${cutoutTop}px`);
+    root.style.setProperty(
+      '--game-safe-area-cutout-top',
+      'calc(max(env(safe-area-inset-top, 0px), var(--game-cutout-top, 0px)) + 4px)',
+    );
     for (const [edge, value] of Object.entries(insets)) {
       const limit = (edge === 'top' || edge === 'bottom' ? height : width) / 2;
       root.style.setProperty(`--game-host-${edge}`, `${Math.min(limit, value)}px`);
       root.style.setProperty(
         `--game-safe-area-${edge}`,
-        `calc(max(env(safe-area-inset-${edge}, 0px), var(--game-host-${edge}, 0px))${edge === 'top' ? ' + 8px' : ''})`,
+        `calc(max(env(safe-area-inset-${edge}, 0px), var(--game-host-${edge}, 0px))${edge === 'top' ? ' + 4px' : ''})`,
       );
     }
   }

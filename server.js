@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { createRoomService } from './rooms.js';
 
 const files = {
+  '/assets/five-piece-logo.webp': ['assets/five-piece-logo.webp', 'image/webp'],
   '/assets/hero-paper.webp': ['assets/hero-paper.webp', 'image/webp'],
   '/assets/chess-glyphs.woff2': ['assets/chess-glyphs.woff2', 'font/woff2'],
   '/assets/chess-glyphs-LICENSE.txt': [

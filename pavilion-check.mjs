@@ -487,7 +487,7 @@ async function main() {
           await fits(
             page,
             name + '-tools',
-            ['#new-game', '#zoom-value', '[data-game-fullscreen]'],
+            ['#new-game', '#zoom-value', '#tools-share'],
             safeArea,
           );
           await screenshot(page, name + '-tools');
@@ -536,7 +536,7 @@ async function main() {
         await page.locator('#game-more').tap();
         await screen(page, 'tools');
         // The landscape tools list may scroll; its last action must remain reachable.
-        const lastAction = page.locator('[data-game-fullscreen]');
+        const lastAction = page.locator('#tools-share');
         await lastAction.scrollIntoViewIfNeeded();
         const layout = await lastAction.evaluate((element) => {
           const blocked = [];
