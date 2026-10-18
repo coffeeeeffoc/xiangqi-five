@@ -1,0 +1,19 @@
+{
+  "capturedAt": "2026-10-17T20:12:47.796Z",
+  "browser": "140.0.7339.186",
+  "source": "http://127.0.0.1:4189/",
+  "viewport": {
+    "width": 432,
+    "height": 768
+  },
+  "deviceScaleFactor": 2.5,
+  "screenshots": "1080x1920, same 9:16 ratio, unmodified browser captures",
+  "input": "Playwright touchscreen.tap, real game rules and rendering; no state injection",
+  "scenarios": [
+    "rook-bridge: 14→41",
+    "cannon-link: 11→47",
+    "crossroads: 43→40, 50→41"
+  ],
+  "assertions": "Each scenario has exactly five winning cells; no page errors.",
+  "errors": []
+}

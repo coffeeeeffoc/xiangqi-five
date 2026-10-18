@@ -1,0 +1,68 @@
+{
+  "files": [
+    {
+      "file": "promo-landscape-1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 2866468,
+      "opaque": true
+    },
+    {
+      "file": "promo-square-1440x1440.png",
+      "width": 1440,
+      "height": 1440,
+      "bytes": 3041885,
+      "opaque": true
+    },
+    {
+      "file": "screenshot-01-home-1080x1920.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 1954434
+    },
+    {
+      "file": "screenshot-02-gameplay-1080x1920.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 752863
+    },
+    {
+      "file": "screenshot-03-five-in-row-1080x1920.png",
+      "width": 1080,
+      "height": 1920,
+      "bytes": 568571
+    },
+    {
+      "file": "promo-video-1280x720.mp4",
+      "width": 1280,
+      "height": 720,
+      "bytes": 2291157,
+      "seconds": 31.333333,
+      "fps": 30,
+      "video": "H.264",
+      "audio": "AAC, original synthesized music"
+    },
+    {
+      "file": "game-icon-1024x1024.png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 1555786,
+      "opaque": true
+    },
+    {
+      "file": "game-icon-512x512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 439592,
+      "opaque": true
+    }
+  ],
+  "checks": "All exact dimensions, frame rate, codecs, duration, and capture assertions passed.",
+  "imageRevision": {
+    "date": "2026-10-18",
+    "tool": "built-in image_gen",
+    "copy": "Only game title 象五子棋; subtitle and seal removed from both promotional images.",
+    "icon": "Opaque full-bleed wooden board; five red pieces.",
+    "checks": "Exact dimensions and every decoded alpha byte (255) verified for all four PNG exports. Runtime WebP 512x512 has no alpha. Video and gameplay screenshots unchanged."
+  }
+}
