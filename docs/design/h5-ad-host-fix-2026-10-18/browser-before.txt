@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: 广告未看完，提示未成功生成。
+
+0 !== 1
+
+    at file:///F:/playground/playground-ai/small-games/games/submodules/xiangqi-five/computer-hints-check.mjs:90:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 1,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

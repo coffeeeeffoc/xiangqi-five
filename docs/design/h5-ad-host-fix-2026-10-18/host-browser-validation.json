@@ -1,0 +1,73 @@
+{
+  "browser": "140.0.7339.186",
+  "sourceRoot": "F:/playground/playground-ai/small-games/outputs/xiangqi-five-h5-ad-host-fix-2026-10-18/xiangqi-five-taptap-h5-ads-on-service-off/dist",
+  "environment": "Windows Chromium desktop touch emulation; real config/host adapter, simulated Tap SDK",
+  "reports": [
+    {
+      "width": 320,
+      "height": 568,
+      "result": "passed",
+      "checks": [
+        "touch",
+        "real-worker",
+        "cancel-no-reward",
+        "complete-highlight",
+        "repeat-free",
+        "preselected-piece-direct-hint-deploy",
+        "win",
+        "no-overflow",
+        "ad-before-analysis",
+        "bubbling-visibility-document-and-window",
+        "free-undo",
+        "cancel-undo-feedback",
+        "rewarded-undo"
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "result": "passed",
+      "checks": [
+        "touch",
+        "real-worker",
+        "cancel-no-reward",
+        "complete-highlight",
+        "repeat-free",
+        "draw-refresh-free",
+        "win",
+        "no-overflow",
+        "ad-before-analysis",
+        "bubbling-visibility-document-and-window",
+        "free-undo",
+        "cancel-undo-feedback",
+        "rewarded-undo"
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "result": "passed",
+      "checks": [
+        "touch",
+        "real-worker",
+        "cancel-no-reward",
+        "complete-highlight",
+        "repeat-free",
+        "draw-refresh-free",
+        "win",
+        "no-overflow",
+        "ad-before-analysis",
+        "bubbling-visibility-document-and-window",
+        "free-undo",
+        "cancel-undo-feedback",
+        "rewarded-undo"
+      ]
+    },
+    {
+      "result": "passed",
+      "checks": [
+        "pause-cancels-late-reward"
+      ]
+    }
+  ]
+}

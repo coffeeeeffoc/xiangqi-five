@@ -1,0 +1,9 @@
+{
+  "environment": "Windows Node 24.21.0, no phone speed claim",
+  "board": "15x15",
+  "pieces": 24,
+  "ticks": 4,
+  "maxEventLoopGapMs": 20,
+  "cancelledTotalMs": 66,
+  "nodes": 1273
+}

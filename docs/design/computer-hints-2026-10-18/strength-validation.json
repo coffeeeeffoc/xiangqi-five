@@ -1,0 +1,614 @@
+{
+  "baseline": "0e617c39fc7ce46ec09e99e3bd92591118031517",
+  "comparison": "old practice / new practice / new hint, same 4000-node cap",
+  "nodeBudget": 4000,
+  "timeLimit": "none (deterministic node budget)",
+  "fixtureNote": "8 authored challenges + 8 symmetries/color swaps of one forcing position; not an Elo or general win-rate benchmark",
+  "totals": {
+    "before": 8,
+    "after": 16,
+    "hint": 16
+  },
+  "results": [
+    {
+      "id": "rook-bridge",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 14,
+          "to": 41
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 14,
+          "to": 41
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 14,
+          "to": 41
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      }
+    },
+    {
+      "id": "horse-leg",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 21,
+          "to": 40
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 21,
+          "to": 40
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 21,
+          "to": 40
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      }
+    },
+    {
+      "id": "elephant-eye",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 55,
+          "to": 39
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 55,
+          "to": 39
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 55,
+          "to": 39
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      }
+    },
+    {
+      "id": "cannon-link",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 11,
+          "to": 47
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 11,
+          "to": 47
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 11,
+          "to": 47
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      }
+    },
+    {
+      "id": "pawn-return",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 11,
+          "to": 20
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 11,
+          "to": 20
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 11,
+          "to": 20
+        },
+        "depth": 0,
+        "nodes": 0,
+        "elapsedMs": 0,
+        "forcedWin": false
+      }
+    },
+    {
+      "id": "break-threat",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 67,
+          "to": 13
+        },
+        "depth": 2,
+        "nodes": 38,
+        "elapsedMs": 6,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 67,
+          "to": 13
+        },
+        "depth": 3,
+        "nodes": 152,
+        "elapsedMs": 9,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 67,
+          "to": 13
+        },
+        "depth": 4,
+        "nodes": 4001,
+        "elapsedMs": 109,
+        "forcedWin": false
+      }
+    },
+    {
+      "id": "crossroads",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 43,
+          "to": 40
+        },
+        "depth": 1,
+        "nodes": 32,
+        "elapsedMs": 3,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 43,
+          "to": 40
+        },
+        "depth": 2,
+        "nodes": 98,
+        "elapsedMs": 2,
+        "forcedWin": true
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 43,
+          "to": 40
+        },
+        "depth": 2,
+        "nodes": 98,
+        "elapsedMs": 2,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "cannon-cross",
+      "before": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 31,
+          "to": 40
+        },
+        "depth": 1,
+        "nodes": 16,
+        "elapsedMs": 2,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 31,
+          "to": 40
+        },
+        "depth": 2,
+        "nodes": 59,
+        "elapsedMs": 1,
+        "forcedWin": true
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "move",
+          "from": 31,
+          "to": 40
+        },
+        "depth": 2,
+        "nodes": 59,
+        "elapsedMs": 1,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-000",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 32
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 25,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 15
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 85,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 15
+        },
+        "depth": 4,
+        "nodes": 985,
+        "elapsedMs": 11,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-001",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 32
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 19,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 15
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 75,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 15
+        },
+        "depth": 4,
+        "nodes": 985,
+        "elapsedMs": 8,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-010",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 59
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 20,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 78
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 75,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 78
+        },
+        "depth": 4,
+        "nodes": 1821,
+        "elapsedMs": 17,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-011",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 59
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 16,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 78
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 73,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 78
+        },
+        "depth": 4,
+        "nodes": 1821,
+        "elapsedMs": 16,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-100",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 30
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 17,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 11
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 72,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 11
+        },
+        "depth": 4,
+        "nodes": 986,
+        "elapsedMs": 8,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-101",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 30
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 21,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 11
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 71,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 11
+        },
+        "depth": 4,
+        "nodes": 986,
+        "elapsedMs": 8,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-110",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 57
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 16,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 74
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 67,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 74
+        },
+        "depth": 4,
+        "nodes": 1822,
+        "elapsedMs": 13,
+        "forcedWin": true
+      }
+    },
+    {
+      "id": "forcing-111",
+      "before": {
+        "pass": false,
+        "action": {
+          "type": "deploy",
+          "to": 57
+        },
+        "depth": 2,
+        "nodes": 218,
+        "elapsedMs": 16,
+        "forcedWin": false
+      },
+      "after": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 74
+        },
+        "depth": 3,
+        "nodes": 1507,
+        "elapsedMs": 65,
+        "forcedWin": false
+      },
+      "hint": {
+        "pass": true,
+        "action": {
+          "type": "deploy",
+          "to": 74
+        },
+        "depth": 4,
+        "nodes": 1822,
+        "elapsedMs": 17,
+        "forcedWin": true
+      }
+    }
+  ]
+}

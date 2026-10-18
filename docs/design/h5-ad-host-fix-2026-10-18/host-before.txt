@@ -1,0 +1,34 @@
+(node:28316) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///F:/playground/playground-ai/small-games/platforms/h5/rewarded-host.js?case=close-before-return is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\F:\playground\playground-ai\small-games\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ standalone H5 host preserves full-view rewards through visibility changes but cancels exits (5.2955ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 79.6161
+
+✖ failing tests:
+
+test at platforms\h5\tests\rewarded-host.test.mjs:7:1
+✖ standalone H5 host preserves full-view rewards through visibility changes but cancels exits (5.2955ms)
+  AssertionError [ERR_ASSERTION]: close-before-return
+  + actual - expected
+
+  + 'dismissed'
+  - 'completed'
+
+      at TestContext.<anonymous> (file:///F:/playground/playground-ai/small-games/platforms/h5/tests/rewarded-host.test.mjs:40:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'dismissed',
+    expected: 'completed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

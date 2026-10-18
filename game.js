@@ -18,7 +18,7 @@ export function newGame(mode = 'xiangqi') {
   return {
     mode, cols, rows, board: Array(cols * rows).fill(null),
     pools: { red: pool(), black: pool() },
-    turn: 'red', ply: 0, pending: null, result: null, resigned: null, winningLine: [], history: [],
+    turn: 'red', ply: 0, pending: null, result: null, resigned: null, winningLine: [], history: [], freeUndoUsed: false,
   };
 }
 

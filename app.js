@@ -17,14 +17,39 @@ import {
 import { animateTurn } from './pieces.js';
 import { setupBoardZoom } from './board-view.js';
 import { createHintAccess } from './rewarded-hints.js';
+import { createComputerHints } from './computer-hints.js';
+import { createComputerUndo } from './computer-undo.js';
 const hintAccess = createHintAccess();
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) hintAccess.cancel();
-  else renderChallenge();
+const computerUndo = createComputerUndo(hintAccess);
+let hintWorker = null;
+let rejectHint = null;
+const computerHints = createComputerHints({
+  access: hintAccess,
+  cancelAnalysis() {
+    hintWorker?.terminate(); hintWorker = null;
+    rejectHint?.(new Error('cancelled')); rejectHint = null;
+  },
+  analyze(state) {
+    return new Promise((resolve, reject) => {
+      rejectHint = reject;
+      hintWorker = new Worker(new URL('./computer-worker.js', import.meta.url), { type: 'module' });
+      hintWorker.onerror = () => { hintWorker?.terminate(); hintWorker = null; rejectHint = null; reject(new Error('analysis failed')); };
+      hintWorker.onmessage = ({ data }) => {
+        hintWorker?.terminate(); hintWorker = null; rejectHint = null;
+        if (data.error) reject(new Error(data.error)); else resolve(data);
+      };
+      hintWorker.postMessage({ state, difficulty: 'hint' });
+    });
+  },
 });
-addEventListener('pagehide', () => hintAccess.cancel());
+document.addEventListener('visibilitychange', () => {
+  hintAccess.setHidden(document.hidden);
+  if (document.hidden) { if (!hintAccess.pending) computerHints.cancel(); cancelComputer(); }
+  else render();
+});
+addEventListener('pagehide', () => { computerHints.cancel(); computerUndo.cancel(); hintAccess.cancel(); cancelComputer(); });
 import { applyComputerAction, winningActions } from './computer.js';
-import { SAVE_KEY, encodeGame, decodeGame } from './local-game.js';
+import { SAVE_KEY, encodeGame, decodeGame, canUndoComputerTurn } from './local-game.js';
 import {
   CHALLENGES,
   CHALLENGE_SAVE_KEY,
@@ -81,6 +106,10 @@ let roomError = '';
 let pollTask = null;
 let focused = false;
 let currentScreen = 'home';
+globalThis.SmallGamesDev?.registerSnapshot?.(() => ({
+  gameId: 'xiangqi-five', screen: currentScreen,
+  ads: globalThis.SmallGamesRewardAds?.diagnostics,
+}));
 let setupDraft = null;
 let onlineActive = false;
 let challenge = null;
@@ -133,7 +162,7 @@ function notifyDisplayState(name = currentScreen) {
 // Navigation changes the visible page only; game state stays in memory.
 function showScreen(name, { replace = false, push = true } = {}) {
   if (name === 'room' && !roomServiceEnabled()) name = 'modes';
-  if (name !== currentScreen) hintAccess.cancel();
+  if (name !== currentScreen) { computerHints.cancel(); computerUndo.cancel(); hintAccess.cancel(); cancelComputer(); }
   if (name === 'result' && challenge) name = 'game';
   if (name === 'result' && !state.result && (!challenge || challenge.status === 'playing'))
     name = 'game';
@@ -425,6 +454,7 @@ function cancelComputer() {
 }
 function scheduleComputer() {
   if (
+    currentScreen !== 'game' || document.hidden ||
     onlineActive ||
     room ||
     challenge ||
@@ -553,6 +583,8 @@ async function play(index) {
 
 function inputLocked() {
   return (
+    Boolean(computerHints.sync(state).phase) ||
+    computerUndo.sync(state).pending ||
     busy ||
     networkBusy ||
     Boolean(challenge && (challenge.status !== 'playing' || state.turn === 'black')) ||
@@ -565,6 +597,8 @@ function inputLocked() {
 }
 
 function render() {
+  const advice = computerHints.sync(state);
+  const undo = computerUndo.sync(state);
   scheduleComputer();
   const ended = Boolean(state.result) || Boolean(challenge && challenge.status !== 'playing');
   if (currentScreen === 'result' && !ended) showScreen('game', { replace: true });
@@ -592,6 +626,16 @@ function render() {
   $('home-continue').hidden = !(state.ply || state.pending || room || challenge);
   setChevronLabel('home-continue', challenge ? '继续战术练习' : room ? '返回好友对弈' : '继续棋局');
   $('training-dock').hidden = !challenge;
+  const canHint = !room && !challenge && !onlineActive && opponent === 'computer' && !state.result;
+  $('computer-hint').hidden = !canHint;
+  $('computer-hint').disabled = !canHint || state.turn !== 'red' || busy || Boolean(advice.phase) || undo.pending;
+  $('computer-hint').textContent = advice.phase === 'analyzing' ? '正在分析…'
+    : advice.phase === 'advertising' ? '准备广告…'
+    : advice.result ? '重看提示' : advice.earned ? '更新提示'
+    : '获取提示';
+  $('computer-undo').hidden = !canHint;
+  $('computer-undo').disabled = !canHint || !canUndoComputerTurn(state) || busy || Boolean(advice.phase) || undo.pending;
+  $('computer-undo').textContent = undo.pending ? '准备广告…' : state.freeUndoUsed ? '悔棋' : '悔棋·免费1次';
   $('tools-settings').hidden = Boolean(room || challenge);
   $('room-open').hidden = !roomServiceEnabled();
   $('tools-room').hidden = !roomServiceEnabled() || !room;
@@ -648,6 +692,8 @@ function render() {
       last?.to === i ? 'last-play' : '',
       state.winningLine.includes(i) ? 'winning' : '',
       threat ? 'threat-target' : '',
+      canHint && advice.result?.action.from === i ? 'hint-source' : '',
+      canHint && advice.result?.action.to === i ? 'hint-destination' : '',
       !ended && (state.pending || direct) && !p ? 'deploy-target' : '',
     ]
       .filter(Boolean)
@@ -659,7 +705,7 @@ function render() {
     cell.innerHTML = (p ? pieceMarkup(p, 'embodied') : '') + coordinate;
     cell.setAttribute(
       'aria-label',
-      `${coord(i)} ${p ? sideName(p.side) + label(p) : '空位'}${legal ? '，可' + (p ? '吃子' : '移动') : ''}${threat ? '，对方下一手可在此成五' : ''}`,
+      `${coord(i)} ${p ? sideName(p.side) + label(p) : '空位'}${legal ? '，可' + (p ? '吃子' : '移动') : ''}${threat ? '，对方下一手可在此成五' : ''}${canHint && advice.result?.action.from === i ? '，提示起点' : ''}${canHint && advice.result?.action.to === i ? '，提示落点' : ''}`,
     );
     cell.setAttribute('aria-pressed', String(selected === i));
     cell.disabled = boardLocked;
@@ -826,6 +872,8 @@ function render() {
     hint('');
   }
   if (!computerError && selected === null && !threats.length) $('coach-hint').textContent = '';
+  if (canHint && advice.message) $('coach-hint').textContent = advice.message;
+  if (canHint && undo.message) $('coach-hint').textContent = undo.message;
   const historyMarkup = (events) =>
     events
       .slice()
@@ -947,10 +995,8 @@ function renderChallenge() {
   $('challenge-hint').textContent = challenge.hintShown
     ? '提示已展开'
     : hintAccess.pending
-      ? '观看中…'
-      : hintAccess.adsEnabled
-        ? '看广告获取提示'
-        : '提示';
+      ? '准备广告…'
+      : '获取提示';
   $('challenge-hint').disabled =
     busy || hintAccess.pending || challenge.hintShown || challenge.status === 'solved';
   $('challenge-share').disabled = busy || networkBusy || challengeSharing;
@@ -1071,14 +1117,14 @@ $('challenge-hint').addEventListener('click', async () => {
   const result = hintAccess.request();
   renderChallenge();
   const outcome = await result;
-  if (challenge !== active || currentScreen !== 'challenge-help' || document.hidden) return;
+  if (challenge !== active || currentScreen !== 'challenge-help') return;
   if (outcome.status === 'free' || outcome.status === 'completed') active.hintShown = true;
   render();
   $('challenge-hint-status').textContent = active.hintShown
     ? ''
     : outcome.status === 'dismissed'
-      ? '广告未看完，本次未获取提示。'
-      : '广告暂不可用，本次未获取提示。';
+      ? '广告未看完，提示未成功生成。'
+      : '广告暂不可用，提示未成功生成，请重试。';
 });
 async function shareChallenge(activeChallenge = challenge) {
   if (busy || networkBusy || challengeSharing) return;
@@ -1156,6 +1202,26 @@ $('draw-button').addEventListener('click', () => {
   } catch (error) {
     hint(error.message);
   }
+});
+$('computer-hint').addEventListener('click', () => {
+  if (room || challenge || onlineActive || opponent !== 'computer' || currentScreen !== 'game' || inputLocked()) return;
+  computerUndo.clearMessage();
+  void computerHints.request(state, () => {
+    const advice = computerHints.sync(state).result;
+    if (advice) {
+      selected = advice.action.type === 'move' ? advice.action.from : null;
+      moving = selected !== null;
+    }
+    render();
+  });
+});
+$('computer-undo').addEventListener('click', () => {
+  if (room || challenge || onlineActive || opponent !== 'computer' || currentScreen !== 'game' || inputLocked()) return;
+  computerHints.cancel();
+  void computerUndo.request(state, next => {
+    cancelComputer(); state = next; selected = null; moving = false; threatPly = -1;
+    saveLocal();
+  }, render);
 });
 $('move-button').addEventListener('click', () => {
   if (inputLocked()) return;

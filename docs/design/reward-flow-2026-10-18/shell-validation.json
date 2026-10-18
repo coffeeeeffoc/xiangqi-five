@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "browserVersion": "155.0.8059.82",
+  "builtIn": 5,
+  "selected": [
+    "xiangqi-five"
+  ],
+  "standalone": [
+    {
+      "id": "xiangqi-five",
+      "entryMode": "adapter",
+      "status": "passed",
+      "phase": "complete",
+      "timings": {
+        "embedded-load": 771,
+        "embedded-gameplay": 950,
+        "embedded-return": 206,
+        "mobile-load": 102,
+        "mobile-gameplay": 1118,
+        "mobile-screenshot": 324
+      },
+      "embedded": "passed",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "directMobile": "passed",
+      "durationMs": 3607
+    }
+  ],
+  "failures": []
+}

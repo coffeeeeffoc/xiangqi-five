@@ -1,0 +1,57 @@
+{
+  "browser": "140.0.7339.186",
+  "environment": "Windows Chromium desktop touch emulation; simulated ad provider",
+  "reports": [
+    {
+      "width": 320,
+      "height": 568,
+      "result": "passed",
+      "checks": [
+        "touch",
+        "real-worker",
+        "cancel-no-reward",
+        "complete-highlight",
+        "repeat-free",
+        "draw-refresh-free",
+        "win",
+        "no-overflow"
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "result": "passed",
+      "checks": [
+        "touch",
+        "real-worker",
+        "cancel-no-reward",
+        "complete-highlight",
+        "repeat-free",
+        "draw-refresh-free",
+        "win",
+        "no-overflow"
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "result": "passed",
+      "checks": [
+        "touch",
+        "real-worker",
+        "cancel-no-reward",
+        "complete-highlight",
+        "repeat-free",
+        "draw-refresh-free",
+        "win",
+        "no-overflow"
+      ]
+    },
+    {
+      "result": "passed",
+      "checks": [
+        "pause-cancels-late-reward"
+      ]
+    }
+  ]
+}

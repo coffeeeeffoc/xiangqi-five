@@ -3,6 +3,8 @@ import { readFile } from 'node:fs/promises';
 import { createRoomService } from './rooms.js';
 
 const files = {
+  '/computer-hints.js': ['computer-hints.js', 'text/javascript; charset=utf-8'],
+  '/computer-undo.js': ['computer-undo.js', 'text/javascript; charset=utf-8'],
   '/assets/five-piece-logo.webp': ['assets/five-piece-logo.webp', 'image/webp'],
   '/assets/pavilion-background.png': ['assets/pavilion-background.png', 'image/png'],
   '/assets/hero-paper.webp': ['assets/hero-paper.webp', 'image/webp'],

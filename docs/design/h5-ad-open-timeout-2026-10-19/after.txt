@@ -1,0 +1,67 @@
+✔ game port forwards RewardOpportunity, validates outcomes and catches provider errors (2.1573ms)
+✔ cancel/timeout recover play but keep unfinished provider requests leased (20.5701ms)
+✔ TapTap builds use free actions for blank units and host ads for real units without credentials (0.8501ms)
+✔ ads complete before analysis; same turn reuses reward, draw refreshes advice, move/new game invalidates (3.0305ms)
+✔ cancellation, unavailable and failed ads never reveal the prepared move (0.2301ms)
+✔ duplicate requests, background and stale analysis/ad callbacks cannot grant a reward (1.8354ms)
+✔ unsuccessful analysis keeps earned access for retry; unexpected draw invalidates a pending request (0.5244ms)
+✔ a retired analysis or ad must not cancel a newer request or erase its earned advice (0.8815ms)
+✔ undo replays both players, restores captured pieces and commits the original draw (2.3663ms)
+✔ free undo is persisted, legacy saves remain readable and malformed flags are rejected (0.3209ms)
+✔ first undo is free; later undo requires completed ads and failures preserve the whole state (1.1406ms)
+✔ undo double clicks, navigation and retired callbacks cannot grant or erase newer results (0.2638ms)
+✔ the game watchdog stops on confirmed display, without granting the reward (3.0331ms)
+✔ invalid host deadlines fall back and idle navigation preserves a preloaded ad (0.4766ms)
+✔ a retired display notification cannot disable a newer request deadline (0.2826ms)
+✔ ad completion and dismissal wait for foreground; explicit cancel rejects late rewards (2.3041ms)
+✔ free hints never invoke the advertisement provider (0.8748ms)
+✔ a hidden timeout stays failed even if a late completion arrives before Show (30.4227ms)
+✔ host completion, cancellation, failure and late callbacks remain distinct (15.7045ms)
+(node:48384) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///F:/playground/playground-ai/small-games/platforms/competition/xiangqi-five/native.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\F:\playground\playground-ai\small-games\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native same-screen games use real rules, old save replay, cancellation and lifecycle (8.69ms)
+✔ native computer makes a legal reply using the existing search (1246.9494ms)
+✔ native red five-in-a-row settles once and survives replay (1.7741ms)
+✔ native tactical training uses pinned fixed positions, settles stars and keeps local save (1.7993ms)
+✔ native human-computer hints reward only completion, reuse this turn and cancel on pause (8.6367ms)
+✔ native long analysis can pause, and its retired result cannot cancel a new hint (127.6705ms)
+✔ native undo is free once, saved, then requires full viewing across Hide/Show (5.359ms)
+✔ a native deploy hint clears a previously selected rook before tapping the destination (1.1929ms)
+✔ native Tap hint waits for full viewing, freezes board input, and records the one-star limit (1.9987ms)
+✔ native Tap cancellation, SDK failure, background and disposal never reveal a late hint (2.2334ms)
+✔ pause/settings cannot reveal the unpaid tactical hint; non-Tap hints stay free (0.9802ms)
+(node:34356) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///F:/playground/playground-ai/small-games/platforms/h5/platform-ads.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\F:\playground\playground-ai\small-games\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ Tap H5 full viewing after 12s loading and 60s playback keeps its reward (4.2497ms)
+✔ Tap H5 preloads without showing and consumes the same loaded instance on click (1.4922ms)
+✔ preload overlaps a click, cancels safely, and failed preloads can retry (22.2262ms)
+✔ opening still times out, diagnostics explain the phase and never affect rewards (0.7472ms)
+✔ a displayed Tap ad keeps its reward listener through 10 minutes on its end card (0.3879ms)
+✔ unconfirmed or late display success never disables the opening deadline or revives a cancelled ad (0.7006ms)
+✔ taptap-h5: SDK receiver, parameters, explicit completion and listener cleanup (0.9931ms)
+✔ wechat: SDK receiver, parameters, explicit completion and listener cleanup (0.2973ms)
+✔ douyin: SDK receiver, parameters, explicit completion and listener cleanup (0.321ms)
+✔ bilibili: SDK receiver, parameters, explicit completion and listener cleanup (0.4095ms)
+✔ TapTap missing SDK/slot and native Tap selector cannot fall back to another channel (0.2828ms)
+✔ only boolean isEnded=true rewards, never missing/false/truthy payloads (0.1507ms)
+✔ errors, load/show rejection and timeout settle without a reward (26.0379ms)
+✔ dispose settles promptly; unresolved or failed singleton destruction blocks reentry (0.6594ms)
+✔ host SDK injected after initial launch is picked up on the next explicit request (0.1635ms)
+(node:52980) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///F:/playground/playground-ai/small-games/platforms/h5/rewarded-host.js?case=close-before-return is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\F:\playground\playground-ai\small-games\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ missing ad units use the free path; configured host failures never select it (1.468ms)
+✔ standalone H5 host preserves full-view rewards through visibility changes but cancels exits (11.065ms)
+ℹ tests 47
+ℹ suites 0
+ℹ pass 47
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2147.5436

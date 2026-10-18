@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { newGame, canMove, move } from './game.js';
-import { chooseAction, applyComputerAction, searchPosition, winningActions, legalActions, isForcedLoss } from './computer.js';
+import { chooseAction, applyComputerAction, searchPosition, searchPositionAsync, explainHint, winningActions, legalActions, isForcedLoss } from './computer.js';
 import { encodeGame, decodeGame } from './local-game.js';
 
 const deterministic = { timeMs: Infinity };
@@ -63,16 +63,19 @@ test('quiescence sees a cannon screen being eaten and saves the undefended pawn'
   assert.ok(extended.qnodes > shallow.qnodes);
 });
 
-test('hard finds a forcing setup missed by easy; verify against every legal defense', () => {
+test('strengthened search finds the forcing setup even in practice; verify every legal defense', () => {
   const s = newGame(); s.turn = 'black'; s.pools = { red: ['elephant'], black: ['elephant', 'elephant'] };
   for (const [i, side] of [[20, 'red'], [21, 'red'], [22, 'red'], [23, 'black'], [24, 'black'], [31, 'black'],
     [33, 'black'], [38, 'red'], [41, 'black'], [51, 'black'], [58, 'red'], [60, 'red']]) s.board[i] = { side, type: i === 20 || i === 23 ? 'king' : 'pawn' };
   const easy = searchPosition(s, 'practice', deterministic);
   const hard = searchPosition(s, 'hard', deterministic);
-  assert.deepEqual(easy.action, { type: 'deploy', to: 32 });
+  assert.deepEqual(easy.action, { type: 'deploy', to: 15 });
   assert.deepEqual(hard.action, { type: 'deploy', to: 15 });
-  assert.ok(hard.depth > easy.depth);
   assert.ok(hard.score > 900000);
+  assert.equal(hard.forcedWin, true);
+  const hint = searchPosition(s, 'hint', deterministic);
+  assert.deepEqual(hint.action, hard.action);
+  assert.match(explainHint(s, hint).text, /连续连五威胁/);
   // Independent exhaustive verifier: no engine evaluation, move ordering or beam pruning.
   function forcesWin(position, remaining) {
     if (position.result) return position.result === 'black';
@@ -90,6 +93,79 @@ test('hard finds a forcing setup missed by easy; verify against every legal defe
   }
   applyComputerAction(s, hard.action, () => 0);
   assert.equal(forcesWin(s, 5), true);
+});
+
+test('native search yields to lifecycle cancellation and never mutates the real game', async () => {
+  const s = newGame('gomoku'); s.turn = 'black';
+  s.board[40] = { side: 'red', type: 'rook' };
+  const before = structuredClone(s);
+  let cancelled = false, ticks = 0;
+  const timer = setInterval(() => { ticks++; cancelled = true; }, 1);
+  try {
+    await searchPositionAsync(s, 'hint', { isCancelled: () => cancelled });
+    assert.ok(ticks > 0, 'native event loop must run during analysis');
+    assert.deepEqual(s, before);
+  } finally { clearInterval(timer); }
+});
+
+test('advice identifies wins, defensive captures and known draws, rejecting fallback or loss', () => {
+  for (const mode of ['xiangqi', 'gomoku']) {
+    const win = newGame(mode);
+    for (let i = 0; i < 4; i++) win.board[i] = { side: 'red', type: 'pawn' };
+    const result = searchPosition(win, 'hint');
+    assert.match(explainHint(win, result).text, /直接连五/);
+    const defense = newGame(mode); defense.pools.red = [];
+    for (let i = 1; i <= 4; i++) defense.board[i] = { side: 'black', type: 'pawn' };
+    defense.board[2 * defense.cols + 2] = { side: 'red', type: 'rook' };
+    const recommendation = explainHint(defense, searchPosition(defense, 'hint', { timeMs: Infinity, nodes: 10000 }));
+    assert.match(recommendation.text, /化解对方下一手连五/);
+    applyComputerAction(defense, recommendation.action);
+    assert.equal(winningActions(defense).length, 0);
+    const lost = newGame(mode);
+    for (let i = 1; i <= 4; i++) lost.board[i] = { side: 'black', type: 'pawn' };
+    assert.equal(explainHint(lost, searchPosition(lost, 'hint')), null);
+    const empty = newGame(mode);
+    assert.equal(explainHint(empty, searchPosition(empty, 'hint', { timeMs: 0 })), null);
+  }
+});
+
+test('forcing proof never invents a reserve after the last or pending deployment', () => {
+  for (const pending of [false, true]) {
+    const s = newGame(); s.pools = { red: pending ? [] : ['pawn'], black: ['rook', 'pawn', 'pawn'] };
+    for (let i = 0; i < 3; i++) s.board[i] = { side: 'red', type: 'pawn' };
+    if (pending) s.pending = { side: 'red', type: 'pawn' };
+    const before = structuredClone(s);
+    const result = searchPosition(s, 'hint', { timeMs: Infinity, nodes: 2000 });
+    assert.equal(Boolean(result.forcedWin), false, 'four total pieces can never make five');
+    assert.deepEqual(s, before);
+  }
+});
+
+test('mixed reserve forcing claims withstand every reply type, including a rare rook counter', () => {
+  const s = newGame(); s.turn = 'black';
+  s.pools = { red: ['pawn', 'pawn', 'pawn', 'rook'], black: ['elephant', 'elephant'] };
+  for (const [i, side] of [[20, 'red'], [21, 'red'], [22, 'red'], [23, 'black'], [24, 'black'], [31, 'black'], [33, 'black'], [38, 'red'], [41, 'black'], [51, 'black'], [58, 'red'], [60, 'red']]) s.board[i] = { side, type: i === 20 || i === 23 ? 'king' : 'pawn' };
+  const before = structuredClone(s);
+  const result = searchPosition(s, 'hint', { timeMs: Infinity, nodes: 12000, forcing: 5 });
+  function wins(position, remaining) {
+    if (position.result) return position.result === 'black';
+    if (!remaining) return false;
+    if (winningActions(position).length) return position.turn === 'black';
+    if (remaining === 1) return false;
+    const actions = legalActions(position);
+    const check = action => (action.type === 'deploy' ? [...new Set(position.pools[position.turn])] : [null]).every(type => {
+      const next = structuredClone(position);
+      applyComputerAction(next, action, () => type ? (next.pools[next.turn].indexOf(type) + .5) / next.pools[next.turn].length : 0);
+      return wins(next, remaining - 1);
+    });
+    return actions.length > 0 && (position.turn === 'black' ? actions.some(check) : actions.every(check));
+  }
+  assert.equal(result.forcedWin, true, 'this fixture must exercise a positive mixed-pool proof');
+  if (result.forcedWin) {
+    const next = structuredClone(s); applyComputerAction(next, result.action, () => 0);
+    assert(wins(next, 5), 'a low-probability refutation must disprove a guaranteed win');
+  }
+  assert.deepEqual(s, before);
 });
 
 test('random deployment weights actual remaining pieces; a pending draw is deterministic', () => {

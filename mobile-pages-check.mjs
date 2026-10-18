@@ -414,16 +414,20 @@ try {
   await computer.locator('#tools-rules').tap();
   await screen(computer, 'rules');
   await computer.locator('#rules-close').focus();
-  await history(computer, 2);
+  await computer.waitForTimeout(2100);
+  await history(computer, 1);
   await screen(computer, 'rules');
   assert.equal(
     await computer.evaluate(() => document.activeElement.id),
     'rules-close',
-    'worker completion respects focus on the current page',
+    'paused worker leaves focus on the current page',
   );
   await computer.locator('#rules-close').tap();
   await computer.locator('#tools-close').tap();
   await screen(computer, 'game');
+  await history(computer, 2);
+  await computer.waitForTimeout(250);
+  await history(computer, 2);
   const state = await computer.evaluate(() =>
     JSON.parse(localStorage.getItem('xiangqi-five-local-v1')),
   );
@@ -435,7 +439,7 @@ try {
   assert.equal(state.difficulty, 'standard');
   await computer.close();
   evidence.checks.push(
-    'real computer Worker completes safely while reading rules; navigation/focus stays on rules',
+    'real computer Worker pauses while reading rules and replies exactly once after returning; focus stays on rules',
   );
   console.log(
     'PASS computer Worker: real response, difficulty saved, rules navigation and focus retained',

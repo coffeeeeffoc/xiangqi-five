@@ -973,6 +973,39 @@ body[data-turn='black'] .player-row strong::before {
   min-height: 48px;
   border-radius: 11px;
 }
+.computer-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+}
+.computer-actions:has(#computer-hint[hidden]) { display: none; }
+.action-panel .computer-actions button {
+  flex: 1;
+  min-height: 44px;
+  padding: 5px;
+}
+.cell.hint-source::after,
+.cell.hint-destination::after {
+  position: absolute;
+  inset: 6%;
+  border: 3px solid #2d8062;
+  border-radius: 50%;
+  content: '2';
+  color: #164f39;
+  background: #e7f4cf66;
+  font-size: 12px;
+  font-weight: 800;
+  z-index: 4;
+  pointer-events: none;
+}
+.cell.hint-source::after {
+  content: '1';
+  border-style: dashed;
+  background: transparent;
+}
+.game-screen:has(#computer-hint:not([hidden])) {
+  --game-chrome: 360px;
+}
 .action-panel #draw-button > span {
   position: static;
   margin: 0;

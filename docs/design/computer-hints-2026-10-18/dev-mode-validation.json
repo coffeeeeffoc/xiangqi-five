@@ -1,0 +1,62 @@
+{
+  "games": 1,
+  "checks": [
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "default",
+      "enabled": false
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "default",
+      "enabled": false
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "url",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "url",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "storage",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "storage",
+      "enabled": true
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "independent",
+      "mode": "explicit-off",
+      "enabled": false
+    },
+    {
+      "game": "xiangqi-five",
+      "entry": "shell",
+      "mode": "explicit-off",
+      "enabled": false
+    },
+    {
+      "mobile": "drag, resize, game modal, performance, touchcancel, persistence, exit"
+    },
+    {
+      "iframe": "same-origin inheritance and cross-origin URL opt-in"
+    }
+  ],
+  "errors": [],
+  "passed": true,
+  "browser": "155.0.8059.82"
+}

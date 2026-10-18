@@ -4,7 +4,7 @@ import { isForcedLoss } from './computer.js';
 export const SAVE_KEY = 'xiangqi-five-local-v1';
 
 export function encodeGame(state, opponent, difficulty) {
-  return JSON.stringify({ version: 1, mode: state.mode, history: state.history, pending: state.pending, resigned: state.resigned, opponent, difficulty });
+  return JSON.stringify({ version: 1, mode: state.mode, history: state.history, pending: state.pending, resigned: state.resigned, freeUndoUsed: state.freeUndoUsed, opponent, difficulty });
 }
 
 // Replaying through the real rules rejects malformed boards, impossible moves and duplicated pieces.
@@ -12,8 +12,10 @@ export function decodeGame(text) {
   if (!text || text.length > 2000000) return null;
   try {
     const saved = JSON.parse(text);
+    if (saved.freeUndoUsed !== undefined && typeof saved.freeUndoUsed !== 'boolean') return null;
     if (saved.version !== 1 || !['computer', 'local'].includes(saved.opponent) || !['practice', 'standard', 'hard'].includes(saved.difficulty) || !Array.isArray(saved.history)) return null;
     const state = newGame(saved.mode);
+    state.freeUndoUsed = saved.freeUndoUsed ?? false;
     const drawPiece = (piece) => {
       if (piece?.side !== state.turn) throw new Error('Invalid side');
       const pool = state.pools[state.turn], index = pool.indexOf(piece.type);
@@ -34,4 +36,19 @@ export function decodeGame(text) {
     }
     return { state, opponent: saved.opponent, difficulty: saved.difficulty };
   } catch { return null; }
+}
+
+export function canUndoComputerTurn(state) {
+  return !state.result && state.turn === 'red' && !state.pending && state.history.some(event => event.side === 'red');
+}
+
+export function undoComputerTurn(state) {
+  if (!canUndoComputerTurn(state)) return null;
+  let index = state.history.length - 1;
+  while (state.history[index].side !== 'red') index--;
+  const event = state.history[index];
+  // Keep the original draw committed so undo cannot reroll a different piece.
+  return decodeGame(JSON.stringify({ version: 1, mode: state.mode,
+    history: state.history.slice(0, index), pending: event.action === 'deploy' ? event.piece : null,
+    freeUndoUsed: true, opponent: 'computer', difficulty: 'standard' }))?.state ?? null;
 }

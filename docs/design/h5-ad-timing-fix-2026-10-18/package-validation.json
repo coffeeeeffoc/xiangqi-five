@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-10-18T16:01:45.781Z",
+  "zip": "xiangqi-five-taptap-h5-ads-on-service-off.zip",
+  "sha256": "31b567bfb54c0cdca7f7cbd5ae5bcbd4dc69abdc6e703a840bad741d901b5093",
+  "bytes": 2215605,
+  "sourceDirty": true,
+  "entry": "dist/index.html",
+  "files": 26,
+  "packageFilesMatchSource": true,
+  "targetedTests": 44,
+  "sharedDevModeTests": 5,
+  "devModeBrowserChecks": 10,
+  "browser": "140.0.7339.186",
+  "browserScenarios": 5,
+  "longAd": {
+    "result": "passed",
+    "loadedMs": 12073,
+    "totalMs": 72202,
+    "diagnostics": {
+      "revision": "h5-ad-timing-20261018",
+      "events": [
+        {
+          "at": 1792339110356,
+          "event": "preload"
+        },
+        {
+          "at": 1792339110893,
+          "event": "load",
+          "preloaded": true
+        },
+        {
+          "at": 1792339122357,
+          "event": "loaded"
+        },
+        {
+          "at": 1792339122357,
+          "event": "show"
+        },
+        {
+          "at": 1792339122375,
+          "event": "visibility",
+          "hidden": true
+        },
+        {
+          "at": 1792339182390,
+          "event": "close",
+          "isEnded": true,
+          "completionType": "boolean"
+        },
+        {
+          "at": 1792339182390,
+          "event": "result",
+          "status": "completed"
+        },
+        {
+          "at": 1792339182396,
+          "event": "visibility",
+          "hidden": false
+        }
+      ]
+    },
+    "checks": [
+      "12s-startup-preload",
+      "60s-real-elapsed-playback",
+      "complete-highlight-after-return",
+      "diagnostics-in-existing-dev-snapshot"
+    ]
+  },
+  "sdkFixture": true,
+  "realAdsVerified": false,
+  "realDeviceVerified": false,
+  "uploaded": false
+}

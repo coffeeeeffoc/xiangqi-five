@@ -1,4 +1,4 @@
-import { canMove, deploy, move, deployDirectly, hasAction, resign } from './game.js';
+import { canMove, deploy, move, deployDirectly, hasAction, resign, label } from './game.js';
 
 const layouts = new Map();
 function linesFor(state) {
@@ -82,9 +82,10 @@ const WIN = 1000000;
 const VALUES = { rook: 600, cannon: 400, horse: 340, elephant: 250, advisor: 220, king: 240, pawn: 240 };
 const LINE_WEIGHTS = [0, 0, 12, 100, 1200, WIN];
 export const DIFFICULTIES = {
-  practice: { depth: 2, width: 4, rootWidth: 8, quiescence: 2, timeMs: 250, nodes: 4000 },
-  standard: { depth: 3, width: 6, rootWidth: 12, quiescence: 3, timeMs: 900, nodes: 18000 },
-  hard: { depth: 5, width: 8, rootWidth: 12, quiescence: 4, timeMs: 4000, nodes: 80000 },
+  practice: { depth: 3, width: 6, rootWidth: 12, quiescence: 2, forcing: 3, timeMs: 450, nodes: 8000 },
+  standard: { depth: 5, width: 10, rootWidth: 18, quiescence: 3, forcing: 5, timeMs: 1600, nodes: 32000 },
+  hard: { depth: 7, width: 14, rootWidth: 24, quiescence: 4, forcing: 7, timeMs: 4500, nodes: 100000 },
+  hint: { depth: 8, width: 18, rootWidth: 32, quiescence: 5, forcing: 9, timeMs: 6500, nodes: 160000 },
 };
 
 // Optional captures on one square, with actual blockers updated after each exchange.
@@ -218,15 +219,31 @@ function candidates(state, width, capturesOnly = false) {
   return { ranked: threatened ? ranked : ranked.slice(0, width), threatened, hasActions: actions.length > 0 || (capturesOnly && hasAction(state)) };
 }
 
-export function searchPosition(input, difficulty = 'standard', limits = {}) {
+function* searchSteps(input, difficulty = 'standard', limits = {}) {
   const config = DIFFICULTIES[difficulty] || DIFFICULTIES.standard;
   const state = structuredClone(input);
-  const stats = { action: null, score: 0, depth: 0, nodes: 0, qnodes: 0, chanceOutcomes: 0, elapsedMs: 0 };
+  const stats = { action: null, score: 0, depth: 0, nodes: 0, qnodes: 0, chanceOutcomes: 0, forcingNodes: 0, elapsedMs: 0 };
   const started = performance.now(), deadline = started + (limits.timeMs ?? config.timeMs);
   const maxNodes = limits.nodes ?? config.nodes, stopped = Symbol('search budget');
   const table = new Map();
-  const checkBudget = () => {
+  const candidateCache = new Map();
+  let lastYield = started;
+  function* checkBudget() {
     if (++stats.nodes > maxNodes || performance.now() >= deadline) throw stopped;
+    if (limits.isCancelled?.()) throw stopped;
+    if (performance.now() - lastYield >= 12) {
+      yield;
+      lastYield = performance.now();
+      if (limits.isCancelled?.()) throw stopped;
+    }
+  }
+  const positionKey = () => `${state.turn}:${state.pending?.type || ''}:${state.pools.red.join(',')}:${state.pools.black.join(',')}:` + state.board.map((p) => p ? `${p.side[0]}${p.type}` : '').join('|');
+  const rankedMoves = (width, quiet) => {
+    const key = `${width}:${quiet}:${positionKey()}`;
+    if (candidateCache.has(key)) return candidateCache.get(key);
+    const result = candidates(state, width, quiet);
+    if (candidateCache.size < 3000) candidateCache.set(key, result);
+    return result;
   };
   const wins = winningActions(state);
   if (wins.length) { stats.action = wins[0]; stats.score = WIN; return stats; }
@@ -243,23 +260,93 @@ export function searchPosition(input, difficulty = 'standard', limits = {}) {
   for (const candidate of root.ranked) candidate.score -= reversalCost(candidate.action);
   root.ranked.sort((a, b) => b.score - a.score);
   stats.action = root.ranked[0].action; stats.score = root.ranked[0].score;
+  if (root.threatened && root.ranked.length === 1) {
+    stats.depth = 1;
+    stats.elapsedMs = performance.now() - started;
+    return stats;
+  }
 
-  function actionValue(action, depth, alpha, beta, qleft, ply) {
+  // Generators restore every mutation even when a budget/cancellation interrupts recursion.
+  function* visit(action, type, inspect) {
+    const side = state.turn, pending = state.pending, pool = state.pools[side];
+    const target = state.board[action.to], piece = action.type === 'move' ? state.board[action.from] : { side, type };
+    const index = action.type === 'deploy' && !pending ? pool.indexOf(type) : -1;
+    if (index >= 0) pool.splice(index, 1);
+    if (action.type === 'move') state.board[action.from] = null;
+    state.board[action.to] = piece; state.pending = null; state.turn = opposite(side);
+    try { return yield* inspect(); }
+    finally {
+      state.turn = side; state.pending = pending; state.board[action.to] = target;
+      if (action.type === 'move') state.board[action.from] = piece;
+      if (index >= 0) pool.splice(index, 0, type);
+    }
+  }
+
+  // Prove continuous threats against EVERY defense and EVERY possible drawn type.
+  // A beam-search score alone is never a proof of a forcing combination.
+  const attacker = state.turn;
+  // Paid advice prioritizes proving short combinations before broad positional search.
+  const forcingShare = difficulty === 'hint' ? .6 : .35;
+  const forcingDeadline = started + (deadline - started) * forcingShare;
+  const forcingLimit = Math.max(1, Math.floor(maxNodes * forcingShare));
+  const forcingStopped = Symbol('forcing budget');
+  function forcingBudget() {
+    if (performance.now() >= forcingDeadline || stats.forcingNodes++ >= forcingLimit) throw forcingStopped;
+  }
+  function* force(remaining) {
+    yield* checkBudget();
+    forcingBudget();
+    const wins = winningActions(state);
+    if (wins.length) return state.turn === attacker ? { action: wins[0], distance: 1 } : null;
+    if (remaining <= 1) return null;
+    const attacking = state.turn === attacker;
+    const enemy = opposite(state.turn);
+    const all = legalActions(state);
+    if (!all.length) return null;
+    const threatened = winningActions({ ...state, turn: enemy, pending: null }, enemy).length > 0;
+    if (!attacking && !threatened) return null;
+    const options = [];
+    for (const action of all) {
+      yield* checkBudget();
+      forcingBudget();
+      const relevant = withAction(state, action, state.turn, () => {
+        if (threatened && winningActions({ ...state, turn: enemy, pending: null }, enemy).length) return false;
+        return !attacking || winningActions({ ...state, pending: null }).length > 0;
+      });
+      if (relevant) options.push(action);
+    }
+    if (!attacking && !options.length) return { distance: 1 };
+    let longest = 0;
+    for (const action of options) {
+      let proved = true, distance = 0;
+      for (const [type] of outcomesFor(state, action)) {
+        const result = yield* visit(action, type, () => force(remaining - 1));
+        if (!result) { proved = false; break; }
+        distance = Math.max(distance, result.distance + 1);
+      }
+      if (attacking && proved) return { action, distance };
+      if (!attacking && !proved) return null;
+      longest = Math.max(longest, distance);
+    }
+    return attacking ? null : { distance: longest };
+  }
+
+  function* actionValue(action, depth, alpha, beta, qleft, ply) {
     const outcomes = outcomesFor(state, action);
     let value = 0;
     for (const [type, probability] of outcomes) {
-      checkBudget();
+      yield* checkBudget();
       if (outcomes.length > 1) stats.chanceOutcomes++;
       // Alpha-beta bounds cannot be averaged as exact scores at a chance node.
-      value += probability * withOutcome(state, action, type, () => -search(depth - 1,
-        outcomes.length > 1 ? -Infinity : -beta, outcomes.length > 1 ? Infinity : -alpha, qleft, ply + 1));
+      value -= probability * (yield* visit(action, type, () => search(depth - 1,
+        outcomes.length > 1 ? -Infinity : -beta, outcomes.length > 1 ? Infinity : -alpha, qleft, ply + 1)));
     }
     return value;
   }
 
-  function search(depth, alpha, beta, qleft, ply) {
-    checkBudget();
-    const key = `${state.turn}:${state.pending?.type || ''}:${state.pools.red.join(',')}:${state.pools.black.join(',')}:${depth}:${qleft}:${ply}:` + state.board.map((p) => p ? `${p.side[0]}${p.type}` : '').join('|');
+  function* search(depth, alpha, beta, qleft, ply) {
+    yield* checkBudget();
+    const key = `${depth}:${qleft}:${ply}:${positionKey()}`;
     if (table.has(key)) return table.get(key);
     const initialAlpha = alpha;
     if (winningActions(state).length) return WIN - ply;
@@ -270,12 +357,12 @@ export function searchPosition(input, difficulty = 'standard', limits = {}) {
       // Never call an immediately lost position "quiet", even at the extension cap.
       const enemy = opposite(state.turn);
       if (winningActions({ ...state, turn: enemy, pending: null }, enemy).length) {
-        const defenses = candidates(state, config.width, true);
+        const defenses = rankedMoves(config.width, true);
         if (!defenses.ranked.length) return -WIN + ply + 1;
       }
       return evaluate(state, state.turn);
     }
-    const next = candidates(state, config.width, quiet);
+    const next = rankedMoves(config.width, quiet);
     if (!next.hasActions) return 0;
     if (next.threatened && !next.ranked.length) return -WIN + ply + 1;
     let best = quiet && !next.threatened ? evaluate(state, state.turn) : -Infinity;
@@ -283,7 +370,7 @@ export function searchPosition(input, difficulty = 'standard', limits = {}) {
     if (best >= beta) return best;
     alpha = Math.max(alpha, best);
     for (const { action } of next.ranked) {
-      const score = actionValue(action, depth, alpha, beta, quiet ? qleft - 1 : qleft, ply);
+      const score = yield* actionValue(action, depth, alpha, beta, quiet ? qleft - 1 : qleft, ply);
       best = Math.max(best, score); alpha = Math.max(alpha, score);
       if (alpha >= beta) break;
     }
@@ -293,12 +380,26 @@ export function searchPosition(input, difficulty = 'standard', limits = {}) {
   }
 
   try {
+    if ((limits.forcing ?? config.forcing) > 1 && state.board.filter(p => p?.side === attacker).length >= 3) {
+      let forced;
+      try {
+        for (let depth = 3; depth <= (limits.forcing ?? config.forcing) && !forced; depth += 2)
+          forced = yield* force(depth);
+      }
+      catch (error) { if (error !== forcingStopped) throw error; }
+      if (forced) {
+        stats.action = forced.action; stats.score = WIN - forced.distance;
+        stats.forcedWin = true; stats.depth = forced.distance;
+        stats.elapsedMs = performance.now() - started;
+        return stats;
+      }
+    }
     for (let depth = 1; depth <= (limits.depth ?? config.depth); depth++) {
       const completed = [];
       let alpha = -Infinity;
       for (const candidate of root.ranked) {
         const penalty = reversalCost(candidate.action);
-        const score = actionValue(candidate.action, depth, alpha + penalty, Infinity, limits.quiescence ?? config.quiescence, 0) - penalty;
+        const score = (yield* actionValue(candidate.action, depth, alpha + penalty, Infinity, limits.quiescence ?? config.quiescence, 0)) - penalty;
         completed.push({ action: candidate.action, score });
         alpha = Math.max(alpha, score);
       }
@@ -310,6 +411,43 @@ export function searchPosition(input, difficulty = 'standard', limits = {}) {
   } catch (error) { if (error !== stopped) throw error; }
   stats.elapsedMs = performance.now() - started;
   return stats;
+}
+
+export function searchPosition(input, difficulty = 'standard', limits = {}) {
+  const steps = searchSteps(input, difficulty, limits);
+  let result;
+  do { result = steps.next(); } while (!result.done);
+  return result.value;
+}
+
+// Native hosts share the full search without freezing touch, pause or lifecycle events.
+export async function searchPositionAsync(input, difficulty = 'standard', limits = {}) {
+  const steps = searchSteps(input, difficulty, limits);
+  let result;
+  do {
+    result = steps.next();
+    if (!result.done) await new Promise(resolve => setTimeout(resolve, 0));
+  } while (!result.done);
+  return result.value;
+}
+
+export function explainHint(state, analysis) {
+  const action = analysis.action;
+  if (!action || action.type === 'resign') return null;
+  if (!analysis.depth && analysis.score < WIN / 2) return null;
+  const coord = i => `${String.fromCharCode(65 + i % state.cols)}${Math.floor(i / state.cols) + 1}`;
+  const destination = coord(action.to);
+  const instruction = action.type === 'move'
+    ? `${label(state.board[action.from])} ${coord(action.from)} → ${destination}`
+    : state.pending ? `${label(state.pending)}放到 ${destination}` : `点 ${destination} 随机落子`;
+  const same = a => a.type === action.type && a.to === action.to && a.from === action.from;
+  let reason = '兼顾连线与棋子安全';
+  if (winningActions(state).some(same)) reason = '这一步直接连五';
+  else if (winningActions({ ...state, turn: opposite(state.turn), pending: null }).length) reason = '化解对方下一手连五';
+  else if (analysis.forcedWin) reason = '制造连续连五威胁';
+  else if (action.type === 'move' && state.board[action.to]) reason = `吃掉对方${label(state.board[action.to])}`;
+  else if (action.type === 'move' && exchangeGain(state, action.from, opposite(state.turn)) > 0) reason = '避开吃子威胁';
+  return { action, text: `${instruction} · ${reason}` };
 }
 
 export function chooseAction(state, difficulty = 'standard') {

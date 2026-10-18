@@ -15,6 +15,8 @@ for (const file of [
   'pieces.js',
   'board-view.js',
   'computer.js',
+  'computer-hints.js',
+  'computer-undo.js',
   'computer-worker.js',
   'local-game.js',
   'challenges.js',

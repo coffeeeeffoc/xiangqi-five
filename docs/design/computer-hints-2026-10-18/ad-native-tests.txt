@@ -1,0 +1,40 @@
+(node:55796) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///F:/playground/playground-ai/small-games/platforms/competition/xiangqi-five/native.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\F:\playground\playground-ai\small-games\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ native same-screen games use real rules, old save replay, cancellation and lifecycle (7.7522ms)
+✔ native computer makes a legal reply using the existing search (1194.0951ms)
+✔ native red five-in-a-row settles once and survives replay (1.7933ms)
+✔ native tactical training uses pinned fixed positions, settles stars and keeps local save (1.6256ms)
+✔ native human-computer hints reward only completion, reuse this turn and cancel on pause (5.1289ms)
+✔ native long analysis can pause, and its retired result cannot cancel a new hint (128.4854ms)
+✔ a native deploy hint clears a previously selected rook before tapping the destination (1.9332ms)
+✔ native Tap hint waits for full viewing, freezes board input, and records the one-star limit (1.9907ms)
+✔ native Tap cancellation, SDK failure, background and disposal never reveal a late hint (3.2483ms)
+✔ pause/settings cannot reveal the unpaid tactical hint; non-Tap hints stay free (1.3087ms)
+(node:56460) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///F:/playground/playground-ai/small-games/platforms/h5/platform-ads.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\F:\playground\playground-ai\small-games\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ taptap-h5: SDK receiver, parameters, explicit completion and listener cleanup (3.562ms)
+✔ wechat: SDK receiver, parameters, explicit completion and listener cleanup (0.5707ms)
+✔ douyin: SDK receiver, parameters, explicit completion and listener cleanup (1.0466ms)
+✔ bilibili: SDK receiver, parameters, explicit completion and listener cleanup (0.442ms)
+✔ TapTap missing SDK/slot and native Tap selector cannot fall back to another channel (0.5561ms)
+✔ only boolean isEnded=true rewards, never missing/false/truthy payloads (0.4892ms)
+✔ errors, load/show rejection and timeout settle without a reward (31.3474ms)
+✔ dispose settles promptly; unresolved or failed singleton destruction blocks reentry (0.7849ms)
+✔ host SDK injected after initial launch is picked up on the next explicit request (0.3924ms)
+✔ only explicit full-view close rewards; duplicate clicks and callbacks cannot award twice (1.6082ms)
+✔ Tap show retries load/show once; a fulfilled show promise alone gives no reward (2.2573ms)
+✔ missing config/SDK, error, failed retry, timeout, cancellation and disposal never reward (10.2111ms)
+✔ a cancelled SDK singleton remains blocked until destroy confirms cleanup (1.1682ms)
+✔ missing ad units use the free path; configured host failures never select it (1.4057ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1707.1097
