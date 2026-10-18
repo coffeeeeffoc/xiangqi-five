@@ -84,7 +84,10 @@ function token(ctx, x, y, radius, piece, text, winning = false, selected = false
 }
 
 // Selection and animation are local; every game action remains server-authoritative.
-export function createRenderer() {
+export function createRenderer({ touchViewport = false } = {}) {
+  let panX = 0,
+    panY = 0,
+    area = null;
   let selected = null,
     lastPly = -1,
     hits = [],
@@ -95,6 +98,19 @@ export function createRenderer() {
   const ownTurn = (state) =>
     state && !state.result && state.turn === (state.seat === 0 ? 'red' : 'black');
   return {
+    getLayout: () => ({ area, panX, panY }),
+    canPanAt: (x, y) =>
+      touchViewport &&
+      area &&
+      x >= area.x &&
+      x <= area.x + area.w &&
+      y >= area.y &&
+      y <= area.y + area.h,
+    pan(dx, dy) {
+      if (!touchViewport || !area) return;
+      panX = Math.max(0, Math.min(396 - area.w, panX - dx));
+      panY = Math.max(0, Math.min(440 - area.h, panY - dy));
+    },
     draw(ctx, width, height, state) {
       hits = [];
       ctx.fillStyle = colors.cream;
@@ -122,13 +138,28 @@ export function createRenderer() {
       }
       if (!ownTurn(state)) selected = null;
       // Keep board geometry identical across native and H5 clients.
-      const unit = Math.max(8, Math.min((width - 12) / 9, (height - 104) / 10, 56));
-      const left = (width - unit * 9) / 2,
-        top = 36;
+      const unit = touchViewport
+        ? 44
+        : Math.max(8, Math.min((width - 12) / 9, (height - 104) / 10, 56));
+      area = { x: 6, y: 36, w: width - 12, h: Math.min(440, Math.max(88, height - 112)) };
+      panX = Math.max(0, Math.min(panX, Math.max(0, unit * 9 - area.w)));
+      panY = Math.max(0, Math.min(panY, Math.max(0, unit * 10 - area.h)));
+      const left = touchViewport
+          ? Math.max(6, (width - unit * 9) / 2) - panX
+          : (width - unit * 9) / 2,
+        top = 36 - (touchViewport ? panY : 0);
       const me = state.seat === 0 ? '红' : '黑';
       const seconds = Math.max(0, Math.ceil((900000 - state.elapsedMs) / 1000));
       const time = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
-      rounded(ctx, left + 2, 4, unit * 9 - 4, 26, 13, '#eef2da');
+      rounded(
+        ctx,
+        touchViewport ? 6 : left + 2,
+        4,
+        touchViewport ? width - 12 : unit * 9 - 4,
+        26,
+        13,
+        '#eef2da',
+      );
       text(
         state.result
           ? state.result === 'draw'
@@ -141,6 +172,12 @@ export function createRenderer() {
         colors.ink,
         true,
       );
+      if (touchViewport) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(area.x, area.y, area.w, area.h);
+        ctx.clip();
+      }
       rounded(ctx, left - 4, top - 4, unit * 9 + 8, unit * 10 + 9, 13, '#b9814d', colors.ink);
       rounded(ctx, left - 2, top - 4, unit * 9 + 4, unit * 10 + 3, 11, colors.wood, '#aa7546');
       rounded(ctx, left + 1, top + 1, unit * 9 - 2, unit * 10 - 2, 7, colors.board, '#9c714a');
@@ -188,16 +225,24 @@ export function createRenderer() {
             ctx.fill();
           }
         }
-        hits.push({
-          label: `${String.fromCharCode(65 + (index % 9))}${Math.floor(index / 9) + 1}${piece ? sideName(piece.side) + label(piece) : '空位'}`,
-          x: x - unit / 2,
-          y: y - unit / 2,
-          w: unit,
-          h: unit,
-          index,
-        });
+        if (
+          !touchViewport ||
+          (x - unit / 2 >= area.x &&
+            y - unit / 2 >= area.y &&
+            x + unit / 2 <= area.x + area.w &&
+            y + unit / 2 <= area.y + area.h)
+        )
+          hits.push({
+            label: `${String.fromCharCode(65 + (index % 9))}${Math.floor(index / 9) + 1}${piece ? sideName(piece.side) + label(piece) : '空位'}`,
+            x: x - unit / 2,
+            y: y - unit / 2,
+            w: unit,
+            h: unit,
+            index,
+          });
       });
-      const bottom = top + unit * 10;
+      if (touchViewport) ctx.restore();
+      const bottom = touchViewport ? area.y + area.h : top + unit * 10;
       text(
         note ||
           (!ownTurn(state)
@@ -206,7 +251,9 @@ export function createRenderer() {
               ? `抽到「${label(state.pending)}」！点空位放上场`
               : selected !== null
                 ? '点绿点移动，点红圈吃子'
-                : '点空位落子，点自己的棋子移动'),
+                : touchViewport && (area.w < 396 || area.h < 440)
+                  ? '拖动棋盘查看，点空位落子'
+                  : '点空位落子，点自己的棋子移动'),
         width / 2,
         bottom + 15,
         Math.min(12, width / 27),

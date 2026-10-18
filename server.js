@@ -7,7 +7,6 @@ const files = {
   '/computer-undo.js': ['computer-undo.js', 'text/javascript; charset=utf-8'],
   '/assets/five-piece-logo.webp': ['assets/five-piece-logo.webp', 'image/webp'],
   '/assets/pavilion-background.png': ['assets/pavilion-background.png', 'image/png'],
-  '/assets/hero-paper.webp': ['assets/hero-paper.webp', 'image/webp'],
   '/assets/chess-glyphs.woff2': ['assets/chess-glyphs.woff2', 'font/woff2'],
   '/assets/chess-glyphs-LICENSE.txt': [
     'assets/chess-glyphs-LICENSE.txt',
@@ -25,6 +24,7 @@ const files = {
   '/game.js': ['game.js', 'text/javascript; charset=utf-8'],
   '/computer.js': ['computer.js', 'text/javascript; charset=utf-8'],
   '/computer-worker.js': ['computer-worker.js', 'text/javascript; charset=utf-8'],
+  '/tap-save.js': ['tap-save.js', 'text/javascript; charset=utf-8'],
   '/local-game.js': ['local-game.js', 'text/javascript; charset=utf-8'],
   '/challenges.js': ['challenges.js', 'text/javascript; charset=utf-8'],
   '/fullscreen.js': ['fullscreen.js', 'text/javascript; charset=utf-8'],

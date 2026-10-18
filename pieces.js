@@ -1,18 +1,3 @@
-// Tiny faces keep the Chinese piece names easy to read, even on a phone.
-const accents = {
-  rook: '<path d="M12 21V9h9v5h10V7h10v7h10V9h9v12"/>',
-  horse: '<path d="M15 23 12 5c9 0 14 8 17 18M35 23C38 13 43 5 52 5l-3 18"/>',
-  elephant: '<path d="M10 23C5 10 12 3 23 9M41 9c11-6 18 1 13 14"/>',
-  advisor: '<path d="m25 11 7-7 7 7-7 7z"/>',
-  king: '<path d="m14 21-3-14 12 8L32 3l9 12 12-8-3 14z"/>',
-  cannon: '<path d="M16 21h32M20 21V12h24v9M29 12V6h10"/>',
-  pawn: '<path d="M24 20c-1-9 5-13 15-12-1 8-6 12-15 12"/>',
-};
-
-export function silhouette(type) {
-  return `<svg class="piece-accent" viewBox="0 0 64 28" aria-hidden="true" fill="var(--piece-light, #fff8e9)" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${accents[type] || accents.pawn}</svg><svg class="piece-face" viewBox="0 0 64 24" aria-hidden="true"><ellipse cx="10" cy="15" rx="7" ry="4" fill="#ed7867" opacity=".42"/><ellipse cx="54" cy="15" rx="7" ry="4" fill="#ed7867" opacity=".42"/><ellipse cx="20" cy="9" rx="3.7" ry="4.6" fill="#503b32"/><ellipse cx="44" cy="9" rx="3.7" ry="4.6" fill="#503b32"/><path d="M27 13q5 8 10 0" fill="#ed7867" stroke="#503b32" stroke-width="2.8" stroke-linecap="round"/></svg>`;
-}
-
 // Distinct little hops make movement readable without slowing the next touch.
 const motions = {
   rook: { lift: 0.08, tilt: 0, duration: 360 },

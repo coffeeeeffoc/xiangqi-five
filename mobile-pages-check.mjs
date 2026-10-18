@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { once } from 'node:events';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { resolve, sep } from 'node:path';
 import { createRoomService } from './rooms.js';
 
@@ -68,7 +68,7 @@ const browser = await chromium.launch({
   args: ['--no-sandbox'],
 });
 const url = `http://127.0.0.1:${server.address().port}/`;
-const artifactRoot = new URL('.turbo/mobile-pages/', import.meta.url);
+const artifactRoot = process.env.XIANGQI_ARTIFACT_DIR ? pathToFileURL(resolve(process.env.XIANGQI_ARTIFACT_DIR) + sep) : new URL('.turbo/mobile-pages/', import.meta.url);
 await mkdir(artifactRoot, { recursive: true });
 const evidence = {
   checkedAt: new Date().toISOString(),

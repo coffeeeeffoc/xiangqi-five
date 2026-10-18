@@ -36,8 +36,10 @@ jobs:
       - name: Test game rules and persistence
         run: pnpm test
       - name: Build static site
-        run: node build.js
+        run: node build.js --with-service
       - name: Check responsive pages and game behavior
+        env:
+          XIANGQI_ARTIFACT_DIR: artifacts/pavilion
         run: node pavilion-check.mjs
       - name: Upload screenshots and browser report
         if: always()
