@@ -165,6 +165,70 @@ async function screenshot(page, name) {
 
 try {
   console.log(`Browser ${browser.version()}, actual touch input, reduced motion and normal motion`);
+  for (const [width, height] of [[320, 568], [390, 844]]) {
+    for (const mode of ['xiangqi', 'gomoku']) {
+      const page = await makePage({ width, height });
+      await startLocal(page, mode);
+      const cells = page.locator('.cell');
+      const last = (await cells.count()) - 1;
+      for (const [ply, index] of [0, last, 1, last - 1, 2, last - 2, 3, last - 3, 4].entries()) {
+        await cells.nth(index).tap();
+        await history(page, ply + 1);
+      }
+      await screen(page, 'result');
+      const finished = await saved(page);
+      await page.locator('#result-board').tap();
+      await screen(page, 'game');
+      await page.goBack();
+      await screen(page, 'result');
+      await page.locator('#result-home').tap();
+      await screen(page, 'home');
+      assert.match(await page.locator('#home-continue').innerText(), /继续棋局/);
+      await page.locator('#home-continue').tap();
+      await screen(page, 'game');
+      assert.equal(await page.locator('#draw-button').isEnabled(), true, 'finished board offers restart');
+      await page.locator('#game-back').tap();
+      await page.locator('#home-continue').tap();
+      await screen(page, 'game');
+      assert.equal(await saved(page), finished, 'returning to a finished game preserves its record');
+      await page.reload();
+      await page.locator('#home-continue').tap();
+      await screen(page, 'game');
+      assert.equal(await saved(page), finished, 'continue after reload preserves the finished game');
+      assert.equal(await cells.first().isDisabled(), true, 'review cannot change the finished board');
+      assert.equal(await page.locator('#draw-button').isEnabled(), true);
+      assert.equal(await page.locator('#draw-button').getAttribute('aria-label'), '重新开局');
+      assert.equal(await page.locator('#draw-button').innerText(), '重新开局');
+      assert.equal(await page.locator('#draw-button .draw-button-note').isVisible(), false);
+      await touchTarget(page, 'draw-button');
+      await screenshot(page, `finished-rematch-${mode}-${width}x${height}`);
+      await page.locator('#draw-button').tap();
+      await screen(page, 'game');
+      await history(page, 0);
+      assert.equal(await page.locator('.cell .piece').count(), 0);
+      await cells.first().tap();
+      await history(page, 1);
+
+      for (const nextMode of [mode, mode === 'xiangqi' ? 'gomoku' : 'xiangqi']) {
+        await page.evaluate(value => localStorage.setItem('xiangqi-five-local-v1', value), finished);
+        await page.reload();
+        await page.locator('#home-start').tap();
+        await page.locator('#mode-local').tap();
+        await screen(page, 'setup');
+        await page.locator(`[data-board="${nextMode}"]`).tap();
+        assert.match(await page.locator('#setup-start').innerText(), /开始对弈/);
+        await page.locator('#setup-start').tap();
+        await screen(page, 'game');
+        await history(page, 0);
+        assert.equal(await cells.count(), nextMode === 'xiangqi' ? 90 : 225);
+        await cells.first().tap();
+        await history(page, 1);
+      }
+      await page.close();
+      evidence.checks.push(`${width}×${height} ${mode}: finished return/reload, board rematch, fresh setup with same/changed board`);
+      console.log(`PASS ${width}×${height} ${mode}: finished return/reload, board rematch and fresh setup`);
+    }
+  }
   for (const [width, height] of [
     [305, 568],
     [390, 844],
@@ -619,10 +683,15 @@ try {
       document.querySelector('#room-status').textContent.includes('申请重开'),
     );
   }
+  assert.equal(await restartHost.locator('#draw-button').isDisabled(), true);
+  assert.equal(await restartHost.locator('#draw-button').innerText(), '等待好友同意');
   await restartHost.goBack();
   await screen(restartHost, 'result');
   assert.equal(await restartHost.locator('#result-banner').isVisible(), true);
-  await restartGuest.locator('#result-restart').tap();
+  await restartGuest.locator('#result-board').tap();
+  await screen(restartGuest, 'game');
+  assert.equal(await restartGuest.locator('#draw-button').innerText(), '同意重开');
+  await restartGuest.locator('#draw-button').tap();
   for (const page of restartPages) {
     await history(page, 0);
     await screen(page, 'game');

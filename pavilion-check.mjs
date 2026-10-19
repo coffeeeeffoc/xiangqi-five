@@ -896,18 +896,15 @@ async function main() {
           await page.reload();
           await screen(page, 'home');
           await page.locator('#home-continue').tap();
-          await screen(page, 'result');
-          assert.match(await page.locator('#result-title').innerText(), /认输/);
+          await screen(page, 'game');
+          assert.match(await page.locator('#turn-label').innerText(), /认输/);
           assert.equal(
             await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY),
             finalText,
           );
-          await page.locator('#result-board').tap();
-          await screen(page, 'game');
           assert.equal(await page.locator('.cell').first().isDisabled(), true);
-          await page.goBack();
-          await screen(page, 'result');
-          await page.locator('#result-restart').tap();
+          assert.equal(await page.locator('#draw-button').getAttribute('aria-label'), '重新开局');
+          await page.locator('#draw-button').tap();
           await screen(page, 'game');
           await history(page, 0);
           const restarted = decodeGame(
@@ -915,6 +912,18 @@ async function main() {
           ).state;
           assert.equal(restarted.resigned, null);
           assert.equal(restarted.result, null);
+          await page.evaluate(({ key, value }) => localStorage.setItem(key, value), {
+            key: SAVE_KEY,
+            value: finalText,
+          });
+          await page.reload();
+          await page.locator('#home-start').tap();
+          await page.locator('#mode-computer').tap();
+          await screen(page, 'setup');
+          assert.match(await page.locator('#setup-start').innerText(), /开始对弈/);
+          await page.locator('#setup-start').tap();
+          await screen(page, 'game');
+          await history(page, 0);
         },
       );
     }
