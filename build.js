@@ -1,9 +1,18 @@
-import { mkdir, copyFile, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, copyFile, readFile, writeFile, lstat, rm } from 'node:fs/promises';
 
 if (process.argv.includes('--with-service') && process.argv.includes('--without-service'))
   throw new Error('Choose --with-service or --without-service');
 
-await mkdir(new URL('./dist/', import.meta.url), { recursive: true });
+const output = new URL('./dist', import.meta.url);
+const previous = await lstat(output).catch((error) => {
+  if (error.code !== 'ENOENT') throw error;
+});
+// Never follow a redirected output directory. rm unlinks nested symlinks rather than
+// following them, so only this game's own build output is replaced.
+if (previous && (!previous.isDirectory() || previous.isSymbolicLink()))
+  throw new Error('dist must be a real directory, not a file or symbolic link');
+await rm(output, { recursive: true, force: true });
+await mkdir(output);
 for (const file of [
   'index.html',
   'dev-mode.js',
@@ -18,7 +27,7 @@ for (const file of [
   'computer-hints.js',
   'computer-undo.js',
   'computer-worker.js',
-  'local-game.js',
+  'local-game.js', 'tap-save.js',
   'challenges.js',
   'fullscreen.js',
   'safe-area.js',
@@ -34,7 +43,6 @@ await writeFile(new URL('dist/index.html', import.meta.url), html.replace(
   `<script>globalThis.__XIANGQI_ROOM_SERVICE__ = ${withService};</script>\n    <script type="module" src="./app.js"></script>`,
 ));
 for (const asset of [
-  'hero-paper.webp',
   'five-piece-logo.webp',
   'pavilion-background.png',
   'chess-glyphs.woff2',

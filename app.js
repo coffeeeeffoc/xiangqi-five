@@ -1,3 +1,4 @@
+import { validateTapProgress, mergeTapProgress, writeTapProgress, tapProgressScore, tapProgressSummary } from './tap-save.js';
 import {
   BOARDS,
   TYPES,
@@ -66,6 +67,7 @@ import {
 } from './challenges.js';
 
 let state = newGame();
+let tapPortalActive = false;
 let opponent = 'computer';
 let difficulty = 'standard';
 let storageAvailable = true;
@@ -456,7 +458,7 @@ function cancelComputer() {
 }
 function scheduleComputer() {
   if (
-    currentScreen !== 'game' || document.hidden ||
+    tapPortalActive || currentScreen !== 'game' || document.hidden ||
     onlineActive ||
     room ||
     challenge ||
@@ -484,7 +486,7 @@ function scheduleComputer() {
       });
       computerWorker.onerror = fail;
       computerWorker.onmessage = async ({ data }) => {
-        if (state !== currentState || state.ply !== ply || room || opponent !== 'computer') return;
+        if (tapPortalActive || state !== currentState || state.ply !== ply || room || opponent !== 'computer') return;
         if (data.error || !data.action) {
           fail();
           return;
@@ -585,7 +587,7 @@ async function play(index) {
 
 function inputLocked() {
   return (
-    Boolean(computerHints.sync(state).phase) ||
+    Boolean(!room && !challenge && opponent === 'computer' && computerHints.sync(state).phase) ||
     computerUndo.sync(state).pending ||
     busy ||
     networkBusy ||
@@ -599,8 +601,8 @@ function inputLocked() {
 }
 
 function render() {
-  const advice = computerHints.sync(state);
-  const undo = computerUndo.sync(state);
+  const advice = !room && !challenge && opponent === 'computer' ? computerHints.sync(state) : {};
+  const undo = !room && !challenge && opponent === 'computer' ? computerUndo.sync(state) : {};
   scheduleComputer();
   const ended = Boolean(state.result) || Boolean(challenge && challenge.status !== 'playing');
   if (currentScreen === 'result' && !ended) showScreen('game', { replace: true });
@@ -1215,7 +1217,9 @@ $('draw-button').addEventListener('click', () => {
 $('computer-hint').addEventListener('click', () => {
   if (room || challenge || onlineActive || opponent !== 'computer' || currentScreen !== 'game' || inputLocked()) return;
   computerUndo.clearMessage();
+  const requestedState = state;
   void computerHints.request(state, () => {
+    if (challenge || tapPortalActive || state !== requestedState) return;
     const advice = computerHints.sync(state).result;
     if (advice) {
       selected = advice.action.type === 'move' ? advice.action.from : null;
@@ -1692,3 +1696,23 @@ document.dispatchEvent(new Event('xiangqi-ready'));
 const notifyAfterLoad = () => setTimeout(() => notifyDisplayState(), 0);
 if (document.readyState === 'complete') notifyAfterLoad();
 else window.addEventListener('load', notifyAfterLoad, { once: true });
+
+const tapPort = {
+  container: document.querySelector('.home-links'),
+  export: () => validateTapProgress({ local: challenge ? localStorage.getItem(SAVE_KEY) : encodeGame(state, opponent, difficulty), progress: challengeProgress }),
+  validate: validateTapProgress, summary: tapProgressSummary,
+  score() { return tapProgressScore(this.export()); },
+  developer: () => globalThis.SmallGamesDev?.isEnabled() === true,
+  canRestore: () => currentScreen === 'home' && !room && !onlineActive && !challenge,
+  pause() { tapPortalActive = true; cancelComputer(); computerHints.cancel(); computerUndo.cancel(); hintAccess.cancel(); saveLocal(); },
+  resume() { tapPortalActive = false; showScreen('home', { replace: true }); render(); },
+  restore(value) {
+    cancelComputer(); computerHints.cancel(); computerUndo.cancel(); hintAccess.cancel();
+    const merged = mergeTapProgress(this.export(), value), restored = merged.local ? decodeGame(merged.local) : null;
+    writeTapProgress(localStorage, merged);
+    challengeProgress = merged.progress;
+    if (restored) { ({ state, opponent, difficulty } = restored); selected = null; moving = false; threatPly = -1; buildBoard(); }
+  },
+};
+globalThis.__tapGamePort = tapPort;
+globalThis.__mountTapGameServices?.(tapPort);

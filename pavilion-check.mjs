@@ -1,5 +1,5 @@
 // Portable browser checks: npm install --no-save --package-lock=false playwright
-// npx playwright install chromium && node build.js && node pavilion-check.mjs
+// npx playwright install chromium && node build.js --with-service && node pavilion-check.mjs
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
@@ -15,7 +15,7 @@ import { newGame, draw, deploy } from './game.js';
 import { SAVE_KEY, encodeGame, decodeGame } from './local-game.js';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
-const artifactRoot = resolve(root, 'artifacts/pavilion');
+const artifactRoot = resolve(process.env.XIANGQI_ARTIFACT_DIR || resolve(root, '.turbo/pavilion'));
 const mime = {
   html: 'text/html; charset=utf-8',
   js: 'text/javascript; charset=utf-8',
@@ -953,7 +953,7 @@ async function main() {
       JSON.stringify({
         passed: evidence.checks.length,
         failed: evidence.failures.length,
-        report: 'artifacts/pavilion/report.json',
+        report: resolve(artifactRoot, 'report.json'),
         screenshots: evidence.screenshots.length,
         ...(evidence.fatal ? { fatal: evidence.fatal } : {}),
       }),

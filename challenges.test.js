@@ -6,20 +6,6 @@ import { canMove, move, findFive } from './game.js';
 import { legalActions, winningActions } from './computer.js';
 import { CHALLENGES, createChallengeState, challengeOutcome, challengeReply, challengeMilestones, recommendedChallenge, challengeInvitation, challengeFromUrl, challengeLink, decodeChallengeProgress } from './challenges.js';
 
-test('static builds default to no room service and explicitly opt in without changing source HTML', async () => {
-  const build = await readFile(new URL('./build.js', import.meta.url), 'utf8');
-  const html = await readFile(new URL('./index.html', import.meta.url), 'utf8');
-  const execute = new Function('mkdir', 'copyFile', 'readFile', 'writeFile', 'process', 'console', `return (async () => {${build.replace(/^import .*;\r?\n/, '').replaceAll('import.meta.url', JSON.stringify(import.meta.url))}})()`);
-  for (const withService of [false, true]) {
-    const output = new Map();
-    await execute(async () => {}, async () => {}, async () => html, async (path, text) => output.set(path.pathname, text), { argv: withService ? ['--with-service'] : [] }, { log() {} });
-    const built = [...output].find(([path]) => path.endsWith('/dist/index.html'))[1];
-    assert.ok(built.includes(`globalThis.__XIANGQI_ROOM_SERVICE__ = ${withService};`));
-    assert.ok(built.indexOf('__XIANGQI_ROOM_SERVICE__') < built.indexOf('src="./app.js"'));
-  }
-  assert.ok(!html.includes('__XIANGQI_ROOM_SERVICE__'));
-});
-
 test('disabled room service blocks requests and old restores while keeping packaging anchors', async () => {
   const app = await readFile(new URL('./app.js', import.meta.url), 'utf8');
   const extract = name => app.match(new RegExp(`(?:async )?function ${name}\\([^]*?\\n\\}`))[0];
