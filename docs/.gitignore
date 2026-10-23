@@ -1,0 +1,16 @@
+# Retired evidence; reruns remain local.
+/design/five-piece-logo-v[12].md
+/design/five-piece-logo-v[12].png
+/design/logo-validation/
+/design/logo-large-board-validation/
+/design/implemented-*.png
+/design/polish-*.png
+/design/polish-validation.json
+/design/refresh-*.png
+!/design/refresh-game-ready-390x844.png
+/design/refresh-validation.json
+/design/refresh-shell-validation.json
+/design/refresh-dev-mode-validation.json
+/plans/
+/design/h5-ad-host-fix-2026-10-18/
+/design/h5-ad-timing-fix-2026-10-18/

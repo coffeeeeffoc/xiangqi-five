@@ -4,6 +4,10 @@
 
 用户截图中的 44 秒问题对应 `cops-robbers-realtime/src/taptap-h5-ads.js`，其修复与象五子棋属于不同广告调用路径；没有把截图中的另一包真机成功认定为本包已验收。
 
+## 已合并的隐藏恢复修复
+
+此前宿主在 Window 的 visibilitychange 监听器中调用 provider.dispose()，使完整观看被误判为 dismissed；早期测试从 Document 发出的事件未冒泡，未触达该监听器，造成误通过。现有验证使用会冒泡的事件并检查 Window 接收，保留 pagehide、主动退出与未完整观看的拒绝行为。旧版 12 秒加载加 60 秒播放的墙钟记录与本报告的虚拟时钟案例是不同证据，原记录可从 [10 月 18 日固定提交](https://github.com/coffeeeeffoc/xiangqi-five/tree/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/h5-ad-timing-fix-2026-10-18)追溯。
+
 ## 修复
 
 - TapTap H5 仅加载／打开阶段计时，45 秒未成功打开仍失败。

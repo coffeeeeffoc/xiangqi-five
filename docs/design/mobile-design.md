@@ -1,5 +1,7 @@
 # 象五子棋移动端设计
 
+以下为早期设计与当时测试结果，不能作为当前版本验收。当前入口见[文档导航](../README.md)，旧截图和报告通过固定提交追溯。
+
 本文保留上一轮设计和验证记录。当前页面设计、实现截图及验证见 [2026-10-06 全页面样式优化](mobile-refresh.md)。
 
 本轮先制作 [五页面效果图](mobile-polish-concept.png)，再修改界面与结算；[选题与帮助效果图](mobile-topics-concept.png) 用于对应页面的后续细化。朱红、玉绿、暖纸与木色棋盘贯穿首页、准备、选题、帮助及游玩。首页使用新生成的水墨木棋子插画 [历史插画](archive/assets/hero-paper.webp)（现已退出运行包）（约 173 KiB），显示字与棋盘均由真实 DOM / SVG 渲染。
@@ -30,12 +32,12 @@
 
 运行 `node build.js`、`node mobile-pages-check.mjs` 验证页面与实际触屏操作；规则与 AI 使用原测试，独立脚本继续验证八题与键盘。共享 PK 使用根仓库 `scripts/test-competition-dialogs.mjs`。
 
-[首页](polish-home-390.png) · [玩法选择](polish-modes-390.png) · [单人准备](polish-setup-computer-390.png) · [小屏双人准备](polish-setup-local-305.png) · [选题](polish-topics-390.png) · [玩法说明](polish-rules-390.png) · [练题](polish-practice-390.png) · [成功保留棋盘](polish-solved-390.png) · [小屏成功](polish-solved-305.png) · [横屏成功](polish-solved-844.png)
+[首页](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-home-390.png) · [玩法选择](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-modes-390.png) · [单人准备](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-setup-computer-390.png) · [小屏双人准备](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-setup-local-305.png) · [选题](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-topics-390.png) · [玩法说明](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-rules-390.png) · [练题](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-practice-390.png) · [成功保留棋盘](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-solved-390.png) · [小屏成功](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-solved-305.png) · [横屏成功](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-solved-844.png)
 
 本轮 Chromium 140.0.7339.186，305×568 / 390×844 / 844×390 触屏仿真：21 个页面与交互场景通过，包含模式固定、按钮选择、解题后棋盘位置不变、提示不遮挡、收起 / 解法 / 下一题、双指取消、续局与房间重开。原八道题、替代解法、两手题合法黑方应对、存储禁用及键盘脚本通过；25 个规则 / AI / 房间单测通过。
 
 生产 Shell / iframe 的两种棋盘、缩放、触屏取消及浏览器全屏通过；不支持与拒绝全屏使用 API 仿真验证。统一 dev 开关的同步检查、5 个单测和指定本游戏的 10 个生产浏览器检查通过。完整 Pages 打包仍由仓库推送校验与 CI 执行；本地复用现有其他游戏构建，重新打包本游戏及生产 Shell。未进行 Android / iOS 真机、原生小游戏宿主或跨运营商网络验证。
 
-效果图与插画均由内置 imagegen 生成；提示词与来源见 [生成记录](mobile-polish-prompts.md)，浏览器记录见 [验证记录](polish-validation.json)。效果图的装饰与棋盘只作为视觉参考，真实实现保留准确交叉点与规则。
+效果图与插画均由内置 imagegen 生成；提示词与来源见 [生成记录](mobile-polish-prompts.md)，浏览器记录见 [验证记录](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/polish-validation.json)。效果图的装饰与棋盘只作为视觉参考，真实实现保留准确交叉点与规则。
 
 效果图用于确定视觉与布局；实现采用真实 9×10 / 15×15 交叉点，不照搬概念图中不准确的棋盘格数。Chromium 手机触屏仿真已验证，未进行 Android/iOS 真机或跨运营商网络验收。

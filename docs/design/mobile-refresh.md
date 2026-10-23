@@ -1,5 +1,7 @@
 # 2026-10-06 全页面样式优化
 
+以下为早期设计与当时测试结果，不能作为当前版本验收。当前入口见[文档导航](../README.md)，旧截图和报告通过固定提交追溯。
+
 先用内置 imagegen 生成并展示 [六屏设计图](mobile-refresh-concept.png)，再实现对应页面。设计图采用暖白纸色、朱红主操作、墨绿辅助色、浅木细框棋盘与轻描边按钮；只把角色表情留在菜单插画和结算装饰中。图中的棋盘与练习筛选为视觉示意，实际实现保留准确的 9×10、15×15 网格及原有练习列表。
 
 首页、玩法选择、单人/同屏准备、对局、对局选项、玩法说明、棋子走法、记录、棋池、战术练习、战术提示、好友房间、重开和结算使用同一套字体、间距、图标与按钮。竖屏为主要方向，横屏保持棋盘右置、必要操作左置；短屏收紧操作区，给棋盘留出空间。没有增加未实现的功能入口。
@@ -20,7 +22,7 @@
 
 ## 实际截图与验证
 
-[实现总览](refresh-implemented-overview.png) · [首页](refresh-home-390x844.png) · [玩法](refresh-modes-390x844.png) · [准备](refresh-setup-computer-390x844.png) · [待放棋子](refresh-game-pending-390x844.png) · [小屏大棋盘](refresh-large-board-pending-305x568.png) · [选项](refresh-tools-390x844.png) · [规则](refresh-rules-390x844.png) · [练习](refresh-challenges-390x844.png) · [练习完成](refresh-practice-solved-390x844.png) · [结算](refresh-result-390x844.png)
+[实现总览](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-implemented-overview.png) · [首页](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-home-390x844.png) · [玩法](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-modes-390x844.png) · [准备](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-setup-computer-390x844.png) · [待放棋子](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-game-pending-390x844.png) · [小屏大棋盘](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-large-board-pending-305x568.png) · [选项](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-tools-390x844.png) · [规则](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-rules-390x844.png) · [练习](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-challenges-390x844.png) · [练习完成](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-practice-solved-390x844.png) · [结算](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-result-390x844.png)
 
 Chromium 151 触屏模拟覆盖 305×568、390×844、844×390；原有浏览器回归另覆盖 320px、1280px、较短横屏、鼠标及键盘。验证包括完整棋盘、两阶段抽子、移动/吃子、合法连五、电脑三档、房间同步和断网恢复、待放存档、页面返回、双指取消、练习与结算、字形实际边界及缩放。
 
@@ -28,9 +30,9 @@ Chromium 151 触屏模拟覆盖 305×568、390×844、844×390；原有浏览器
 - `node --test game.test.js rooms.test.js computer.test.js challenges.test.js`：25 项规则、电脑与房间测试。
 - `node mobile-pages-check.mjs`：21 个实际触屏场景。
 - `node browser-check.mjs` 与 `node challenge-check.mjs`：原有多尺寸、全屏、键盘、八道练习及房间回归。
-- `node visual-refresh-check.mjs`：[视觉记录](refresh-validation.json) 与各页截图，检查字体加载、实际字形边界、缩放和按钮热区。
-- Shell 两个既有集成测试：64 项；实际 `StandaloneGame` 组件与本游戏制品的 [触屏检查记录](refresh-shell-validation.json) 覆盖首页分享、菜单沉浸、战术深链加载/刷新、返回与实际全屏进退。
+- `node visual-refresh-check.mjs`：[视觉记录](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-validation.json) 与各页截图，检查字体加载、实际字形边界、缩放和按钮热区。
+- Shell 两个既有集成测试：64 项；实际 `StandaloneGame` 组件与本游戏制品的 [触屏检查记录](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-shell-validation.json) 覆盖首页分享、菜单沉浸、战术深链加载/刷新、返回与实际全屏进退。
 - 统一开发模式同步检查、5 项单测与 H5 全屏副本一致性检查。
-- [开发模式浏览器记录](refresh-dev-mode-validation.json)：复用原有断言，在默认关闭、URL 开启、存储开启、URL 显式关闭四种状态下检查独立和合集嵌入入口，共 8 项。使用本游戏 `dist` 与生产模式压缩的实际 `StandaloneGame` 组件预览；未执行完整 Shell 路由、目录、Pages 打包或其他游戏的附加检查。
+- [开发模式浏览器记录](https://github.com/coffeeeeffoc/xiangqi-five/blob/fe1c870f3713bb0b19e2ea503a137f86c5c51fa4/docs/design/refresh-dev-mode-validation.json)：复用原有断言，在默认关闭、URL 开启、存储开启、URL 显式关闭四种状态下检查独立和合集嵌入入口，共 8 项。使用本游戏 `dist` 与生产模式压缩的实际 `StandaloneGame` 组件预览；未执行完整 Shell 路由、目录、Pages 打包或其他游戏的附加检查。
 
 这些记录属于 Chromium 模拟及实际组件预览，没有进行 Android/iOS 真机、原生小游戏平台或跨运营商网络验证；没有将完整合集发布构建作为本地已完成的验证。
