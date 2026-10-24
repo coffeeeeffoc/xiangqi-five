@@ -338,7 +338,6 @@
     toggle.style.left = `${Math.max(4, Math.min(window.innerWidth - 52, parseFloat(toggle.style.left)))}px`;
     toggle.style.top = `${Math.max(4, Math.min(window.innerHeight - 52, parseFloat(toggle.style.top)))}px`;
   });
-  document.addEventListener('fullscreenchange', topLayer);
   for (const type of ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'])
     document.addEventListener(type, touch, { passive: true });
 })();

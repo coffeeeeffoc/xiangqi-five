@@ -29,7 +29,6 @@ for (const file of [
   'computer-worker.js',
   'local-game.js', 'tap-save.js',
   'challenges.js',
-  'fullscreen.js',
   'safe-area.js',
 ]) {
   await copyFile(new URL(file, import.meta.url), new URL(`dist/${file}`, import.meta.url));

@@ -111,7 +111,6 @@
   document.addEventListener('visibilitychange', refresh);
   document.addEventListener('WeixinJSBridgeReady', refresh);
   document.addEventListener('DOMContentLoaded', refresh);
-  document.addEventListener('fullscreenchange', refresh);
   addEventListener('orientationchange', refresh);
   refresh();
 })();
