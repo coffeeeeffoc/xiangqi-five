@@ -2,6 +2,7 @@
 (() => {
   const { window, document, MutationObserver, performance } = globalThis;
   if (!window || window.SmallGamesDev) return;
+  const buildType = window.__SMALL_GAMES_BUILD__?.type;
   const actions = new Map();
   let host, shadow, dialog, toggle, info, performanceOutput, snapshot;
   let hidden = false,
@@ -27,6 +28,7 @@
     return query.has('dev') ? flag(query.get('dev')) : undefined;
   }
   function state() {
+    if (buildType !== undefined) return { enabled: buildType === 'development', source: 'build' };
     let current = window;
     // A child's explicit URL wins; a same-origin host URL wins over shared storage.
     for (let depth = 0; depth < 20; depth++) {
@@ -50,7 +52,8 @@
   function withMode(search = '') {
     const query = new URLSearchParams(search);
     const mode = state();
-    if (query.has('dev')) query.set('dev', flag(query.get('dev')) ? '1' : '0');
+    if (mode.source === 'build') query.set('dev', mode.enabled ? '1' : '0');
+    else if (query.has('dev')) query.set('dev', flag(query.get('dev')) ? '1' : '0');
     else if (mode.source !== 'default') query.set('dev', mode.enabled ? '1' : '0');
     return query.toString();
   }
@@ -82,15 +85,34 @@
     if (!target) return;
     target.replaceChildren();
     for (const action of actions.values()) {
+      let input;
+      if (action.input) {
+        const label = document.createElement('label');
+        label.className = 'action-input';
+        label.textContent = action.input.label;
+        input = document.createElement('input');
+        input.type = 'number';
+        input.required = true;
+        input.setAttribute('aria-label', action.input.label);
+        for (const key of ['min', 'max', 'step', 'value'])
+          if (action.input[key] !== undefined) input[key] = String(action.input[key]);
+        label.append(input);
+        target.append(label);
+      }
       const button = document.createElement('button');
       button.type = 'button';
       button.textContent = action.label;
       button.dataset.devAction = action.id;
       button.addEventListener('click', async () => {
         if (!state().enabled) return;
+        if (input && (!input.checkValidity() || !Number.isFinite(input.valueAsNumber))) {
+          report('请输入范围内的有效数值。');
+          input.reportValidity();
+          return;
+        }
         button.disabled = true;
         try {
-          await action.run();
+          await action.run(input?.valueAsNumber);
           report(runtimeInfo());
         } catch (error) {
           report(`操作失败：${String(error)}`);
@@ -163,7 +185,7 @@
   function refresh() {
     if (typeof document === 'undefined' || !document.body) return;
     document.documentElement.dataset.devMode = String(state().enabled);
-    if (!state().enabled || hidden) {
+    if (!state().enabled || (hidden && buildType !== 'development')) {
       removePanel();
       return;
     }
@@ -175,6 +197,7 @@
     shadow.innerHTML = `<style>
       :host{all:initial;position:fixed;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;background:transparent;pointer-events:none;z-index:2147483646;font:14px/1.5 system-ui,sans-serif;color:#edf7f4}
       *{box-sizing:border-box}button,input{font:inherit}button{min-height:44px;border:1px solid #52756e;border-radius:10px;background:#25483f;color:#edf7f4;padding:8px 12px;cursor:pointer;touch-action:manipulation}button:focus-visible,input:focus-visible{outline:3px solid #f8ca6a;outline-offset:2px}button:disabled{opacity:.5}
+      .action-input{grid-column:1/-1;flex-wrap:wrap}.action-input input{width:100%;height:44px;min-width:0;padding:8px;border:1px solid #52756e;border-radius:8px;background:#0c201b;color:inherit}
       [data-toggle]{position:fixed;right:max(8px,env(safe-area-inset-right));top:max(88px,calc(env(safe-area-inset-top) + 80px));width:48px;padding:0;pointer-events:auto;touch-action:none;box-shadow:0 2px 12px #0007}
       dialog{pointer-events:auto;color:inherit;background:#142b26;border:1px solid #52756e;border-radius:16px;padding:16px;width:min(360px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;margin:auto;font:14px/1.5 system-ui,sans-serif;overscroll-behavior:contain}dialog::backdrop{background:#001b1790}h2{font-size:18px;margin:0}header{display:flex;justify-content:space-between;align-items:center;gap:12px}p{color:#b6cdc5;margin:12px 0}label{display:flex;align-items:center;gap:10px;min-height:44px}input{width:20px;height:20px}section{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 monospace;background:#0c201b;padding:10px;border-radius:8px;max-height:220px;overflow:auto}output{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:8px;padding:4px 8px;border-radius:6px;background:#142b26e6;font:12px/1.5 monospace;pointer-events:none}.touch{position:fixed;width:28px;height:28px;transform:translate(-50%,-50%);border:2px solid #f8ca6a;background:#f8ca6a55;border-radius:50%;pointer-events:none}
     </style>
@@ -256,6 +279,11 @@
       if (!showTouches) clearTouches();
     });
     const remember = shadow.querySelector('[data-remember]');
+    if (buildType === 'development') {
+      remember.disabled = true;
+      remember.parentElement.style.display = 'none';
+      shadow.querySelector('[data-exit]').style.display = 'none';
+    }
     try {
       remember.checked = flag(window.localStorage.getItem('dev')) === true;
     } catch {
@@ -274,6 +302,7 @@
     shadow.querySelector('[data-inspect]').addEventListener('click', () => report(runtimeInfo()));
     shadow.querySelector('[data-reload]').addEventListener('click', () => window.location.reload());
     shadow.querySelector('[data-exit]').addEventListener('click', () => {
+      if (buildType === 'development') return;
       try {
         window.localStorage.removeItem('dev');
       } catch {
