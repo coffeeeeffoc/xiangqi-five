@@ -85,8 +85,12 @@
     if (!target) return;
     target.replaceChildren();
     for (const action of actions.values()) {
-      let input;
+      let input,
+        cell = target;
       if (action.input) {
+        // Keep an input beside its own button when the wide panel flows into more columns.
+        cell = document.createElement('div');
+        cell.className = 'action';
         const label = document.createElement('label');
         label.className = 'action-input';
         label.textContent = action.input.label;
@@ -97,7 +101,8 @@
         for (const key of ['min', 'max', 'step', 'value'])
           if (action.input[key] !== undefined) input[key] = String(action.input[key]);
         label.append(input);
-        target.append(label);
+        cell.append(label);
+        target.append(cell);
       }
       const button = document.createElement('button');
       button.type = 'button';
@@ -114,13 +119,15 @@
         try {
           await action.run(input?.valueAsNumber);
           report(runtimeInfo());
+          // A modal panel would hide the scene effect this action just started.
+          if (action.dismiss) dialog?.close();
         } catch (error) {
           report(`操作失败：${String(error)}`);
         } finally {
           button.disabled = false;
         }
       });
-      target.append(button);
+      cell.append(button);
     }
   }
   function measure(now) {
@@ -197,9 +204,9 @@
     shadow.innerHTML = `<style>
       :host{all:initial;position:fixed;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;background:transparent;pointer-events:none;z-index:2147483646;font:14px/1.5 system-ui,sans-serif;color:#edf7f4}
       *{box-sizing:border-box}button,input{font:inherit}button{min-height:44px;border:1px solid #52756e;border-radius:10px;background:#25483f;color:#edf7f4;padding:8px 12px;cursor:pointer;touch-action:manipulation}button:focus-visible,input:focus-visible{outline:3px solid #f8ca6a;outline-offset:2px}button:disabled{opacity:.5}
-      .action-input{grid-column:1/-1;flex-wrap:wrap}.action-input input{width:100%;height:44px;min-width:0;padding:8px;border:1px solid #52756e;border-radius:8px;background:#0c201b;color:inherit}
+      .action{grid-column:span 2;display:grid;gap:4px}.action-input{flex-wrap:wrap}.action-input input{width:100%;height:44px;min-width:0;padding:8px;border:1px solid #52756e;border-radius:8px;background:#0c201b;color:inherit}
       [data-toggle]{position:fixed;right:max(8px,env(safe-area-inset-right));top:max(88px,calc(env(safe-area-inset-top) + 80px));width:48px;padding:0;pointer-events:auto;touch-action:none;box-shadow:0 2px 12px #0007}
-      dialog{pointer-events:auto;color:inherit;background:#142b26;border:1px solid #52756e;border-radius:16px;padding:16px;width:min(360px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;margin:auto;font:14px/1.5 system-ui,sans-serif;overscroll-behavior:contain}dialog::backdrop{background:#001b1790}h2{font-size:18px;margin:0}header{display:flex;justify-content:space-between;align-items:center;gap:12px}p{color:#b6cdc5;margin:12px 0}label{display:flex;align-items:center;gap:10px;min-height:44px}input{width:20px;height:20px}section{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 monospace;background:#0c201b;padding:10px;border-radius:8px;max-height:220px;overflow:auto}output{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:8px;padding:4px 8px;border-radius:6px;background:#142b26e6;font:12px/1.5 monospace;pointer-events:none}.touch{position:fixed;width:28px;height:28px;transform:translate(-50%,-50%);border:2px solid #f8ca6a;background:#f8ca6a55;border-radius:50%;pointer-events:none}
+      dialog{pointer-events:auto;color:inherit;background:#142b26;border:1px solid #52756e;border-radius:16px;padding:0 16px 16px;width:min(760px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;margin:auto;font:14px/1.5 system-ui,sans-serif;overscroll-behavior:contain}dialog::backdrop{background:#001b1790}h2{font-size:18px;margin:0}header{position:sticky;top:0;z-index:1;margin:0 -16px;padding:10px 16px;background:#142b26;border-bottom:1px solid #52756e;display:flex;justify-content:space-between;align-items:center;gap:12px}p{color:#b6cdc5;margin:12px 0}label{display:flex;align-items:center;gap:10px;min-height:44px}input{width:20px;height:20px}section{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,calc(50% - 4px)),1fr));grid-auto-flow:dense;align-items:end;gap:8px;margin-top:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 monospace;background:#0c201b;padding:10px;border-radius:8px;max-height:220px;overflow:auto}output{position:fixed;bottom:max(8px,env(safe-area-inset-bottom));left:8px;padding:4px 8px;border-radius:6px;background:#142b26e6;font:12px/1.5 monospace;pointer-events:none}.touch{position:fixed;width:28px;height:28px;transform:translate(-50%,-50%);border:2px solid #f8ca6a;background:#f8ca6a55;border-radius:50%;pointer-events:none}
     </style>
     <button type="button" data-toggle aria-label="开发者调试" aria-haspopup="dialog">开发</button>
     <dialog aria-label="开发者调试选项"><header><h2>开发者调试</h2><button type="button" data-close>关闭</button></header>

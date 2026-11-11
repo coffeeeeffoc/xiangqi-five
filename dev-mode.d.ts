@@ -15,6 +15,8 @@ declare global {
           id: string;
           label: string;
           input?: { label: string; min?: number; max?: number; step?: number; value?: number };
+          /** Close the panel after a successful run, for actions whose result plays in the scene. */
+          dismiss?: boolean;
           run(value?: number): unknown;
         }[],
       ): () => void;
